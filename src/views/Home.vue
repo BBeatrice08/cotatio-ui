@@ -6,7 +6,8 @@
       <v-icon>copyright</v-icon>
     </div>
     <p class="text-center">
-      Pour commencer, créer une machine, une cotation, en retrouver une, etc...
+      <!-- Pour commencer, créer une machine, une cotation, en retrouver une, etc... -->
+      Pour démarrer, pour créer une machine ou une cotation, pour retrouver une synthèse etc
       <br>
       <v-btn class="mt-6" color="info" @click="openSearchDialog = true">Cliquer ici</v-btn>
     </p>

@@ -70,7 +70,7 @@ export default {
   data: () => ({
     user: {
       firstname: `Étienne`,
-      lastname: `Gouguet`,
+      lastname: `G`,
     }
   }),
 };
