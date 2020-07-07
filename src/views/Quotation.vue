@@ -173,7 +173,7 @@
                   </div>
 
                   <div class="rating_light_green d-flex flex-column align-center mr-10">
-                    <v-btn :disabled="concerned" id="btn_2" value="1" fab small>
+                    <v-btn :disabled="concerned" id="btn_2" fab small>
                       <h2>+</h2>
                     </v-btn>
                     <input type="radio" :disabled="concerned" name="rank" value="1" onclick="" />
@@ -181,7 +181,7 @@
                   </div>
 
                   <div class="rating_yellow d-flex flex-column align-center mr-10">
-                    <v-btn :disabled="concerned" id="btn_3" value="2" fab small>
+                    <v-btn :disabled="concerned" id="btn_3" fab small>
                       <h2>++</h2>
                     </v-btn>
                     <input type="radio" :disabled="concerned" name="rank" value="2" onclick="" />
@@ -189,7 +189,7 @@
                   </div>
 
                   <div class="rating-red d-flex flex-column align-center">
-                    <v-btn :disabled="concerned" id="btn_4" value="3" fab small>
+                    <v-btn :disabled="concerned" id="btn_4" fab small>
                       <h2>+++</h2>
                     </v-btn>
                     <input type="radio" :disabled="concerned" name="rank" value="3" onclick="" />
@@ -292,17 +292,30 @@ export default {
     // }
 
     async addQuotation_Item() {
-      var rank = document.forms[0];
-      var i;
-      var getValue = null;
-      //getValue = null;
+      
+        //var radios = document.getElementsByName("rank");
+        //var rank = document.forms[0];
+        var rank = document.getElementsByName("rank");
+        //var formValid = false;
+        //var i = 0;
+        var i;
+        var getValue;
 
-      for (i=0; i<rank.length; i++) {
-        if (rank[i].checked) {
-          getValue = rank[i].value;
+        for (i=0; i<rank.length; i++) {
+          if (rank[i].checked) {
+            getValue = rank[i].value;
+          }
+          console.log(getValue);
+          return getValue;
         }
-        return getValue;
-      }
+
+        // while (!formValid && radios.length) {
+        //   if (radios[i].checked) formValid = true;
+        //   i++;
+        // }
+        //   if (!formValid) alert("Must check some option!");
+        //   return formValid;
+      
 
       const quotation_item = await this.$store.dispatch(`addQuotation_Item`, {
         isConcerned: false,
@@ -314,7 +327,7 @@ export default {
       });
       //this.newQuotationItemComment = ``;
       this.selectedQuotationItem = quotation_item.id;
-      
+
     }
 
   },
@@ -346,6 +359,7 @@ export default {
     selectedItem: null,
     //searchItem: ``,
     selectedIndicator: null,
+    getValue: null,
 
     concerned: false,
 
