@@ -161,41 +161,44 @@
                   ></v-checkbox>
                 </div>
 
-                <div class="global_rating d-flex flex-row justify-center" style="padding: 100px 0;">
+                <form>
+                  <div class="global_rating d-flex flex-row justify-center" style="padding: 100px 0;">
 
-                  <div class="rating_dark_green d-flex flex-column align-center mr-10" >
+                    <div class="rating_dark_green d-flex flex-column align-center mr-10" >
 
-                    <v-btn :disabled="concerned" id="btn_1" fab small>
-                      <h2>0</h2>
-                    </v-btn>
-                    <input type="radio" :disabled="concerned" name="rank" value="0" onclick="" />
-                    <p class="mt-3">{{selectedItem.score_label_1}}</p>
+                      <v-btn :disabled="concerned" id="btn_1" fab small>
+                        <h2>0</h2>
+                      </v-btn>
+                      <input type="radio" :disabled="concerned" name="rank" id="one" value="0" onclick="" />
+                      <label for="one" class="mt-3">{{selectedItem.score_label_1}}</label>
+                    </div>
+
+                    <div class="rating_light_green d-flex flex-column align-center mr-10">
+                      <v-btn :disabled="concerned" id="btn_2" fab small>
+                        <h2>+</h2>
+                      </v-btn>
+                      <input type="radio" :disabled="concerned" name="rank" id="two" value="1" onclick="" />
+                      <label for="two" class="mt-3">{{selectedItem.score_label_2}}</label>
+                    </div>
+
+                    <div class="rating_yellow d-flex flex-column align-center mr-10">
+                      <v-btn :disabled="concerned" id="btn_3" fab small>
+                        <h2>++</h2>
+                      </v-btn>
+                      <input type="radio" :disabled="concerned" name="rank" value="2" onclick="" />
+                      <p class="mt-3">{{selectedItem.score_label_3}}</p>
+                    </div>
+
+                    <div class="rating-red d-flex flex-column align-center">
+                      <v-btn :disabled="concerned" id="btn_4" fab small>
+                        <h2>+++</h2>
+                      </v-btn>
+                      <input type="radio" :disabled="concerned" name="rank" value="3" onclick="" />
+                      <p class="mt-3">{{selectedItem.score_label_4}}</p>
+                    </div>
+                    <!-- <span>{{ rank }}</span> -->
                   </div>
-
-                  <div class="rating_light_green d-flex flex-column align-center mr-10">
-                    <v-btn :disabled="concerned" id="btn_2" fab small>
-                      <h2>+</h2>
-                    </v-btn>
-                    <input type="radio" :disabled="concerned" name="rank" value="1" onclick="" />
-                    <p class="mt-3">{{selectedItem.score_label_2}}</p>
-                  </div>
-
-                  <div class="rating_yellow d-flex flex-column align-center mr-10">
-                    <v-btn :disabled="concerned" id="btn_3" fab small>
-                      <h2>++</h2>
-                    </v-btn>
-                    <input type="radio" :disabled="concerned" name="rank" value="2" onclick="" />
-                    <p class="mt-3">{{selectedItem.score_label_3}}</p>
-                  </div>
-
-                  <div class="rating-red d-flex flex-column align-center">
-                    <v-btn :disabled="concerned" id="btn_4" fab small>
-                      <h2>+++</h2>
-                    </v-btn>
-                    <input type="radio" :disabled="concerned" name="rank" value="3" onclick="" />
-                    <p class="mt-3">{{selectedItem.score_label_4}}</p>
-                  </div>
-                </div>
+                </form>
 
                 <v-card-actions>
                   <v-btn rounded small type="submit" ><v-icon>done</v-icon>Valider</v-btn>
@@ -291,23 +294,42 @@ export default {
     //   this.$refs.SearchDialog.selectedMachine();
     // }
 
-    async addQuotation_Item() {
-      
-        //var radios = document.getElementsByName("rank");
-        //var rank = document.forms[0];
-        var rank = document.getElementsByName("rank");
+    getScore() {
+        var rank = document.forms[0];
         //var formValid = false;
         //var i = 0;
         var i;
-        var getValue;
+        var getValue = 0;
+        console.log(getValue);
 
         for (i=0; i<rank.length; i++) {
           if (rank[i].checked) {
+            i++;
             getValue = rank[i].value;
           }
           console.log(getValue);
           return getValue;
-        }
+        }  
+    },
+
+    async addQuotation_Item() {
+      
+        ////var radios = document.getElementsByName("rank");
+        ////var rank = document.forms[0];
+        //var rank = document.getElementsByName("rank");
+        ////var formValid = false;
+        ////var i = 0;
+        // var i;
+        // var getValue;
+        // console.log(getValue);
+
+        // for (i=0; i<rank.length; i++) {
+        //   if (rank[i].checked) {
+        //     getValue = rank[i].value;
+        //   }
+        //   console.log(i);
+        //   return getValue;
+        // }
 
         // while (!formValid && radios.length) {
         //   if (radios[i].checked) formValid = true;
@@ -319,10 +341,11 @@ export default {
 
       const quotation_item = await this.$store.dispatch(`addQuotation_Item`, {
         isConcerned: false,
-        score: this.getValue,
+        //score: this.getValue,
+        score: null,
         //comment: this.newQuotationItemComment,
         quotation_id: this.selectedQuotation,
-        item_id: this.selectedItem
+        item_id: this.selectedItem,
 
       });
       //this.newQuotationItemComment = ``;
