@@ -662,7 +662,8 @@ export default {
 
       this.selectedQuotation = quotation.id;
       //console.log(this.selectedQuotation);
-      this.$router.push({ path:`/quotation/${this.selectedQuotation}` });
+      this.$router.push({ path:`/quotation/${this.selectedQuotation}`, /*query: { id: this.selectedQuotation }*/ });
+      //this.$router.push({ path:`/quotation`, query: { id: this.selectedQuotation } });
       // }
       //return this.quotation;
     },
@@ -688,6 +689,7 @@ export default {
           this.$emit('input', value)
       },
     },
+    
     /**
      * si je souhaite ajouter une nouvelle entreprise alors id=-1,
      * s'il me trouve une entreprise avec l'id alors il me l'affiche

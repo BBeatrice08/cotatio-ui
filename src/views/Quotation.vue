@@ -19,7 +19,8 @@
             <!-- <p>{{ message }}</p> -->
             <!-- <p>{{ company.name }}</p> -->
             <!-- <p>{{ quotationId }}</p> -->
-            <!-- <p>{{ $route.params.selectedQuotation }}</p> -->
+            <p>{{ this.$route.params.selectedQuotation }}</p>
+            <!-- <p>{{ this.selectedQuotation }}</p> -->
           </v-col>
         </v-row>
     </div>
@@ -171,6 +172,7 @@
                       </v-btn>
                       <input type="radio" :disabled="concerned" name="rank" id="one" value="0" onclick="" />
                       <label for="one" class="mt-3">{{selectedItem.score_label_1}}</label>
+                      <!-- <p>{{ selectedItem.id }}</p> -->
                     </div>
 
                     <div class="rating_light_green d-flex flex-column align-center mr-10">
@@ -196,6 +198,7 @@
                       <input type="radio" :disabled="concerned" name="rank" value="3" onclick="" />
                       <p class="mt-3">{{selectedItem.score_label_4}}</p>
                     </div>
+                    <p>{{ $route.params.selectedQuotation }}</p>
                     <!-- <span>{{ rank }}</span> -->
                   </div>
                 </form>
@@ -261,6 +264,7 @@
 
 <script>
 import _ from "lodash";
+//import api from '@/lib/api';
 //import SearchDialog from "@/components/SearchDialog"
 //get information from url started by /api/smthg
 //import api from '@/lib/api.js';
@@ -270,15 +274,12 @@ export default {
   name: 'Quotation',
 
   components: {
-   //'SearchDialog': SearchDialog,
 
   },
 
   props: 
   {
     value: Boolean,
-    //selectedMachine: {},
-    //message: SearchDialog.message,
   },
 
   methods: {
@@ -289,10 +290,6 @@ export default {
     closePreviewItem() {
       this.selectedItem = null;
     },
-
-    // isSelected() {
-    //   this.$refs.SearchDialog.selectedMachine();
-    // }
 
     getScore() {
         var rank = document.forms[0];
@@ -311,6 +308,15 @@ export default {
           return getValue;
         }  
     },
+    // async fetchQuotationId () {
+    //   this.selectedQuotation = null;
+    //   api.get(this.$route.params.selectedQuotation, (err, get) => {
+    //     if (get) {
+    //       this.get = get;
+    //     }
+    //     return this.selectedQuotation;
+    //   })
+    // },
 
     async addQuotation_Item() {
       
@@ -337,15 +343,17 @@ export default {
         // }
         //   if (!formValid) alert("Must check some option!");
         //   return formValid;
+
+      //selectedQuotation = $route.params.selectedQuotation;
       
 
       const quotation_item = await this.$store.dispatch(`addQuotation_Item`, {
         isConcerned: false,
         //score: this.getValue,
-        score: null,
+        score: 4,
         //comment: this.newQuotationItemComment,
-        quotation_id: this.selectedQuotation,
-        item_id: this.selectedItem,
+        quotation_id: this.$route.params.selectedQuotation,
+        item_id: this.selectedItem.id,
 
       });
       //this.newQuotationItemComment = ``;
@@ -382,6 +390,7 @@ export default {
     selectedItem: null,
     //searchItem: ``,
     selectedIndicator: null,
+    selectedQuotationItem: null,
     getValue: null,
 
     concerned: false,
@@ -396,11 +405,13 @@ export default {
       { title: 'Score entre 668 et 834', color:'red', valeur:'mauvais' },
       { title: 'Score entre 835 et 1000', color:'red darken-4', valeur:'très mauvais' },
     ],
+
   }),
 
 //api called
   mounted () {
-
+    // toto = this.$route.params.selectedQuotation;
+      
     },
 
     watch: {
@@ -409,7 +420,7 @@ export default {
 
     beforeMount() {
       this.$store.dispatch(`fetchIndicators`);
-    }
+    },
 
 };
 </script>
