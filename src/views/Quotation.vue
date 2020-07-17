@@ -19,8 +19,8 @@
             <!-- <p>{{ message }}</p> -->
             <!-- <p>{{ company.name }}</p> -->
             <!-- <p>{{ quotationId }}</p> -->
-            <p>{{ this.$route.params.selectedQuotation }}</p>
-            <!-- <p>{{ this.selectedQuotation }}</p> -->
+            <!-- <p>{{ this.$route.params.selectedQuotation }}</p> -->
+            <!-- <p>{{ id.selectedQuotation }}</p> -->
           </v-col>
         </v-row>
     </div>
@@ -291,6 +291,14 @@ export default {
       this.selectedItem = null;
     },
 
+    transfoQuotationId($route) {
+      const selectedQuotation = Number.parseInt($route.params.selectedQuotation)
+      if (Number.isNaN(selectedQuotation)) {
+        return 0
+      }
+      return { selectedQuotation }
+    },
+
     getScore() {
         var rank = document.forms[0];
         //var formValid = false;
@@ -352,7 +360,7 @@ export default {
         //score: this.getValue,
         score: 4,
         //comment: this.newQuotationItemComment,
-        quotation_id: this.$route.params.selectedQuotation,
+        quotation_id: parseInt(this.$route.params.selectedQuotation),
         item_id: this.selectedItem.id,
 
       });
