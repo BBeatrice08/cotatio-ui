@@ -281,61 +281,7 @@ export default {
       this.selectedItem = null;
     },
 
-    getScore() {
-        var rank = document.forms[0];
-        //var formValid = false;
-        //var i = 0;
-        var i;
-        var getValue = 0;
-        console.log(getValue);
-
-        for (i=0; i<rank.length; i++) {
-          if (rank[i].checked) {
-            i++;
-            getValue = rank[i].value;
-          }
-          console.log(getValue);
-          return getValue;
-        }  
-    },
-    // async fetchQuotationId () {
-    //   this.selectedQuotation = null;
-    //   api.get(this.$route.params.selectedQuotation, (err, get) => {
-    //     if (get) {
-    //       this.get = get;
-    //     }
-    //     return this.selectedQuotation;
-    //   })
-    // },
-
-    async addQuotation_Item() {
-      
-        ////var radios = document.getElementsByName("rank");
-        ////var rank = document.forms[0];
-        //var rank = document.getElementsByName("rank");
-        ////var formValid = false;
-        ////var i = 0;
-        // var i;
-        // var getValue;
-        // console.log(getValue);
-
-        // for (i=0; i<rank.length; i++) {
-        //   if (rank[i].checked) {
-        //     getValue = rank[i].value;
-        //   }
-        //   console.log(i);
-        //   return getValue;
-        // }
-
-        // while (!formValid && radios.length) {
-        //   if (radios[i].checked) formValid = true;
-        //   i++;
-        // }
-        //   if (!formValid) alert("Must check some option!");
-        //   return formValid;
-
-      //selectedQuotation = $route.params.selectedQuotation;
-      
+    async addQuotation_Item() {      
 
       const quotation_item = await this.$store.dispatch(`addQuotation_Item`, {
         isConcerned: false,
@@ -349,7 +295,6 @@ export default {
       this.selectedQuotationItem = quotation_item.id;
 
     }
-
   },
 
   computed: {
