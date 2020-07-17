@@ -165,7 +165,7 @@
                       <v-btn :disabled="concerned" id="btn_1" fab small>
                         <h2>0</h2>
                       </v-btn>
-                      <input type="radio" :disabled="concerned" name="rank" id="one" value="0" onclick="" />
+                      <input type="radio" :disabled="concerned" name="rank" id="one" value="0" v-model="scored" />
                       <label for="one" class="mt-3">{{selectedItem.score_label_1}}</label>
                     </div>
 
@@ -173,7 +173,7 @@
                       <v-btn :disabled="concerned" id="btn_2" fab small>
                         <h2>+</h2>
                       </v-btn>
-                      <input type="radio" :disabled="concerned" name="rank" id="two" value="1" onclick="" />
+                      <input type="radio" :disabled="concerned" name="rank" id="two" value="1" v-model="scored" />
                       <label for="two" class="mt-3">{{selectedItem.score_label_2}}</label>
                     </div>
 
@@ -181,7 +181,7 @@
                       <v-btn :disabled="concerned" id="btn_3" fab small>
                         <h2>++</h2>
                       </v-btn>
-                      <input type="radio" :disabled="concerned" name="rank" value="2" onclick="" />
+                      <input type="radio" :disabled="concerned" name="rank" value="2" v-model="scored" />
                       <p class="mt-3">{{selectedItem.score_label_3}}</p>
                     </div>
 
@@ -189,10 +189,12 @@
                       <v-btn :disabled="concerned" id="btn_4" fab small>
                         <h2>+++</h2>
                       </v-btn>
-                      <input type="radio" :disabled="concerned" name="rank" value="3" onclick="" />
+                      <input type="radio" :disabled="concerned" name="rank" value="3" v-model="scored" />
                       <p class="mt-3">{{selectedItem.score_label_4}}</p>
                     </div>
                   </div>
+                  <p>value: {{ scored }}</p>
+                  <p>{{value}}</p>
                 </form>
 
                 <v-card-actions>
@@ -337,8 +339,7 @@ export default {
 
       const quotation_item = await this.$store.dispatch(`addQuotation_Item`, {
         isConcerned: false,
-        //score: this.getValue,
-        score: 4,
+        score: parseInt(this.scored),
         //comment: this.newQuotationItemComment,
         quotation_id: parseInt(this.$route.params.selectedQuotation), /*received a string to convert in int to add in database*/
         item_id: this.selectedItem.id,
@@ -374,6 +375,7 @@ export default {
     selectedIndicator: null,
     selectedQuotationItem: null,
     getValue: null,
+    scored: null,
 
     concerned: false,
 
