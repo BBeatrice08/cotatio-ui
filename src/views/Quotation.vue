@@ -16,11 +16,6 @@
                 <v-card-title>Synthèse du</v-card-title>
               </v-toolbar>
             </v-card-title>
-            <!-- <p>{{ message }}</p> -->
-            <!-- <p>{{ company.name }}</p> -->
-            <!-- <p>{{ quotationId }}</p> -->
-            <!-- <p>{{ this.$route.params.selectedQuotation }}</p> -->
-            <!-- <p>{{ id.selectedQuotation }}</p> -->
           </v-col>
         </v-row>
     </div>
@@ -172,7 +167,6 @@
                       </v-btn>
                       <input type="radio" :disabled="concerned" name="rank" id="one" value="0" onclick="" />
                       <label for="one" class="mt-3">{{selectedItem.score_label_1}}</label>
-                      <!-- <p>{{ selectedItem.id }}</p> -->
                     </div>
 
                     <div class="rating_light_green d-flex flex-column align-center mr-10">
@@ -198,8 +192,6 @@
                       <input type="radio" :disabled="concerned" name="rank" value="3" onclick="" />
                       <p class="mt-3">{{selectedItem.score_label_4}}</p>
                     </div>
-                    <p>{{ $route.params.selectedQuotation }}</p>
-                    <!-- <span>{{ rank }}</span> -->
                   </div>
                 </form>
 
@@ -265,10 +257,6 @@
 <script>
 import _ from "lodash";
 //import api from '@/lib/api';
-//import SearchDialog from "@/components/SearchDialog"
-//get information from url started by /api/smthg
-//import api from '@/lib/api.js';
-//import { mapState } from 'vuex';
 
 export default {
   name: 'Quotation',
@@ -289,14 +277,6 @@ export default {
 
     closePreviewItem() {
       this.selectedItem = null;
-    },
-
-    transfoQuotationId($route) {
-      const selectedQuotation = Number.parseInt($route.params.selectedQuotation)
-      if (Number.isNaN(selectedQuotation)) {
-        return 0
-      }
-      return { selectedQuotation }
     },
 
     getScore() {
@@ -360,7 +340,7 @@ export default {
         //score: this.getValue,
         score: 4,
         //comment: this.newQuotationItemComment,
-        quotation_id: parseInt(this.$route.params.selectedQuotation),
+        quotation_id: parseInt(this.$route.params.selectedQuotation), /*received a string to convert in int to add in database*/
         item_id: this.selectedItem.id,
 
       });
@@ -390,13 +370,7 @@ export default {
   },
 
   data: () => ({
-
-    // component: 'SearchDialog',
-
-    // selectedMachine: null,
-
     selectedItem: null,
-    //searchItem: ``,
     selectedIndicator: null,
     selectedQuotationItem: null,
     getValue: null,
@@ -416,13 +390,7 @@ export default {
 
   }),
 
-//api called
   mounted () {
-    // toto = this.$route.params.selectedQuotation;
-      
-    },
-
-    watch: {
       
     },
 
