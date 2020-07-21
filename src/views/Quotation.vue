@@ -155,6 +155,7 @@
                     :label="`Non concerné`"
                     false
                   ></v-checkbox>
+                  <span>picked: {{concerned}}</span>
                 </div>
 
                 <form>
@@ -193,8 +194,6 @@
                       <p class="mt-3">{{selectedItem.score_label_4}}</p>
                     </div>
                   </div>
-                  <p>value: {{ scored }}</p>
-                  <p>{{value}}</p>
                 </form>
 
                 <v-card-actions>
@@ -284,7 +283,7 @@ export default {
     async addQuotation_Item() {      
 
       const quotation_item = await this.$store.dispatch(`addQuotation_Item`, {
-        isConcerned: false,
+        isConcerned: this.concerned,
         score: parseInt(this.scored),
         //comment: this.newQuotationItemComment,
         quotation_id: parseInt(this.$route.params.selectedQuotation), /*received a string to convert in int to add in database*/
