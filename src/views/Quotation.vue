@@ -155,7 +155,7 @@
                     :label="`Non concerné`"
                     false
                   ></v-checkbox>
-                  <span>picked: {{concerned}}</span>
+                  <span>{{ concerned }}</span>
                 </div>
 
                 <form>
@@ -192,6 +192,11 @@
                       </v-btn>
                       <input type="radio" :disabled="concerned" name="rank" value="3" v-model="scored" />
                       <p class="mt-3">{{selectedItem.score_label_4}}</p>
+                    </div>
+
+                    <div>
+                    <input type="radio" :disabled="concerned" name="rank" value=" " v-model="scored" />
+                      <p class="mt-3">none</p>
                     </div>
                   </div>
                 </form>
@@ -283,12 +288,19 @@ export default {
     async addQuotation_Item() {      
 
       const quotation_item = await this.$store.dispatch(`addQuotation_Item`, {
-        isConcerned: this.concerned,
-        score: parseInt(this.scored),
-        //comment: this.newQuotationItemComment,
+        if (isConcerned = true) {
+          this.concerned = isConcerned;
+          this.score = this.scored;
+          this.quotation_id = parseInt(this.$route.params.selectedQuotation);
+          this.item_id = this.selectedItem.id;
+        },
+        isConcerned :
+        this.concerned,
+        score : parseInt(this.scored),
+        comment: this.newQuotationItemComment,
         quotation_id: parseInt(this.$route.params.selectedQuotation), /*received a string to convert in int to add in database*/
         item_id: this.selectedItem.id,
-
+        
       });
       //this.newQuotationItemComment = ``;
       this.selectedQuotationItem = quotation_item.id;
