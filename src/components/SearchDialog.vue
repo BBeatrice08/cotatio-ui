@@ -159,12 +159,12 @@
           v-model="newProductionLineName"
           label="Nouvelle ligne de production à créer">
           </v-text-field>
-          <!--<v-text-field
+          <v-text-field
           class="mt-4 mx-3"
           v-model="newProd_LineMachineNumber"
           label="Nombre de machine sur la ligne"
           type="number">
-          </v-text-field>-->
+          </v-text-field>
           <v-card-actions>
             <v-col />
             <v-btn color="secondary" text @click="createProductionLineDialog = false">Annuler</v-btn>
@@ -581,7 +581,7 @@ export default {
         name: this.newSiteName,
         address: this.newSiteAddress,
         company_id: this.selectedCompany,
-        postalCode: this.isConverted,
+        postalCode: parseInt(this.newSitePostalCode),  // To convert postal code in integer for site to insert in database
         city: this.newSiteCity,
       });
       this.newSiteName = ``;
@@ -591,13 +591,6 @@ export default {
       this.newSitePostalCode = ``;
       this.newSiteCity = ``;
       this.createSiteDialog = false;
-    },
-
-    // To convert postal code in integer for site to insert in database
-    convertPostalCode() {
-      this.postalCode = this.newSitePostalCode;
-      this.isConverted = parseInt(this.postalCode, 10);
-      return this.isConverted;
     },
 
     cancelAddArea() {
@@ -621,20 +614,14 @@ export default {
     async addProduction_Line() {
       const production_line = await this.$store.dispatch(`addProduction_line`, {
         name: this.newProductionLineName,
-        //machineNumber: this.isConvertedMachineNumber,
+        machineNumber: parseInt(this.newProd_LineMachineNumber), // To convert machine number in integer for production_line to insert in database
         area_id: this.selectedArea
       });
 
       this.newProductionLineName = ``;
-      //this.newProd_LineMachineNumber = ``;
+      this.newProd_LineMachineNumber = ``;
       this.selectedProductionLine = production_line.id;
       this.createProductionLineDialog = false;
-    },
-
-    convertNumberOfMachine() {
-      this.numberOfMachine = this.newProd_LineMachineNumber;
-      this.isConvertedMachineNumber = parseInt(this.numberOfMachine, 10);
-      return this.isConvertedMachineNumber;
     },
 
     async addMachine() {
@@ -661,11 +648,7 @@ export default {
       });
 
       this.selectedQuotation = quotation.id;
-      //console.log(this.selectedQuotation);
-      this.$router.push({ path:`/quotation/${this.selectedQuotation}`, /*query: { id: this.selectedQuotation }*/ });
-      //this.$router.push({ path:`/quotation`, query: { id: this.selectedQuotation } });
-      // }
-      //return this.quotation;
+      this.$router.push({ path:`/quotation/${this.selectedQuotation}`});
     },
 
     async fetchData () {
