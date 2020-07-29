@@ -642,13 +642,17 @@ export default {
     async addQuotation() {
       // if (this.selectedMachine !== null) {
         const quotation = await this.$store.dispatch(`addQuotation`, {
-        date: null,
+        date: new Date(),
         machine_id: this.selectedMachine.id,
         user_id: null,
       });
 
       this.selectedQuotation = quotation.id;
       this.$router.push({ path:`/quotation/${this.selectedQuotation}`});
+    },
+
+    async convertDate() {
+      //currentDate = to_timestamp({$(Date.Now())} / 1000.0);
     },
 
     async fetchData () {
