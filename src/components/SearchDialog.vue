@@ -643,6 +643,7 @@ export default {
       // if (this.selectedMachine !== null) {
         const quotation = await this.$store.dispatch(`addQuotation`, {
         date: new Date(),
+        //date: new Date(), 
         machine_id: this.selectedMachine.id,
         user_id: null,
       });
@@ -886,5 +887,12 @@ export default {
 .machines .v-list-item.active {
   background-color: #f1f1f0;
 }
+
+/* @media screen and (max-width: 600px) {
+  .cards {
+    display: flex;
+    flex-direction: column;
+  }
+} */
 
 </style>
