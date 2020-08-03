@@ -305,6 +305,7 @@
                   label="Filtrer par site"
                   v-model="selectedSite"
                 ></v-autocomplete>
+                <p>{{ selectedCompany }}</p>
               </div>
 
               <div class="all_areas">
@@ -389,7 +390,7 @@
               <v-divider></v-divider>
               <div class="pa-3">
                 <div>
-                  <i>{{ selectedCompany }} / {{ selectedSite }} / {{ selectedArea }} / {{ selectedProductionLine }} / {{ selectedMachine.id }}</i>
+                  <i>{{ selectedMachine }} / {{ selectedSite }} / {{ selectedArea }} / {{ selectedProductionLine }} / {{ selectedMachine.id }}</i>
                 </div>
                 <v-row no-gutters class="mt-3">
                   <v-menu>
@@ -638,11 +639,22 @@ export default {
 
       this.createMachineDialog = false;
     },
+    async convertDate() {
+       var today = new Date();
+       //console.log(today);
+       var myDate = today.getDate();
+       //var dateToday = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+       //var thisDate = today.toString();
+
+       return myDate;
+    },
 
     async addQuotation() {
       // if (this.selectedMachine !== null) {
         const quotation = await this.$store.dispatch(`addQuotation`, {
-        date: new Date(),
+        //date: this.myDate,
+        date: moment().format(),
+        //date: moment.HTML5_FMT.DATE,
         //date: new Date(), 
         machine_id: this.selectedMachine.id,
         user_id: null,
@@ -652,9 +664,7 @@ export default {
       this.$router.push({ path:`/quotation/${this.selectedQuotation}`});
     },
 
-    async convertDate() {
-      //currentDate = to_timestamp({$(Date.Now())} / 1000.0);
-    },
+
 
     async fetchData () {
       this.selectedQuotation = null;
@@ -784,7 +794,7 @@ export default {
 
     createProductionLineDialog: false,
     newProductionLineName: ``,
-    //newProd_LineMachineNumber: null,
+    newProd_LineMachineNumber: null,
     selectedProductionLine: null,
 
     createMachineDialog: false,
@@ -793,6 +803,7 @@ export default {
 
     selectedMachine: null,
     selectedQuotation: null,
+    //dateToday: ``,
 
     ifQuotationOnMachineDialog: false,
 
@@ -831,6 +842,8 @@ export default {
         this.$store.dispatch(`fetchAreas`, companyId);
         this.$store.dispatch(`fetchProduction_lines`, companyId);
         this.$store.dispatch(`fetchMachines`, companyId);
+
+        console.log(companyId.name);
 
         //const companyName = _.filter(companyId, {companies : company.name});
       }
