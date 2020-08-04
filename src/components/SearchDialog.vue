@@ -502,7 +502,7 @@ export default {
   name: 'SearchDialog',
 
   components: {
-    //'app-quotation': Quotation
+
   },
 
   props: {
@@ -639,23 +639,11 @@ export default {
 
       this.createMachineDialog = false;
     },
-    async convertDate() {
-       var today = new Date();
-       //console.log(today);
-       var myDate = today.getDate();
-       //var dateToday = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-       //var thisDate = today.toString();
-
-       return myDate;
-    },
 
     async addQuotation() {
       // if (this.selectedMachine !== null) {
         const quotation = await this.$store.dispatch(`addQuotation`, {
-        //date: this.myDate,
         date: moment().format(),
-        //date: moment.HTML5_FMT.DATE,
-        //date: new Date(), 
         machine_id: this.selectedMachine.id,
         user_id: null,
       });
