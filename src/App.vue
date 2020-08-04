@@ -12,6 +12,16 @@
 
         <v-spacer></v-spacer>
 
+        <div v-if="currentUser.firstName">
+          {{ currentUser.firstName }}
+          <v-btn text class="mr-2" @click="logoutUser">Logout</v-btn>
+        </div>
+        <div v-else>
+          <v-btn text>
+            <span class="mr-2">Login</span>
+          </v-btn>
+        </div>
+
         <v-menu offset-y>
           <template v-slot:activator="{ on }">
             <v-btn
@@ -48,6 +58,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 
 export default {
   name: 'App',
@@ -59,12 +70,16 @@ export default {
     test() {
       console.log(`test`);
     },
+    logoutUser() {
+      this.$store.dispatch("logoutUser");
+    }
   },
 
   computed: {
     userName() {
       return `${this.user.firstname} ${this.user.lastname}`;
     },
+    ...mapState(['currentUser']),
   },
 
   data: () => ({

@@ -16,6 +16,8 @@ export default new Vuex.Store({
     quotations: [],
     quotation_items: [],
     //items: [],
+    users: [],
+    currentUser: {},
   },
   mutations: {
     SET_COMPANIES(state, companies) {
@@ -70,6 +72,19 @@ export default new Vuex.Store({
     ADD_QUOTATION_ITEM(state, quotation_item) {
       state.quotation_items.push(quotation_item);
     },
+
+    SET_USERS(state, users) {
+      state.users = users;
+    },
+
+    LOGOUT_USER(state) {
+      state.currentUser = {};
+    },
+    SET_CURRENT_USER(state, user) {
+      state.currentUser = user;
+    },
+
+    
   },
   actions: {
 
@@ -114,6 +129,12 @@ export default new Vuex.Store({
       commit(`SET_QUOTATION_ITEMS`, quotation_items);
     },
 
+    async loadUsers({ commit }) {
+      const { data: users } = await api.get(`/users`);
+      commit(`SET_USERS`, users);
+      //commit(`SET_USERS`, users.map());
+    },
+
 
     // POST
 
@@ -152,6 +173,16 @@ export default new Vuex.Store({
       commit(`ADD_QUOTATION_ITEM`, resQuotation_Item);
       return resQuotation_Item;
     },
+
+
+    // OTHERS METHODS
+
+    logoutUser({ commit }) {
+      commit('LOGOUT_USER');
+    },
+    loginUser({ commit }, user) {
+      commit('SET_CURRENT_USER', user);
+    }
   },
   getters: {},
 });
