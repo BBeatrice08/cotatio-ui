@@ -641,7 +641,7 @@ export default {
     },
 
     async addQuotation() {
-      // if (this.selectedMachine !== null) {
+
         const quotation = await this.$store.dispatch(`addQuotation`, {
         date: moment().format(),
         machine_id: this.selectedMachine.id,

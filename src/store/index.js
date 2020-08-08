@@ -18,6 +18,7 @@ export default new Vuex.Store({
     //items: [],
     users: [],
     currentUser: {},
+    sessions: [],
   },
   mutations: {
     SET_COMPANIES(state, companies) {
@@ -76,6 +77,9 @@ export default new Vuex.Store({
     SET_USERS(state, users) {
       state.users = users;
     },
+    ADD_USER(state, user) {
+      state.users.push(user);
+    },
 
     LOGOUT_USER(state) {
       state.currentUser = {};
@@ -86,6 +90,10 @@ export default new Vuex.Store({
       window.localStorage.currentUser = JSON.stringify(user);
     },
 
+    ADD_SESSION(state, session) {
+      state.sessions.push(session);
+    },
+  
     
   },
   actions: {
@@ -131,6 +139,7 @@ export default new Vuex.Store({
       commit(`SET_QUOTATION_ITEMS`, quotation_items);
     },
 
+    // receive all my users registered and in particular current_user
     async loadUsers({ commit }) {
       const { data: users } = await api.get(`/users`);
       commit(`SET_USERS`, users);
@@ -179,14 +188,49 @@ export default new Vuex.Store({
       return resQuotation_Item;
     },
 
+    async addSession({ commit }, session) {
+      const { data: resSession } = await api.post(`/sessions`, session);
+      commit(`ADD_SESSION`, resSession);
+      return resSession;
+    },
+
 
     // OTHERS METHODS
 
     logoutUser({ commit }) {
       commit('LOGOUT_USER');
     },
-    loginUser({ commit }, user) {
-      commit('SET_CURRENT_USER', user);
+    async loginUser(/*{ commit },*/ loginInfo) {
+  //     // try {
+  //     // let myUser = user.find(user => user.email === email && user.password === password) || null;
+
+  //     // commit('SET_CURRENT_USER', myUser);
+  //     // return loginInfo;
+  //     // } catch {
+  //     //   return { error: "Email/password combinaison was incorrect" }
+  
+      try {
+        await api.post(`/sessions`, loginInfo);
+        //const { data: user } = await api.get(response);
+        //let user = response.loginInfo.email;
+
+  //     //   // const { loginInfo } = this
+  //     //   // loginUser({ loginInfo }).then(() => {
+  //     //   //   this.$router.push('/');
+
+  //     //   const { loginInfo } = this
+  //     //   this.$store.dispatch('SET_CURRENT_USER', { loginInfo }).then(() => {
+  //     //     this.$router.push('/');
+  //     //   });
+  
+  
+        //commit('SET_CURRENT_USER', user);
+        //return user;
+        return { error : loginInfo.email}
+      } catch {
+        return { error: loginInfo.email + "" + loginInfo.password + "" + "Email/password combinaison was incorrect. Please try again" }
+      // }
+      }
     }
   },
   getters: {},

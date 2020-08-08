@@ -6,6 +6,7 @@ import Accueil from '../components/Accueil';
 import Relative from '../components/Relative';
 import Quotation from '../views/Quotation.vue';
 import AdminUserList from '../views/AdminUserList.vue';
+import UserLogin from '../views/UserLogin.vue';
 
 Vue.use(VueRouter)
 
@@ -14,6 +15,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
+  },
+  {
+    path: '/login',
+    name: 'user-login',
+    component: UserLogin,
   },
   {
     path:'/admin/users',
