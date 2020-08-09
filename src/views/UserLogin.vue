@@ -2,8 +2,8 @@
     <v-container>
         <!-- <p>vsezonvoe</p> -->
         <v-form>
-            <v-text-field v-model="loginInfo.email" label="Email" />
-            <v-text-field v-model="loginInfo.password" label="Password" type="password" />
+            <v-text-field v-model="loginInfo.user_email" label="Email" />
+            <v-text-field v-model="loginInfo.user_password" label="Password" type="password" />
 
             <v-btn @click="loginUser">Login</v-btn>
         </v-form>
@@ -22,11 +22,10 @@ export default {
     methods: {
         async loginUser() {
            let user = await this.$store.dispatch('loginUser', this.loginInfo);
-
            if(user.error) {
                alert(user.error)
            } else {
-               alert('Thank you for signing in, ' + user.firstName);
+               alert('Thank you for signing in, ' + user.email);
            }
         }
     }

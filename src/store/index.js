@@ -200,38 +200,24 @@ export default new Vuex.Store({
     logoutUser({ commit }) {
       commit('LOGOUT_USER');
     },
-    async loginUser(/*{ commit },*/ loginInfo) {
-  //     // try {
-  //     // let myUser = user.find(user => user.email === email && user.password === password) || null;
-
-  //     // commit('SET_CURRENT_USER', myUser);
-  //     // return loginInfo;
-  //     // } catch {
-  //     //   return { error: "Email/password combinaison was incorrect" }
-  
-      try {
-        await api.post(`/sessions`, loginInfo);
-        //const { data: user } = await api.get(response);
-        //let user = response.loginInfo.email;
-
-  //     //   // const { loginInfo } = this
-  //     //   // loginUser({ loginInfo }).then(() => {
-  //     //   //   this.$router.push('/');
-
-  //     //   const { loginInfo } = this
-  //     //   this.$store.dispatch('SET_CURRENT_USER', { loginInfo }).then(() => {
-  //     //     this.$router.push('/');
-  //     //   });
-  
-  
+    async loginUser({ commit }, loginInfo) {
+ //     try {
+        let response = await api.post(`/sessions`, loginInfo);
+        let user = response.data[0];
         //commit('SET_CURRENT_USER', user);
         //return user;
-        return { error : loginInfo.email}
-      } catch {
-        return { error: loginInfo.email + "" + loginInfo.password + "" + "Email/password combinaison was incorrect. Please try again" }
+        if (user == null){
+          return { error: loginInfo.user_email + " " + loginInfo.user_password + " " + "Email/password combinaison was incorrect. Please try again" }
+        } else {
+          commit('SET_CURRENT_USER', user);
+          return user;}
+        }
+        
+  //    } catch {
+        //return { error: loginInfo.email + " " + loginInfo.password + " " + "Email/password combinaison was incorrect. Please try again" }
       // }
-      }
-    }
+      //}
+    //}
   },
   getters: {},
 });
