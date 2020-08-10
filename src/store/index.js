@@ -207,7 +207,7 @@ export default new Vuex.Store({
         //commit('SET_CURRENT_USER', user);
         //return user;
         if (user == null){
-          return { error: loginInfo.user_email + " " + loginInfo.user_password + " " + "Email/password combinaison was incorrect. Please try again" }
+          return { error: loginInfo.user_email + " " /*+ loginInfo.user_password + " "*/ + "Email/password combinaison was incorrect. Please try again" }
         } else {
           commit('SET_CURRENT_USER', user);
           return user;}
