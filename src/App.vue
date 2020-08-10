@@ -17,12 +17,11 @@
           <v-btn text class="mr-2" @click="logoutUser">Logout</v-btn>
         </div>
         <div v-else>
-          <v-btn text>
-            <span class="mr-2">Login</span>
-          </v-btn>
+          <v-btn text class="mr-2" to="/login">Login</v-btn>
+          <v-btn text class="mr-2" to="/registration">Register</v-btn>
         </div>
 
-        <v-menu offset-y>
+        <v-menu v-if="false" offset-y>
           <template v-slot:activator="{ on }">
             <v-btn
               color="white"
@@ -88,5 +87,8 @@ export default {
       lastname: `G`,
     }
   }),
+  mounted() {
+    this.$store.dispatch('loadCurrentUser');
+  }
 };
 </script>

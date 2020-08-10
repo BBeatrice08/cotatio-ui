@@ -147,6 +147,9 @@ export default new Vuex.Store({
       commit(`SET_USERS`, users);
       //commit(`SET_USERS`, users.map());
 
+    },
+
+    async loadCurrentUser({ commit }) {
       let user = JSON.parse(window.localStorage.currentUser);
       commit(`SET_CURRENT_USER`, user);
     },
@@ -227,13 +230,26 @@ export default new Vuex.Store({
         } else {
           commit('SET_CURRENT_USER', user);
           return user;}
-        }
+        },
         
   //    } catch {
         //return { error: loginInfo.email + " " + loginInfo.password + " " + "Email/password combinaison was incorrect. Please try again" }
       // }
       //}
     //}
+
+    async registerUser({ commit }, registrationInfo) {
+      let response = await api.post(`/users`, registrationInfo);
+      let user = response.data[0];
+
+      if (user == null){
+        return { error: "There was an error. Please try again." }
+      } else {
+        commit('SET_CURRENT_USER', user);
+        return user;
+      
+      }
+    }
   },
   getters: {},
 });

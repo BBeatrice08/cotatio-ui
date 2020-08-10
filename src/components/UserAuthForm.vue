@@ -1,6 +1,14 @@
 <template>
     <!-- formulaire pour se loguer -->
     <v-form v-model="valid">
+        <v-text-field v-model="userInfo.firstName" 
+                        label="Prénom" 
+                        :rules="[required('email')]" 
+                        v-if="hasName" />
+        <v-text-field v-model="userInfo.lastName" 
+                        label="Nom" 
+                        :rules="[required('email')]" 
+                        v-if="hasName" />
         <v-text-field v-model="userInfo.user_email" 
                         label="Email" 
                         :rules="[required('email'), emailFormat()]" />
@@ -36,6 +44,6 @@ export default {
         },
         ...validations
     }),
-    props: ['submitForm', 'buttonText']
+    props: ['submitForm', 'buttonText', 'hasName']
 }
 </script>

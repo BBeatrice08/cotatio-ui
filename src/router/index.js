@@ -7,6 +7,7 @@ import Relative from '../components/Relative';
 import Quotation from '../views/Quotation.vue';
 import AdminUserList from '../views/AdminUserList.vue';
 import UserLogin from '../views/UserLogin.vue';
+import UserRegistration from '../views/UserRegistration.vue';
 
 Vue.use(VueRouter)
 
@@ -20,6 +21,11 @@ const routes = [
     path: '/login',
     name: 'user-login',
     component: UserLogin,
+  },
+  {
+    path: '/registration',
+    name: 'user-registration',
+    component: UserRegistration,
   },
   {
     path:'/admin/users',
