@@ -1,3 +1,4 @@
+// vérifications de formats des champs
 let required = (propertyType) => { 
     return v => v && v.length > 0 || `You must input a ${propertyType}`
   }

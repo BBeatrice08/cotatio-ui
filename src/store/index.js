@@ -81,10 +81,12 @@ export default new Vuex.Store({
       state.users.push(user);
     },
 
+    // se déconnecter => ne renvoi aucun 'user' dans le localstorage
     LOGOUT_USER(state) {
       state.currentUser = {};
       window.localStorage.currentUser = JSON.stringify({});
     },
+    // garde les infos dans le localStorage de l'utilisateur connecté
     SET_CURRENT_USER(state, user) {
       state.currentUser = user;
       window.localStorage.currentUser = JSON.stringify(user);
@@ -200,6 +202,20 @@ export default new Vuex.Store({
     logoutUser({ commit }) {
       commit('LOGOUT_USER');
     },
+
+    /**
+     * récupère les infos du serveur (depuis le faux post) et analyse:
+     * 
+     * 1ère ligne du tableau renvoyée [response.data] est l'email
+     * s'agit-il d'un email référencé dans la table 'user'
+     * 
+     * si oui la combinaison email/mdp est-elle bonne ?
+     * 
+     * si non (non référencé ou combinaison incorrecte) -> message d'erreur
+     * 
+     * => enregistre les infos du user dans le localStorage
+     *
+     */
     async loginUser({ commit }, loginInfo) {
  //     try {
         let response = await api.post(`/sessions`, loginInfo);
