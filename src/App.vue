@@ -6,19 +6,26 @@
         color="accent"
         dark
       >
+      <div v-if="currentUser.firstName">
         <div class="d-flex align-center">
-          <v-btn text to="/">COTATIO</v-btn>
+          <v-btn text to="/user/home">COTATIO</v-btn>
         </div>
+      </div>
+      <div v-else>
+        <v-btn text class="mr-2" to="/">COTATIO</v-btn>
+      </div>
 
         <v-spacer></v-spacer>
 
         <div v-if="currentUser.firstName">
           {{ currentUser.firstName }}
           <v-btn text class="mr-2" @click="logoutUser">Logout</v-btn>
+          <v-btn text class="mr-2" to="/user/admin/users">Admin</v-btn>
         </div>
         <div v-else>
-          <v-btn text class="mr-2" to="/login">Login</v-btn>
-          <v-btn text class="mr-2" to="/registration">Register</v-btn>
+          <v-btn text class="mr-2" to="/">Login</v-btn>
+
+          <!-- <v-btn text class="mr-2" to="/registration">Register</v-btn> -->
         </div>
 
         <v-menu v-if="false" offset-y>
@@ -71,6 +78,9 @@ export default {
     },
     logoutUser() {
       this.$store.dispatch("logoutUser");
+    },
+    whenLogout() {
+      this.$router.push({ path:`/`});
     }
   },
 

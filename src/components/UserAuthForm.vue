@@ -3,11 +3,11 @@
     <v-form v-model="valid">
         <v-text-field v-model="userInfo.firstName" 
                         label="Prénom" 
-                        :rules="[required('email')]" 
+                        :rules="[required('firstname')]" 
                         v-if="hasName" />
         <v-text-field v-model="userInfo.lastName" 
                         label="Nom" 
-                        :rules="[required('email')]" 
+                        :rules="[required('lastname')]" 
                         v-if="hasName" />
         <v-text-field v-model="userInfo.user_email" 
                         label="Email" 
@@ -20,13 +20,7 @@
                         counter=true
                         :rules="[required('password'), minLength('password', 4)]">
         </v-text-field>
-
-        <!-- <v-icon
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'" 
-            @click="showPassword = !showPassword"
-            >visibility
-        </v-icon> -->
-        <!-- <v-spacer></v-spacer> -->
+<!-- Need a post method for register !!!!! -->
 
         <v-btn @click="submitForm(userInfo)" :disabled="!valid">{{ buttonText }}</v-btn>
     </v-form>
@@ -37,11 +31,16 @@ import validations from '@/utils/validations';
 
 export default {
     data: () => ({
-        showPassword: true,
+        showPassword: false,
         userInfo: {
             user_email: '',
             user_password: '',
         },
+        registerInfo: {
+            email: '',
+            password: ''
+        },
+        valid: true,
         ...validations
     }),
     props: ['submitForm', 'buttonText', 'hasName']

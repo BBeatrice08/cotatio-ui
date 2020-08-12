@@ -4,6 +4,7 @@
     <div class="display-1 ma-12 pb-6 text-center">
       Cotatio
       <v-icon>copyright</v-icon>
+      <router-view></router-view>
     </div>
     <p class="text-center">
       <!-- Pour commencer, créer une machine, une cotation, en retrouver une, etc... -->

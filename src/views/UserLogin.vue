@@ -22,6 +22,7 @@ export default {
                alert(user.error)
            } else {
                alert('Thank you for signing in, ' + user.email);
+               this.$router.push({ path:`/user/home`});
            }
         }
     }

@@ -237,10 +237,10 @@ export default new Vuex.Store({
       // }
       //}
     //}
-
+    // Need a post method for register !!!!!
     async registerUser({ commit }, registrationInfo) {
       let response = await api.post(`/users`, registrationInfo);
-      let user = response.data[0];
+      let user = response.data[2];
 
       if (user == null){
         return { error: "There was an error. Please try again." }
