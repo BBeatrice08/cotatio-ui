@@ -9,10 +9,10 @@
                         label="Nom" 
                         :rules="[required('lastname')]" 
                         v-if="hasName" />
-        <v-text-field v-model="userInfo.user_email" 
+        <v-text-field v-model="userInfo.email" 
                         label="Email" 
                         :rules="[required('email'), emailFormat()]" />
-        <v-text-field v-model="userInfo.user_password" 
+        <v-text-field v-model="userInfo.password" 
                         label="Password" 
                         :type="showPassword ? 'text' : 'password'" 
                         :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'" 
@@ -33,8 +33,8 @@ export default {
     data: () => ({
         showPassword: false,
         userInfo: {
-            user_email: '',
-            user_password: '',
+            email: '',
+            password: '',
         },
         registerInfo: {
             email: '',

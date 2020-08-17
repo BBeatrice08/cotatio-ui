@@ -1,6 +1,7 @@
 <template>
     <v-container>
         <h1>Register</h1>
+        <!-- Need a post method for register !!!!! -->
         <UserAuthForm :submitForm="registerUser" buttonText="Register" hasName=true />
     </v-container>
 </template>
