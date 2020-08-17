@@ -237,10 +237,10 @@ export default new Vuex.Store({
       // }
       //}
     //}
-    // Need a post method for register !!!!!
+/* FONCTION OK
     async registerUser({ commit }, registrationInfo) {
       let response = await api.post(`/users`, registrationInfo);
-      let user = response.data[2];
+      let user = response.data;
 
       if (user == null){
         return { error: "There was an error. Please try again." }
@@ -249,7 +249,20 @@ export default new Vuex.Store({
         return user;
       
       }
+    }*/
+  /*FONCTION TEST */
+  async registerUser({ commit }, registrationInfo) {
+    let response = await api.post(`/users`, registrationInfo);
+    let user = response.status;
+
+    if (user == 500){
+      return { error: "There was an error. Please try again." }
+    } else {
+      commit('SET_CURRENT_USER', user);
+      return user;
+    
     }
+  }
   },
   getters: {},
 });
