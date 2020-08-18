@@ -253,9 +253,11 @@ export default new Vuex.Store({
   /*FONCTION TEST */
   async registerUser({ commit }, registrationInfo) {
     let response = await api.post(`/users`, registrationInfo);
-    let user = response.status;
+    let user = response.data;
+    let resStatus = response.status;
+    console.log(resStatus);
 
-    if (user == 500){
+    if (resStatus){
       return { error: "There was an error. Please try again." }
     } else {
       commit('SET_CURRENT_USER', user);
@@ -263,6 +265,18 @@ export default new Vuex.Store({
     
     }
   }
+  /* FONCTION TEST (function model) */
+  // async registerUser({commit}, registrationInfo) {
+  //   try {
+  //     let response = await api().post('/users', registrationInfo);
+  //     let user = response.data;
+
+  //     commit('SET_CURRENT_USER', user);
+  //     return user;
+  //   } catch {
+  //     return {error: "There was an error.  Please try again."}
+  //   }
+  // }
   },
   getters: {},
 });

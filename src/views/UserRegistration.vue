@@ -20,8 +20,8 @@ export default {
             if(user.error) {
                 alert(user.error)
             } else {
-                alert('Welcome to our app, ' + user.email);
-                this.$router.push({ path:`/user/home`});
+                alert('Welcome to our app, ' + email);
+                //this.$router.push({ path:`/user/home`});
             }
         }
         
