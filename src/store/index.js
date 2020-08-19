@@ -220,17 +220,20 @@ export default new Vuex.Store({
      *
      */
     async loginUser({ commit }, loginInfo) {
- //     try {
+        //try {
         let response = await api.post(`/sessions`, loginInfo);
         let user = response.data[0];
         //commit('SET_CURRENT_USER', user);
         //return user;
         if (user == null){
-          return { error: loginInfo.email + " " /*+ loginInfo.user_password + " "*/ + "Email/password combinaison was incorrect. Please try again" }
+          return { error: loginInfo.email + " " /*+ loginInfo.user_password + " "*/ + "pas d'utilisateur de ce nom en base" }
+        } else if (loginInfo.password !== user.password) {
+          return { error: "Email/password combinaison was incorrect. Please try again" }
+          
         } else {
           commit('SET_CURRENT_USER', user);
           return user;}
-        },
+    },
         
   //    } catch {
         //return { error: loginInfo.email + " " + loginInfo.password + " " + "Email/password combinaison was incorrect. Please try again" }
