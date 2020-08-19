@@ -251,32 +251,33 @@ export default new Vuex.Store({
       }
     }*/
   /*FONCTION TEST */
-  async registerUser({ commit }, registrationInfo) {
-    let response = await api.post(`/users`, registrationInfo);
-    let user = response.data;
-    let resStatus = response.status;
-    console.log(resStatus);
+  // async registerUser({ commit }, registrationInfo) {
+  //   let response = await api.post(`/users`, registrationInfo);
+  //   let user = response.data;
+  //   let resStatus = response.status;
+  //   console.log(resStatus);
 
-    if (resStatus){
-      return { error: "There was an error. Please try again." }
-    } else {
-      commit('SET_CURRENT_USER', user);
-      return user;
-    
-    }
-  }
-  /* FONCTION TEST (function model) */
-  // async registerUser({commit}, registrationInfo) {
-  //   try {
-  //     let response = await api().post('/users', registrationInfo);
-  //     let user = response.data;
-
+  //   if (resStatus){
+  //     return { error: "There was an error. Please try again." }
+  //   } else {
   //     commit('SET_CURRENT_USER', user);
   //     return user;
-  //   } catch {
-  //     return {error: "There was an error.  Please try again."}
+    
   //   }
   // }
+  /* FONCTION TEST (model function) */
+  async registerUser({commit}, registrationInfo) {
+    try {
+      let response = await api.post('/users', registrationInfo);
+      let user = response.data;
+      //console.log(user);
+
+      commit('SET_CURRENT_USER', user);
+      return user;
+    } catch {
+      return {error: "There was an error.  Please try again."}
+    }
+  }
   },
   getters: {},
 });
