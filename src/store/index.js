@@ -220,26 +220,24 @@ export default new Vuex.Store({
      *
      */
     async loginUser({ commit }, loginInfo) {
-        //try {
         let response = await api.post(`/sessions`, loginInfo);
+
+        //pour découper les infos reçues de l'API
         let user = response.data[0];
-        //commit('SET_CURRENT_USER', user);
-        //return user;
+
+        //si je n'ai pas d'utilisateur :
         if (user == null){
-          return { error: loginInfo.email + " " /*+ loginInfo.user_password + " "*/ + "pas d'utilisateur de ce nom en base" }
+          return { error: loginInfo.email + " " /*+ loginInfo.user_password + " "*/ + "Utilisateur inconnu" }
+        //vérifie la combinaison email / pwd => si incorrecte message d'erreur
         } else if (loginInfo.password !== user.password) {
-          return { error: "Email/password combinaison was incorrect. Please try again" }
+          return { error: "La combinaison email/mot de passe est incorrecte. Essayez à nouveau" }
           
+          //si combinaison OK => login !
         } else {
           commit('SET_CURRENT_USER', user);
           return user;}
     },
         
-  //    } catch {
-        //return { error: loginInfo.email + " " + loginInfo.password + " " + "Email/password combinaison was incorrect. Please try again" }
-      // }
-      //}
-    //}
 /* FONCTION OK
     async registerUser({ commit }, registrationInfo) {
       let response = await api.post(`/users`, registrationInfo);
@@ -278,7 +276,7 @@ export default new Vuex.Store({
       commit('SET_CURRENT_USER', user);
       return user;
     } catch {
-      return {error: "There was an error.  Please try again."}
+      return {error: "Il y a eu une erreur à l'enregistrement du nouvel utilisateur. Essayez à nouveau"}
     }
   }
   },
