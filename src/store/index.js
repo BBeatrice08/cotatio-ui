@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 // import _ from 'lodash';
 import api from '@/lib/api';
+import bcrypt from 'bcryptjs';
 
 Vue.use(Vuex);
 
@@ -229,7 +230,7 @@ export default new Vuex.Store({
         if (user == null){
           return { error: loginInfo.email + " " /*+ loginInfo.user_password + " "*/ + "Utilisateur inconnu" }
         //vérifie la combinaison email / pwd => si incorrecte message d'erreur
-        } else if (loginInfo.password !== user.password) {
+        } else if (!bcrypt.compareSync(loginInfo.password, user.password)) {
           return { error: "La combinaison email/mot de passe est incorrecte. Essayez à nouveau" }
           
           //si combinaison OK => login !
