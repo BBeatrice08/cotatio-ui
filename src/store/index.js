@@ -3,6 +3,8 @@ import Vuex from 'vuex';
 // import _ from 'lodash';
 import api from '@/lib/api';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+//import secret from './config.js';
 
 Vue.use(Vuex);
 
@@ -235,38 +237,14 @@ export default new Vuex.Store({
           
           //si combinaison OK => login !
         } else {
-          commit('SET_CURRENT_USER', user);
-          return user;}
+          var token = jwt.sign({ id: user.id}, 'secret', { expiresIn: '24h' });
+
+          commit('SET_CURRENT_USER', user, token);
+          console.log(token);
+          return user;
+        }
     },
-        
-/* FONCTION OK
-    async registerUser({ commit }, registrationInfo) {
-      let response = await api.post(`/users`, registrationInfo);
-      let user = response.data;
 
-      if (user == null){
-        return { error: "There was an error. Please try again." }
-      } else {
-        commit('SET_CURRENT_USER', user);
-        return user;
-      
-      }
-    }*/
-  /*FONCTION TEST */
-  // async registerUser({ commit }, registrationInfo) {
-  //   let response = await api.post(`/users`, registrationInfo);
-  //   let user = response.data;
-  //   let resStatus = response.status;
-  //   console.log(resStatus);
-
-  //   if (resStatus){
-  //     return { error: "There was an error. Please try again." }
-  //   } else {
-  //     commit('SET_CURRENT_USER', user);
-  //     return user;
-    
-  //   }
-  // }
   /* FONCTION TEST (model function) */
   async registerUser({commit}, registrationInfo) {
     try {
