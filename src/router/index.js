@@ -21,17 +21,21 @@ const routes = [
     beforeEnter(to, from, next) {
       let currentUser = JSON.parse(window.localStorage.currentUser);
       if(currentUser && currentUser.firstName) {
+        if (to.matched.some(record => record.meta.requiresAuth)) {
         next();
 
       } else {
         next("/"); 
-      }
+      }}
     },
     children: [
       {
         path: 'home',
         name: 'Home',
         component: Home,
+        meta: {
+          requiresAuth: true,
+        }
       },  
       {
         path:'admin/users',

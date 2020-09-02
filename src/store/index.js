@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-// import _ from 'lodash';
+import _ from 'lodash';
 import api from '@/lib/api';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -22,6 +22,9 @@ export default new Vuex.Store({
     users: [],
     currentUser: {},
     sessions: [],
+    status: '',
+      token: localStorage.getItem('token') || '',
+      user: {}
   },
   mutations: {
     SET_COMPANIES(state, companies) {
@@ -88,11 +91,19 @@ export default new Vuex.Store({
     LOGOUT_USER(state) {
       state.currentUser = {};
       window.localStorage.currentUser = JSON.stringify({});
+      state.status = '';
+      state.token = '';
     },
     // garde les infos dans le localStorage de l'utilisateur connecté
     SET_CURRENT_USER(state, user) {
       state.currentUser = user;
       window.localStorage.currentUser = JSON.stringify(user);
+    },
+
+    AUTH_SUCCESS(state, token, user){
+      state.status = 'success'
+      state.token = token
+      state.user = user
     },
 
     ADD_SESSION(state, session) {
@@ -206,6 +217,7 @@ export default new Vuex.Store({
     // OTHERS METHODS
 
     logoutUser({ commit }) {
+      localStorage.removeItem('token');
       commit('LOGOUT_USER');
     },
 
@@ -238,10 +250,12 @@ export default new Vuex.Store({
           //si combinaison OK => login !
         } else {
           var token = jwt.sign({ id: user.id}, 'secret', { expiresIn: '24h' });
+          localStorage.setItem('token', token);
 
           commit('SET_CURRENT_USER', user, token);
           console.log(token);
-          return user;
+          return _.concat(user, token);
+          //return user;
         }
     },
 
@@ -259,5 +273,7 @@ export default new Vuex.Store({
     }
   }
   },
-  getters: {},
+  getters: {
+    
+  },
 });

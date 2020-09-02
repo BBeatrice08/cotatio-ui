@@ -649,7 +649,7 @@ export default {
       });
 
       this.selectedQuotation = quotation.id;
-      this.$router.push({ path:`/quotation/${this.selectedQuotation}`});
+      this.$router.push({ path:`/user/quotation/${this.selectedQuotation}`});
     },
 
 
