@@ -4,6 +4,7 @@ import _ from 'lodash';
 import api from '@/lib/api';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import router from '../router';
 //import secret from './config.js';
 
 Vue.use(Vuex);
@@ -218,6 +219,7 @@ export default new Vuex.Store({
 
     logoutUser({ commit }) {
       localStorage.removeItem('token');
+      router.push('/');
       commit('LOGOUT_USER');
     },
 
