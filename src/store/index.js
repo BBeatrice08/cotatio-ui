@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import _ from 'lodash';
+//import _ from 'lodash';
 import api from '@/lib/api';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+//import jwt from 'jsonwebtoken';
 import router from '../router';
 //import secret from './config.js';
 
@@ -23,9 +23,9 @@ export default new Vuex.Store({
     users: [],
     currentUser: {},
     sessions: [],
-    status: '',
-      token: localStorage.getItem('token') || '',
-      user: {}
+    // status: '',
+    //   token: localStorage.getItem('token') || '',
+    //   user: {}
   },
   mutations: {
     SET_COMPANIES(state, companies) {
@@ -101,11 +101,11 @@ export default new Vuex.Store({
       window.localStorage.currentUser = JSON.stringify(user);
     },
 
-    AUTH_SUCCESS(state, token, user){
-      state.status = 'success'
-      state.token = token
-      state.user = user
-    },
+    // AUTH_SUCCESS(state, token, user){
+    //   state.status = 'success'
+    //   state.token = token
+    //   state.user = user
+    // },
 
     ADD_SESSION(state, session) {
       state.sessions.push(session);
@@ -118,8 +118,21 @@ export default new Vuex.Store({
     // GET
 
     async fetchCompanies({ commit }) {
-      const { data: companies } = await api.get(`/companies`);
-      commit(`SET_COMPANIES`, companies);
+      try {
+        var user = localStorage.getItem('currentUser');
+        //if (localStorage.getItem('currentUser')) {
+          if (user) {
+          //console.log(user);
+          const { data: companies } = await api.get(`/companies`);
+          commit(`SET_COMPANIES`, companies);
+        } else {
+          console.log('fzoefnoenf');
+        }
+      } catch {
+        console.log('error');
+
+      }
+
     },
     async fetchSites({ commit }, companyId) {
       const { data: sites } = await api.get(`/sites/company/${companyId}`);
@@ -161,11 +174,11 @@ export default new Vuex.Store({
       const { data: users } = await api.get(`/users`);
       commit(`SET_USERS`, users);
       //commit(`SET_USERS`, users.map());
-
     },
 
     async loadCurrentUser({ commit }) {
       let user = JSON.parse(window.localStorage.currentUser);
+      console.log(user);
       commit(`SET_CURRENT_USER`, user);
     },
 
@@ -207,7 +220,6 @@ export default new Vuex.Store({
       commit(`ADD_QUOTATION_ITEM`, resQuotation_Item);
       return resQuotation_Item;
     },
-
     async addSession({ commit }, session) {
       const { data: resSession } = await api.post(`/sessions`, session);
       commit(`ADD_SESSION`, resSession);
@@ -251,13 +263,13 @@ export default new Vuex.Store({
           
           //si combinaison OK => login !
         } else {
-          var token = jwt.sign({ id: user.id}, 'secret', { expiresIn: '24h' });
-          localStorage.setItem('token', token);
+          //var token = jwt.sign({ id: user.id}, 'secret', { expiresIn: '24h' });
+          //localStorage.setItem('token', token);
 
-          commit('SET_CURRENT_USER', user, token);
-          console.log(token);
-          return _.concat(user, token);
-          //return user;
+          commit('SET_CURRENT_USER', user/*, token*/);
+          //console.log(token);
+          //return _.concat(user, token);
+          return user;
         }
     },
 
