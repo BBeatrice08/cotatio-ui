@@ -19,23 +19,29 @@ const routes = [
     name: 'user',
     component: User,
     beforeEnter(to, from, next) {
-      let currentUser = JSON.parse(window.localStorage.currentUser);
-      if(currentUser && currentUser.firstName) {
+      let token = localStorage.getItem('token', token)
+      //let token = JSON.parse(window.localStorage.token);
+      if(token) {
+      // let currentUser = JSON.parse(window.localStorage.currentUser);
+      // if(currentUser && currentUser.firstName) {
         // if (to.matched.some(record => record.meta.requiresAuth)) {
         next();
 
-      } else {
-        next("/"); 
-      }
+       } else {
+         next("/"); 
+         location.reload();
+         localStorage.removeItem('currentUser');
+
+       }
     },
     children: [
       {
         path: 'home',
         name: 'Home',
         component: Home,
-        meta: {
-          requiresAuth: true,
-        }
+        // meta: {
+        //   requiresAuth: true,
+        // }
       },  
       {
         path:'admin/users',
