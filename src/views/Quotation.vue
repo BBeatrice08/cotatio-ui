@@ -3,27 +3,28 @@
 
     <!----------------------- HEADER --------------------------->
     <div class="header d-flex flex-row justify-space-around my-3">
-
-
-        <v-row no-gutters >
-          <v-col>
-            <v-card-title >
-              <v-toolbar>
-                <v-card-title>Entreprise / Site / Secteur / Ligne / selectedMachine </v-card-title>
-              </v-toolbar>
-              <v-spacer></v-spacer>
-              <v-toolbar>
-                <v-card-title>Synthèse du</v-card-title>
-              </v-toolbar>
-            </v-card-title>
-          </v-col>
-        </v-row>
+      <v-row no-gutters >
+        <v-col>
+          <v-card-title >
+            <v-toolbar>
+              <v-card-title>Entreprise / Site / Secteur / Ligne / selectedMachine </v-card-title>
+            </v-toolbar>
+            <v-spacer></v-spacer>
+            <v-toolbar>
+              <v-card-title>Synthèse du</v-card-title>
+            </v-toolbar>
+          </v-card-title>
+        </v-col>
+      </v-row>
+      <p>ici</p>{{quotationId}}
+      <p>la</p>{{this.$route.params.selectedQuotation}}
+      <p>ou encore {{ selectedQuotation }}</p>
     </div>
 
     <!----------------------- END of HEADER -------------------->
 
     <!--------------------------- BODY ---------------------------->
-
+{{itemsForForm}}
     <v-row no-gutters>
       <v-col>
         <div class="page_center d-flex flex-row">
@@ -133,7 +134,10 @@
             </template>
 
             <template v-else-if="selectedItem && selectedItem.name!='Synthèse'">
-              <v-form @submit.prevent="addQuotation_Item()">
+              <template v-for="item in itemsForForm"
+              :items="itemsForForm" item-value="item_id"
+              >
+              <v-form @submit.prevent="addQuotation_Item()" :key="item">
 
                 <div class="item_title d-flex flex-row">
                   <v-list-item>{{ selectedItem.name }}</v-list-item>
@@ -157,6 +161,8 @@
                   ></v-checkbox>
                   <span>{{ concerned }}</span>
                 </div>
+                <p>{{item}}</p>
+                <!-- <p>{{score}}</p> -->
 
                 <form>
                   <div class="global_rating d-flex flex-row justify-center" style="padding: 100px 0;">
@@ -252,6 +258,7 @@
                 </div>                
 
               </v-form>
+              </template>
             </template>
           </v-col>
         </div>        
@@ -287,7 +294,7 @@ export default {
 
     async addQuotation_Item() {      
 
-      const quotation_item = await this.$store.dispatch(`addQuotation_Item`, {
+      /*const quotation_item =*/ await this.$store.dispatch(`addQuotation_Item`, {
         if (isConcerned = true) {
           this.concerned = isConcerned;
           this.score = this.scored;
@@ -303,7 +310,7 @@ export default {
         
       });
       //this.newQuotationItemComment = ``;
-      this.selectedQuotationItem = quotation_item.id;
+      //this.selectedQuotationItem = this.quotation_id && this.item_id;
 
     }
   },
@@ -322,6 +329,11 @@ export default {
     indicatorsMenu() {
       const indicators = _.concat([], this.$store.state.indicators);
       return indicators;
+    },
+
+    itemsForForm() {
+      let items = this.$store.state.quotation_items;
+      return items;
     },
 
   },
@@ -354,6 +366,8 @@ export default {
 
     beforeMount() {
       this.$store.dispatch(`fetchIndicators`);
+      this.$store.dispatch(`fetchQuotation_Items`, this.$route.params.selectedQuotation);
+    
     },
 
 };
