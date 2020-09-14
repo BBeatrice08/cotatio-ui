@@ -78,6 +78,10 @@ export default new Vuex.Store({
       state.quotations.push(quotation);
     },
 
+    SET_QUOTATION_ITEMS(state, quotation_items) {
+      state.quotation_items = quotation_items;
+    },
+
     ADD_QUOTATION_ITEM(state, quotation_item) {
       state.quotation_items.push(quotation_item);
     },
@@ -172,8 +176,8 @@ export default new Vuex.Store({
       const { data: quotations } = await api.get(`/quotation/${selectedQuotation}`);
       commit(`SET_QUOTATIONS`, quotations);
     },
-    async fetchQuotation_Items({ commit }) {
-      const { data: quotation_items } = await api.get(`/quotation-items`);
+    async fetchQuotation_Items({ commit }, selectedQuotation) {
+      const { data: quotation_items } = await api.get(`/quotation-items/quotation/${selectedQuotation}`);
       commit(`SET_QUOTATION_ITEMS`, quotation_items);
     },
 
@@ -297,6 +301,6 @@ export default new Vuex.Store({
   }
   },
   getters: {
-    
+
   },
 });
