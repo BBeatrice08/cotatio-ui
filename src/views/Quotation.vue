@@ -16,15 +16,11 @@
           </v-card-title>
         </v-col>
       </v-row>
-      <p>ici</p>{{quotationId}}
-      <p>la</p>{{this.$route.params.selectedQuotation}}
-      <p>ou encore {{ selectedQuotation }}</p>
     </div>
 
     <!----------------------- END of HEADER -------------------->
 
     <!--------------------------- BODY ---------------------------->
-{{itemsForForm}}
     <v-row no-gutters>
       <v-col>
         <div class="page_center d-flex flex-row">
@@ -70,10 +66,10 @@
                         <v-list-item
                           v-for="item in group.items"
                           :key="item.id"
-                          :class="{ active: selectedItem && selectedItem.id === item.id }" @click="previewItem(item); "
+                          :class="{ active: selectedItem && selectedItem.id === item.id }" @click="previewItem(item);"                          
                         >
                           <!-- <v-list-item-content> -->
-                            <v-list-item-title>{{ item.name }}</v-list-item-title>
+                            <v-list-item-title >{{ item.name }}</v-list-item-title>
                           <!-- </v-list-item-content> -->
                         </v-list-item>
                       </v-list-group>
@@ -134,13 +130,14 @@
             </template>
 
             <template v-else-if="selectedItem && selectedItem.name!='Synthèse'">
-              <template v-for="item in itemsForForm"
+              <!-- <template v-for="quotation_item in itemsForForm"
               :items="itemsForForm" item-value="item_id"
-              >
-              <v-form @submit.prevent="addQuotation_Item()" :key="item">
+              > :key="quotation_item"-->
+              <v-form @submit.prevent="addQuotation_Item()" >
 
                 <div class="item_title d-flex flex-row">
                   <v-list-item>{{ selectedItem.name }}</v-list-item>
+                  <v-list-item>{{ selectedItem.id }}</v-list-item>
                   <v-tooltip bottom max-width="800px">
                     <template v-slot:activator="{ on }">
                       <v-icon v-on="on">help</v-icon>
@@ -161,8 +158,9 @@
                   ></v-checkbox>
                   <span>{{ concerned }}</span>
                 </div>
-                <p>{{item}}</p>
-                <!-- <p>{{score}}</p> -->
+                <!-- <p>{{items}}</p> -->
+                <!-- <p>list to show : {{quotation_item}}</p> -->
+                <!-- <p>to display the score : {{quotation_item.score}}</p> -->
 
                 <form>
                   <div class="global_rating d-flex flex-row justify-center" style="padding: 100px 0;">
@@ -258,7 +256,7 @@
                 </div>                
 
               </v-form>
-              </template>
+              <!-- </template> -->
             </template>
           </v-col>
         </div>        
@@ -301,8 +299,7 @@ export default {
           this.quotation_id = parseInt(this.$route.params.selectedQuotation);
           this.item_id = this.selectedItem.id;
         },
-        isConcerned :
-        this.concerned,
+        isConcerned : this.concerned,
         score : parseInt(this.scored),
         comment: this.newQuotationItemComment,
         quotation_id: parseInt(this.$route.params.selectedQuotation), /*received a string to convert in int to add in database*/
@@ -310,9 +307,16 @@ export default {
         
       });
       //this.newQuotationItemComment = ``;
-      //this.selectedQuotationItem = this.quotation_id && this.item_id;
+      //this.selectedQuotationItem = 1;
 
-    }
+    },
+
+    // async detailsForm() {
+    //   this.selectedQuotation = this.$route.params.selectedQuotation;
+    //   const showContent = await (this.$store.dispatch(`fetchQuotation_Items`), this.selectedQuotation);
+    //   return showContent;
+    // }
+
   },
 
   computed: {
@@ -331,10 +335,10 @@ export default {
       return indicators;
     },
 
-    itemsForForm() {
-      let items = this.$store.state.quotation_items;
-      return items;
-    },
+    // contentForm() {
+    //   let content = _.concat([],this.$store.state.quotation_items);
+    //   return content;
+    // },
 
   },
 
@@ -344,6 +348,8 @@ export default {
     selectedQuotationItem: null,
     getValue: null,
     scored: null,
+
+    //selectedQuotation: null,
 
     concerned: false,
 
@@ -366,7 +372,7 @@ export default {
 
     beforeMount() {
       this.$store.dispatch(`fetchIndicators`);
-      this.$store.dispatch(`fetchQuotation_Items`, this.$route.params.selectedQuotation);
+      //this.$store.dispatch(`fetchQuotation_Items`, this.$route.params.selectedQuotation);
     
     },
 
