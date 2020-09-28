@@ -70,6 +70,8 @@
                         >
                           <!-- <v-list-item-content> -->
                             <v-list-item-title >{{ item.name }}</v-list-item-title>
+                            <!-- @click="@click="showItemContent(item)"" -->
+                            <!-- <v-list-item-title >{{ selectedItem.id }}</v-list-item-title> -->
                           <!-- </v-list-item-content> -->
                         </v-list-item>
                       </v-list-group>
@@ -283,12 +285,23 @@ export default {
 
   methods: {
     previewItem(item) {
-      this.selectedItem = item;
+      var selectedQuotation = this.$route.params.selectedQuotation;
+      var selectedItem = item.id;
+      console.log(selectedItem);
+      this.$store.dispatch(`fetchQuotation_Items`, selectedQuotation, selectedItem);
     },
 
     closePreviewItem() {
       this.selectedItem = null;
     },
+
+    // showItemContent(item) {
+    //   var selectedQuotation = this.$route.params.selectedQuotation;
+    //   console.log(item);
+    //   var contentItem = item.id;
+    //   //var itemId = item.id;
+    //   this.$store.dispatch(`fetchQuotation_Items`, selectedQuotation, contentItem);
+    // },
 
     async addQuotation_Item() {      
 
@@ -312,8 +325,8 @@ export default {
     },
 
     // async detailsForm() {
-    //   this.selectedQuotation = this.$route.params.selectedQuotation;
-    //   const showContent = await (this.$store.dispatch(`fetchQuotation_Items`), this.selectedQuotation);
+    //   var selectedQuotation = this.$route.params.selectedQuotation;
+    //   const showContent = await (this.$store.dispatch(`fetchQuotation_Items`), selectedQuotation);
     //   return showContent;
     // }
 
@@ -365,6 +378,16 @@ export default {
     ],
 
   }),
+
+  watch: {
+    // selectedItem (){
+    //   var selectedQuotation = this.$route.params.selectedQuotation;
+    //   console.log(this.selectedItem);
+    //   var itemId = this.selectedItem.id;
+    //   this.$store.dispatch(`fetchQuotation_Items`, selectedQuotation, this.id);
+    // }
+    
+  },
 
   mounted () {
       
