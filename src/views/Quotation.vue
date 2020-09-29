@@ -131,7 +131,7 @@
               </div>
             </template>
 
-            <template v-else-if="selectedItem && selectedItem.name!='Synthèse'">
+            <template v-else-if="selectedItem && selectedItem.name!='Synthèse' && content">
               <!-- <template v-for="quotation_item in itemsForForm"
               :items="itemsForForm" item-value="item_id"
               > :key="quotation_item"-->
@@ -260,7 +260,7 @@
               </v-form>
               <!-- </template> -->
             </template>
-            <template v-else>
+            <template v-else-if="selectedItem && selectedItem.name!='Synthèse' && !content">
               <p>Je suis un template à compléter</p>
             </template>
           </v-col>
@@ -298,14 +298,14 @@ export default {
       });
 
       if(content.error) {
-        var error = content.error;
+        //var contentError = content.error;
         //alert(content.error);
         console.log(content.error);
-        //console.log("false");
-        return error;
+        
+        //return contentError;
 
       } else {
-        console.log(content);
+        console.log(content, "hello");
         return content;
       }
 
@@ -389,7 +389,9 @@ export default {
     selectedQuotationItem: null,
     getValue: null,
     scored: null,
-    itemContent: null,
+    //itemContent: null,
+    contentError: null,
+    content: null,
 
     //selectedQuotation: null,
 
