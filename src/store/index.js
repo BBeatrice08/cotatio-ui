@@ -176,9 +176,8 @@ export default new Vuex.Store({
       const { data: quotations } = await api.get(`/quotation/${selectedQuotation}`);
       commit(`SET_QUOTATIONS`, quotations);
     },
-    async fetchQuotation_Items({ commit }, selectedQuotation, itemId) {
+    async fetchQuotation_Items({ commit }, {selectedQuotation, itemId}) {
       const { data: quotation_items } = await api.get(`/quotation-items/quotation/${selectedQuotation}/${itemId}`);
-      //const { data: quotation_items } = await api.get(`/quotation-items/quotation/${itemId}/${selectedQuotation}`);
       commit(`SET_QUOTATION_ITEMS`, quotation_items);
     },
 
