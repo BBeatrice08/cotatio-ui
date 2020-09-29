@@ -260,6 +260,9 @@
               </v-form>
               <!-- </template> -->
             </template>
+            <template v-else>
+              <p>Je suis un template à compléter</p>
+            </template>
           </v-col>
         </div>        
       </v-col>
@@ -284,15 +287,57 @@ export default {
   },
 
   methods: {
-    previewItem(item) {
-      //var selectedQuotation = this.$route.params.selectedQuotation;
+
+    async previewItem(item) {
+
       this.selectedItem = item;
-      console.log(item.id);
-      this.$store.dispatch(`fetchQuotation_Items`, {
+
+      var content = await this.$store.dispatch(`fetchQuotation_Items`, {
         selectedQuotation: this.$route.params.selectedQuotation, 
         itemId: item.id,
-        });
+      });
+
+      if(content.error) {
+        var error = content.error;
+        //alert(content.error);
+        console.log(content.error);
+        //console.log("false");
+        return error;
+
+      } else {
+        console.log(content);
+        return content;
+      }
+
+      // var itemContent = response;
+      // console.log(itemContent);
+      // return itemContent;
+      // if(itemContent !== []){
+      //   return itemContent;
+      // } else {          
+      //   return null;
+      // }
+      //return itemContent;
     },
+
+    /* Solution num 2 doesn't work exactly*/
+    // previewItem(item) {
+    //   //var selectedQuotation = this.$route.params.selectedQuotation;
+    //   this.selectedItem = item;
+    //   //console.log(item.id);
+    //   this.$store.dispatch(`fetchQuotation_Items`, {
+    //     selectedQuotation: this.$route.params.selectedQuotation, 
+    //     itemId: item.id,
+    //     }).then(response => {
+    //       console.log("is correct ?");
+    //       return response;
+      
+    //     }, error => {
+    //       console.error("wrong way");
+    //       return error;
+    //     }
+    //     );
+    // },
 
     closePreviewItem() {
       this.selectedItem = null;
@@ -344,6 +389,7 @@ export default {
     selectedQuotationItem: null,
     getValue: null,
     scored: null,
+    itemContent: null,
 
     //selectedQuotation: null,
 

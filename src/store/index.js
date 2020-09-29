@@ -176,10 +176,10 @@ export default new Vuex.Store({
       const { data: quotations } = await api.get(`/quotation/${selectedQuotation}`);
       commit(`SET_QUOTATIONS`, quotations);
     },
-    async fetchQuotation_Items({ commit }, {selectedQuotation, itemId}) {
-      const { data: quotation_items } = await api.get(`/quotation-items/quotation/${selectedQuotation}/${itemId}`);
-      commit(`SET_QUOTATION_ITEMS`, quotation_items);
-    },
+    // async fetchQuotation_Items({ commit }, {selectedQuotation, itemId}) {
+    //   const { data: quotation_items } = await api.get(`/quotation-items/quotation/${selectedQuotation}/${itemId}`);
+    //   commit(`SET_QUOTATION_ITEMS`, quotation_items);
+    // },
 
     // receive all my users registered and in particular current_user
     async loadUsers({ commit }) {
@@ -286,19 +286,36 @@ export default new Vuex.Store({
         }
     },
 
-  /* FONCTION TEST (model function) */
-  async registerUser({commit}, registrationInfo) {
-    try {
-      let response = await api.post('/users', registrationInfo);
-      let user = response.data;
-      //console.log(user);
+    /* FONCTION TEST (model function) */
+    async registerUser({commit}, registrationInfo) {
+      try {
+        let response = await api.post('/users', registrationInfo);
+        let user = response.data;
+        //console.log(user);
 
-      commit('SET_CURRENT_USER', user);
-      return user;
-    } catch {
-      return {error: "Il y a eu une erreur à l'enregistrement du nouvel utilisateur. Essayez à nouveau"}
-    }
-  }
+        commit('SET_CURRENT_USER', user);
+        return user;
+      } catch {
+        return {error: "Il y a eu une erreur à l'enregistrement du nouvel utilisateur. Essayez à nouveau"}
+      }
+    },
+
+    // GET for quotation_items
+    async fetchQuotation_Items({ commit }, {selectedQuotation, itemId}) {
+      let response = await api.get(`/quotation-items/quotation/${selectedQuotation}/${itemId}`, selectedQuotation, itemId);
+
+      let content = response.data[0];
+
+      if (content == null){
+        return { error: "pas de contenu"}
+
+        //console.error("contenu vide");
+      } else {
+
+      commit(`SET_QUOTATION_ITEMS`, content);
+      return content;
+      }
+    },
   },
   getters: {
 
