@@ -261,17 +261,41 @@
               <!-- </template> -->
             </template>
 
-            <template
-            v-else>
-              <p></p>
+            <template v-else-if="selectedItem && selectedItem.name!='Synthèse' && itemContent !== 0">
+
+              <p>Sur cet item, les éléments déjà renseignés sont :</p>
               <v-list-item
                 v-for="content in itemContent"
                 :key="content.id"
-                >                
-                  <v-list-item-title >{{ content.score }}</v-list-item-title>
-              </v-list-item>
+                >
               
-              <p>Je suis un template à compléter</p>
+              <v-card
+                class="mx-auto"
+                max-width="344"
+              >
+                <v-card-text>
+                  <!-- <div>Word of the Day</div> -->
+                  <p class="display-1 text--primary">
+                    {{selectedItem.name}} {{selectedItem.id}}
+                  </p>
+                  <p>Est-il concerné: {{content.isConcerned}}</p>
+                  <h4>Score enregistré :{{content.score}}</h4>
+                  <p>Commentaire: {{content.comment}}</p>
+                  <!-- <div class="text--primary">
+                    well meaning and kindly.<br>
+                    "a benevolent smile"
+                  </div> -->
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn
+                    text
+                    color="deep-purple accent-4"
+                  >
+                    Learn More
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-list-item>
             </template>
             
           </v-col>
