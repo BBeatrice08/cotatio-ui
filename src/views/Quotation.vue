@@ -131,7 +131,7 @@
               </div>
             </template>
 
-            <template v-else-if="selectedItem && selectedItem.name!='Synthèse' && content">
+            <template v-else-if="selectedItem && selectedItem.name!='Synthèse' && itemContent == 0">
               <!-- <template v-for="quotation_item in itemsForForm"
               :items="itemsForForm" item-value="item_id"
               > :key="quotation_item"-->
@@ -260,9 +260,20 @@
               </v-form>
               <!-- </template> -->
             </template>
-            <template v-else-if="selectedItem && selectedItem.name!='Synthèse' && !content">
+
+            <template
+            v-else>
+              <p></p>
+              <v-list-item
+                v-for="content in itemContent"
+                :key="content.id"
+                >                
+                  <v-list-item-title >{{ content.score }}</v-list-item-title>
+              </v-list-item>
+              
               <p>Je suis un template à compléter</p>
             </template>
+            
           </v-col>
         </div>        
       </v-col>
@@ -294,50 +305,24 @@ export default {
 
       var content = await this.$store.dispatch(`fetchQuotation_Items`, {
         selectedQuotation: this.$route.params.selectedQuotation, 
-        itemId: item.id,
+        //itemId: item.id,
+        itemId: this.selectedItem.id,
       });
 
-      if(content.error) {
-        //var contentError = content.error;
-        //alert(content.error);
-        console.log(content.error);
+      return content
+      // if(content.error) {
+      //   var contentError = content.error;
+      //   //alert(content.error);
+      //   console.log(contentError);
         
-        //return contentError;
+      //   return contentError;
 
-      } else {
-        console.log(content, "hello");
-        return content;
-      }
-
-      // var itemContent = response;
-      // console.log(itemContent);
-      // return itemContent;
-      // if(itemContent !== []){
-      //   return itemContent;
-      // } else {          
-      //   return null;
+      // } else {
+      //   console.log(content, "hello");
+      //   return content;
       // }
-      //return itemContent;
-    },
 
-    /* Solution num 2 doesn't work exactly*/
-    // previewItem(item) {
-    //   //var selectedQuotation = this.$route.params.selectedQuotation;
-    //   this.selectedItem = item;
-    //   //console.log(item.id);
-    //   this.$store.dispatch(`fetchQuotation_Items`, {
-    //     selectedQuotation: this.$route.params.selectedQuotation, 
-    //     itemId: item.id,
-    //     }).then(response => {
-    //       console.log("is correct ?");
-    //       return response;
-      
-    //     }, error => {
-    //       console.error("wrong way");
-    //       return error;
-    //     }
-    //     );
-    // },
+    },
 
     closePreviewItem() {
       this.selectedItem = null;
@@ -381,6 +366,12 @@ export default {
       const indicators = _.concat([], this.$store.state.indicators);
       return indicators;
     },
+
+    itemContent() {
+      var myContent = this.$store.state.quotation_items;
+      //var myContent = _.concat([], this.$store.state.quotation_items);
+      return myContent;
+    }
   },
 
   data: () => ({
@@ -389,9 +380,7 @@ export default {
     selectedQuotationItem: null,
     getValue: null,
     scored: null,
-    //itemContent: null,
-    contentError: null,
-    content: null,
+    content: {},
 
     //selectedQuotation: null,
 

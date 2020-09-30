@@ -301,20 +301,43 @@ export default new Vuex.Store({
     },
 
     // GET for quotation_items
-    async fetchQuotation_Items({ commit }, {selectedQuotation, itemId}) {
-      let response = await api.get(`/quotation-items/quotation/${selectedQuotation}/${itemId}`, selectedQuotation, itemId);
+    //method OK
+    // async fetchQuotation_Items({ commit }, {selectedQuotation, itemId}) {
+    //   let response = await api.get(`/quotation-items/quotation/${selectedQuotation}/${itemId}`, selectedQuotation, itemId);
 
-      let content = response.data[0];
+    //   let content = response.data[0];
 
-      if (content == null){
-        return { error: "pas de contenu"}
+    //   if (content == null){
+    //     return { error: "pas de contenu"}
 
-        //console.error("contenu vide");
-      } else {
+    //     //console.error("contenu vide");
+    //   } else {
 
-      commit(`SET_QUOTATION_ITEMS`, content);
-      return content;
-      }
+    //   commit(`SET_QUOTATION_ITEMS`, content);
+    //   return content;
+    //   }
+    // },
+
+    /*async*/ fetchQuotation_Items({ commit }, {selectedQuotation, itemId}) {
+      /*await*/ api.get(`/quotation-items/quotation/${selectedQuotation}/${itemId}`, selectedQuotation, itemId).then(content => {
+        commit(`SET_QUOTATION_ITEMS`, content.data);
+      }).catch(error => {
+        throw(error);
+        //return {error: "le tableau est vide" };
+        //throw (error: "le tableau est vide" );
+      });
+
+      // //let content = response.data[0];
+
+      // if (content == null){
+      //   return { error: "pas de contenu"}
+
+      //   //console.error("contenu vide");
+      // } else {
+
+      
+      // return content;
+      // }
     },
   },
   getters: {
