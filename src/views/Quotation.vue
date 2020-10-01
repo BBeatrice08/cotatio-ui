@@ -30,7 +30,7 @@
 
             <v-row class="menu" no-gutters>
               <v-col>
-                <v-card>
+                <v-card max-width= "300px">
                   <v-toolbar
                     color="teal"
                     dark
@@ -68,11 +68,18 @@
                           :key="item.id"
                           :class="{ active: selectedItem && selectedItem.id === item.id }" @click="previewItem(item);"                          
                         >
+                          <v-tooltip right>
+                            <template v-slot:activator="{ on }">
+                              <v-icon v-on="on">help</v-icon>
+                            </template>
+                            <span>{{ item.name }}</span>
+                          </v-tooltip>
+                        
                           <!-- <v-list-item-content> -->
-                            <v-list-item-title >{{ item.name }}</v-list-item-title>
+                            <v-list-item-title class="ml-2">{{ item.name }}</v-list-item-title>
                             <!-- @click="@click="showItemContent(item)"" -->
                             <!-- <v-list-item-title >{{ selectedItem.id }}</v-list-item-title> -->
-                          <!-- </v-list-item-content> -->
+                          <!-- </v-list-item-content> -->                          
                         </v-list-item>
                       </v-list-group>
                     </v-list-group>
