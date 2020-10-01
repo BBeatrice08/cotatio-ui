@@ -215,7 +215,7 @@
                   <v-expansion-panels>
                     <v-expansion-panel style="height:200px; width:350px;">
                       <v-expansion-panel-header>
-                        <template v-slot:default="{ open }" >
+                        <template v-slot:default="{ open }">
                           <v-row class="d-flex align-center" >
                             <v-col
                               cols="12"
@@ -240,17 +240,17 @@
                       <v-expansion-panel-content ma-5>
                         <div class="d-flex flex-row ma-5">
                           <v-text-field
-                            v-model="comment.name"
+                            v-model="newQuotationItemComment"
                             placeholder="Nouveau commentaire"
                           ></v-text-field>
-                          <v-card-actions class="pa-0 ml-5">
+                          <!-- <v-card-actions class="pa-0 ml-5">
                             <v-btn
                             text
                             color="primary"
                             >
                             Valider
                             </v-btn>
-                          </v-card-actions>
+                          </v-card-actions> -->
                         </div>
                       </v-expansion-panel-content>
                     </v-expansion-panel>
@@ -368,7 +368,7 @@ export default {
         item_id: this.selectedItem.id,
         
       });
-      //this.newQuotationItemComment = ``;
+      this.newQuotationItemComment = ``;
       //this.selectedQuotationItem = 1;
 
     },
@@ -402,6 +402,7 @@ export default {
     selectedItem: null,
     selectedIndicator: null,
     selectedQuotationItem: null,
+    newQuotationItemComment: ``,
     getValue: null,
     scored: null,
     content: {},
