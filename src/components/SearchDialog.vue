@@ -57,6 +57,7 @@
           v-model="selectedCompany"
           label="Entreprise concernée">
           </v-text-field>
+          <!-- <p>ici : {{ selectedCompany }}</p> -->
           <v-text-field
           class="mt-4 mx-3"
           v-model="newSiteName"
@@ -266,6 +267,10 @@
           </v-card-actions>
         </v-toolbar>
       </v-card-title>
+      <p>selectedcompany : {{ selectedCompany }}</p>
+      <p>companiesForFilter: {{ companiesForFilter }}</p>
+      <p>filter: {{ filterCompanies }}</p>
+      <!-- <p>companies: {{ companies }}</p> -->
 
       <v-card-text class="pa-0">
         <!-- filters to find my quotation -->
@@ -305,7 +310,6 @@
                   label="Filtrer par site"
                   v-model="selectedSite"
                 ></v-autocomplete>
-                <p>{{ selectedCompany }}</p>
               </div>
 
               <div class="all_areas">
@@ -390,7 +394,7 @@
               <v-divider></v-divider>
               <div class="pa-3">
                 <div>
-                  <i>{{ selectedMachine }} / {{ selectedSite }} / {{ selectedArea }} / {{ selectedProductionLine }} / {{ selectedMachine.id }}</i>
+                  <i>{{ selectedMachine.production_line.area.site.company.name }} / {{ selectedMachine.production_line.area.site.name }} / {{ selectedMachine.production_line.area.name }} / {{ selectedMachine.production_line.name }} / {{ selectedMachine.name }}</i>
                 </div>
                 <v-row no-gutters class="mt-3">
                   <v-menu>
@@ -675,7 +679,6 @@ export default {
           this.$emit('input', value)
       },
     },
-    
     /**
      * si je souhaite ajouter une nouvelle entreprise alors id=-1,
      * s'il me trouve une entreprise avec l'id alors il me l'affiche
@@ -831,11 +834,10 @@ export default {
         this.$store.dispatch(`fetchProduction_lines`, companyId);
         this.$store.dispatch(`fetchMachines`, companyId);
 
-        console.log(companyId.name);
-
+        //console.log(companyName);
         //const companyName = _.filter(companyId, {companies : company.name});
       }
-      //return companyName;      
+      //return companyName;
     },
     selectedSite (siteId) {
       if (siteId === -1) {
