@@ -6,8 +6,6 @@
     content-class="search-dialog"
     max-width="100%"
   >
-  <!-- <app-quotation></app-quotation>
-  <p>{{ message }}</p> -->
 
   <!-------------------------------------- Dialog boxes area -->
   <!-- Dialog box to add a new company -->
@@ -57,7 +55,6 @@
           v-model="selectedCompany"
           label="Entreprise concernée">
           </v-text-field>
-          <!-- <p>ici : {{ selectedCompany }}</p> -->
           <v-text-field
           class="mt-4 mx-3"
           v-model="newSiteName"
@@ -267,18 +264,14 @@
           </v-card-actions>
         </v-toolbar>
       </v-card-title>
-      <p>selectedcompany : {{ selectedCompany }}</p>
-      <p>companiesForFilter: {{ companiesForFilter }}</p>
-      <p>filter: {{ filterCompanies }}</p>
-      <!-- <p>companies: {{ companies }}</p> -->
 
-      <v-card-text class="pa-0">
+      <v-card-text class="pa-0" cols="12" sm="12">
         <!-- filters to find my quotation -->
         <v-row class="cards" no-gutters style="height: 100%;">
 
           <!--filters for company, site, area ... -->
 
-          <v-col class="filters">
+          <v-col class="filters" cols="12" sm="12">
             <v-toolbar flat>
               <v-icon class="mr-2">filter_list</v-icon><h4>Filtres</h4>
             </v-toolbar>
@@ -340,7 +333,7 @@
             </v-list>
           </v-col>
 
-          <v-col class="machines">
+          <v-col class="machines" cols="12" sm="12">
             <v-toolbar flat>
               <v-icon class="mr-2">build</v-icon><h4>Machines</h4>
               <v-spacer></v-spacer>
@@ -825,7 +818,7 @@ export default {
  * Si l'id=-1 alors je peux créer une nouvelle entreprise et me génère une boîte de dialogue
  */
   watch: {
-    selectedCompany (companyId) {
+    selectedCompany (companyId/*, oldVal*/) {
       if (companyId === -1) {
         this.createCompanyDialog = true;
       } else if (companyId) {
@@ -834,7 +827,7 @@ export default {
         this.$store.dispatch(`fetchProduction_lines`, companyId);
         this.$store.dispatch(`fetchMachines`, companyId);
 
-        //console.log(companyName);
+        //console.log(`old value ${oldVal}, new value ${companyId}`);
         //const companyName = _.filter(companyId, {companies : company.name});
       }
       //return companyName;
@@ -891,11 +884,17 @@ export default {
   background-color: #f1f1f0;
 }
 
-/* @media screen and (max-width: 600px) {
-  .cards {
+@media screen and (max-width: 648px) {
+  /* .cards {
     display: flex;
     flex-direction: column;
+  } */
+    .filters {
+      max-width: 100%;
   }
-} */
+    .machines {
+      max-width: 100%;
+  }
+}
 
 </style>
