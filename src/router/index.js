@@ -19,21 +19,25 @@ const routes = [
     name: 'user',
     component: User,
     beforeEnter(to, from, next) {
-      //let token = localStorage.getItem('token', token)
+      let token = localStorage.getItem('token', token)
       //let token = JSON.parse(window.localStorage.token);
-      //if(token) {
-      // let currentUser = JSON.parse(window.localStorage.currentUser);
-      // if(currentUser && currentUser.firstName) {
-        // if (to.matched.some(record => record.meta.requiresAuth)) {
-        next();
+      if(token) {
+        //let currentUser = JSON.parse(window.localStorage.currentUser);
+        //if(currentUser && currentUser.firstName) {
+          
+          next();
+        
 
-      //  } else {
-      //    next("/"); 
-      //    location.reload();
-      //    localStorage.removeItem('currentUser');
-      //    localStorage.removeItem('token');
+        } else {
+          next("/"); 
+          location.reload();
+          localStorage.reload().removeItem('currentUser');
+          localStorage.removeAll();
+          localStorage.removeItem('token');
+          localStorage.clear();
 
-      //  }
+        }
+      //}
     },
     children: [
       {
