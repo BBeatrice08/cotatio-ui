@@ -340,18 +340,7 @@ export default {
         itemId: this.selectedItem.id,
       });
 
-      return content
-      // if(content.error) {
-      //   var contentError = content.error;
-      //   //alert(content.error);
-      //   console.log(contentError);
-        
-      //   return contentError;
-
-      // } else {
-      //   console.log(content, "hello");
-      //   return content;
-      // }
+      return content;
 
     },
 

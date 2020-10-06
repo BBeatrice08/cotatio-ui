@@ -166,20 +166,10 @@ export default new Vuex.Store({
       const { data: indicators } = await api.get(`/indicators`);
       commit(`SET_INDICATORS`, indicators);
     },
-    /*
-    async fetchItems({ commit }, indicatorId) {
-      const { data: items } = await api.get(`/items/indicator/${indicatorId}`);
-      commit(`SET_ITEMS`, items);
-    },
-    */
     async fetchQuotations({ commit }, selectedQuotation) {
       const { data: quotations } = await api.get(`/quotation/${selectedQuotation}`);
       commit(`SET_QUOTATIONS`, quotations);
     },
-    // async fetchQuotation_Items({ commit }, {selectedQuotation, itemId}) {
-    //   const { data: quotation_items } = await api.get(`/quotation-items/quotation/${selectedQuotation}/${itemId}`);
-    //   commit(`SET_QUOTATION_ITEMS`, quotation_items);
-    // },
 
     // receive all my users registered and in particular current_user
     async loadUsers({ commit }) {
@@ -280,8 +270,7 @@ export default new Vuex.Store({
           localStorage.setItem('token', token);
 
           commit('SET_CURRENT_USER', user, token);
-          //console.log(token);
-          //return [token, user];
+
           return token;
         }
     },
@@ -300,44 +289,14 @@ export default new Vuex.Store({
       }
     },
 
-    // GET for quotation_items
-    //method OK
-    // async fetchQuotation_Items({ commit }, {selectedQuotation, itemId}) {
-    //   let response = await api.get(`/quotation-items/quotation/${selectedQuotation}/${itemId}`, selectedQuotation, itemId);
-
-    //   let content = response.data[0];
-
-    //   if (content == null){
-    //     return { error: "pas de contenu"}
-
-    //     //console.error("contenu vide");
-    //   } else {
-
-    //   commit(`SET_QUOTATION_ITEMS`, content);
-    //   return content;
-    //   }
-    // },
-
     /*async*/ fetchQuotation_Items({ commit }, {selectedQuotation, itemId}) {
       /*await*/ api.get(`/quotation-items/quotation/${selectedQuotation}/${itemId}`, selectedQuotation, itemId).then(content => {
         commit(`SET_QUOTATION_ITEMS`, content.data);
       }).catch(error => {
         throw(error);
-        //return {error: "le tableau est vide" };
-        //throw (error: "le tableau est vide" );
+
       });
 
-      // //let content = response.data[0];
-
-      // if (content == null){
-      //   return { error: "pas de contenu"}
-
-      //   //console.error("contenu vide");
-      // } else {
-
-      
-      // return content;
-      // }
     },
   },
   getters: {
