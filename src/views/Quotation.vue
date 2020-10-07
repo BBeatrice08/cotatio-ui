@@ -500,4 +500,10 @@ export default {
   max-width: 300px; */
   width: 300px;
 }
+
+@media screen and (min-width: 600px) {
+  .quotation_form {
+    max-width: 100%;
+  }
+}
 </style>
