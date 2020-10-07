@@ -21,16 +21,17 @@
     <!----------------------- END of HEADER -------------------->
 
     <!--------------------------- BODY ---------------------------->
+    <!-- <v-container> -->
     <v-row no-gutters>
-      <v-col>
-        <div class="page_center d-flex flex-row">
+      <!-- <v-col cols="12" sm="12" class="page_center d-flex flex-row"> -->
+        <!-- <v-card class="page_center d-flex flex-row"> -->
 
           <!-- On side, menu to navigation between the differents indicators/items -->
-          <div class="indicators_menu">
+          <!-- <div class="indicators_menu"> -->
 
-            <v-row class="menu" no-gutters>
-              <v-col>
-                <v-card max-width= "300px">
+            <v-col class="menu" no-gutters cols="12" sm="5">
+              <!-- <v-col> -->
+                <v-card class="menu_card" max-width= "300px">
                   <v-toolbar
                     color="teal"
                     dark
@@ -85,14 +86,15 @@
                     </v-list-group>
                   </v-list>
                 </v-card>
-              </v-col>
-            </v-row>
-          </div>
+              <!-- </v-col> -->
+            </v-col>
+          <!-- </div> -->
 
           <!-- All the informations to complete the quotation -->
-          <v-col class="quotation_form">
+          <v-col class="quotation_form" cols="12" sm="5">
 
             <template v-if="selectedItem && selectedItem.name=='Synthèse'">
+              <v-col class="column_1">
               <v-btn icon @click="closePreviewItem()">
                   <v-icon>cancel</v-icon>
               </v-btn>
@@ -136,9 +138,11 @@
                   </div>
                 </template>
               </div>
+              </v-col>
             </template>
 
             <template v-else-if="selectedItem && selectedItem.name!='Synthèse' && itemContent == 0">
+              <v-col class="column_2">
               <!-- <template v-for="quotation_item in itemsForForm"
               :items="itemsForForm" item-value="item_id"
               > :key="quotation_item"-->
@@ -207,10 +211,10 @@
                       <p class="mt-3">{{selectedItem.score_label_4}}</p>
                     </div>
 
-                    <div>
+                    <!-- <div>
                     <input type="radio" :disabled="concerned" name="rank" value=" " v-model="scored" />
                       <p class="mt-3">none</p>
-                    </div>
+                    </div> -->
                   </div>
                 </form>
 
@@ -266,6 +270,7 @@
 
               </v-form>
               <!-- </template> -->
+              </v-col>
             </template>
 
             <template v-else-if="selectedItem && selectedItem.name!='Synthèse' && itemContent !== 0">
@@ -278,7 +283,6 @@
               
               <v-card
                 class="mx-auto"
-                max-width="344"
               >
                 <v-card-text>
                   <!-- <div>Word of the Day</div> -->
@@ -306,9 +310,10 @@
             </template>
             
           </v-col>
-        </div>        
-      </v-col>
+        <!-- </v-card>         -->
+      <!-- </v-col> -->
     </v-row>
+  <!-- </v-container> -->
   </v-app>
 </template>
 
@@ -480,5 +485,19 @@ export default {
 #btn_4:focus {
   color: #fff;
   border: solid black;
+}
+
+.quotation_form {
+  margin-left: 10px;
+}
+
+.menu {
+  min-width: 300px;
+}
+
+.menu_card {
+  /* min-width: 300px;
+  max-width: 300px; */
+  width: 300px;
 }
 </style>
