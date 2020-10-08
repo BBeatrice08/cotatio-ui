@@ -29,7 +29,7 @@
           <!-- On side, menu to navigation between the differents indicators/items -->
           <!-- <div class="indicators_menu"> -->
 
-            <v-col class="menu" no-gutters cols="12" sm="5">
+            <v-col class="menu" no-gutters  sm="4">
               <!-- <v-col> -->
                 <v-card class="menu_card" max-width= "300px">
                   <v-toolbar
@@ -91,7 +91,7 @@
           <!-- </div> -->
 
           <!-- All the informations to complete the quotation -->
-          <v-col class="quotation_form" cols="12" sm="5">
+          <v-col class="quotation_form" sm="">
 
             <template v-if="selectedItem && selectedItem.name=='Synthèse'">
               <v-col class="column_1">
@@ -178,7 +178,7 @@
                 <form>
                   <div class="global_rating d-flex flex-row justify-center" style="padding: 100px 0;">
 
-                    <div class="rating_dark_green d-flex flex-column align-center mr-10" >
+                    <div class="rating" >
 
                       <v-btn :disabled="concerned" id="btn_1" fab small>
                         <h2>0</h2>
@@ -187,7 +187,7 @@
                       <label for="one" class="mt-3">{{selectedItem.score_label_1}}</label>
                     </div>
 
-                    <div class="rating_light_green d-flex flex-column align-center mr-10">
+                    <div class="rating">
                       <v-btn :disabled="concerned" id="btn_2" fab small>
                         <h2>+</h2>
                       </v-btn>
@@ -195,7 +195,7 @@
                       <label for="two" class="mt-3">{{selectedItem.score_label_2}}</label>
                     </div>
 
-                    <div class="rating_yellow d-flex flex-column align-center mr-10">
+                    <div class="rating">
                       <v-btn :disabled="concerned" id="btn_3" fab small>
                         <h2>++</h2>
                       </v-btn>
@@ -203,7 +203,7 @@
                       <p class="mt-3">{{selectedItem.score_label_3}}</p>
                     </div>
 
-                    <div class="rating-red d-flex flex-column align-center">
+                    <div class="rating">
                       <v-btn :disabled="concerned" id="btn_4" fab small>
                         <h2>+++</h2>
                       </v-btn>
@@ -501,9 +501,26 @@ export default {
   width: 300px;
 }
 
+@media screen and (max-width: 599px) {
+  .rating {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 1%;
+    min-width: 70px;
+  }
+}
+
 @media screen and (min-width: 600px) {
   .quotation_form {
     max-width: 100%;
+  }
+
+  .rating {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 4%;
   }
 }
 </style>
