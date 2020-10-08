@@ -162,6 +162,10 @@ export default new Vuex.Store({
       const { data: machines } = await api.get(`/machines/company/${companyId}`);
       commit(`SET_MACHINES`, machines);
     },
+    async fetchCurrentMachine({ commit }, id) {
+      const { data: machines } = await api.get(`/machines/${id}`);
+      commit(`SET_MACHINES`, machines);
+    },
     async fetchIndicators({ commit }) {
       const { data: indicators } = await api.get(`/indicators`);
       commit(`SET_INDICATORS`, indicators);

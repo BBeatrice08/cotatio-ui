@@ -6,24 +6,23 @@
       <v-row no-gutters >
         <v-col>
           <v-card-title >
-            <v-toolbar>
-              <v-card-title>Entreprise / Site / Secteur / Ligne / selectedMachine </v-card-title>
+            <v-toolbar v-for="currentMachine in currentMachines" :key="currentMachine.id">
+              <v-card-title>{{ currentMachine.production_line.area.site.company.name }} / {{ currentMachine.production_line.area.site.name }} / {{ currentMachine.production_line.area.name }} / {{ currentMachine.production_line.name }} / {{ currentMachine.name }} </v-card-title>
             </v-toolbar>
             <v-spacer></v-spacer>
-            <v-toolbar v-for="currentQuotation in currentQuotation" :key="currentQuotation.id">
+            <v-toolbar v-for="currentQuotation in currentQuotations" :key="currentQuotation.id">
               <v-card-title>Synthèse du : {{ currentQuotation.date }}</v-card-title>
             </v-toolbar>
           </v-card-title>
         </v-col>
       </v-row>
     </div>
-    <p>ici :{{ currentQuotation }}</p>
-    <p>ma machine : {{  }}</p>
+    <p>quotation : {{currentQuotations}}</p>
+    <p>quotation : {{}}</p>
 
     <!----------------------- END of HEADER -------------------->
 
     <!--------------------------- BODY ---------------------------->
-    <!-- <v-container> -->
     <v-row no-gutters>
       <!-- <v-col cols="12" sm="12" class="page_center d-flex flex-row"> -->
         <!-- <v-card class="page_center d-flex flex-row"> -->
@@ -32,7 +31,6 @@
           <!-- <div class="indicators_menu"> -->
 
             <v-col class="menu" no-gutters  sm="4">
-              <!-- <v-col> -->
                 <v-card class="menu_card" max-width= "300px">
                   <v-toolbar
                     color="teal"
@@ -48,9 +46,7 @@
                       :name="indicator.name"
                     >
                       <template v-slot:activator >
-                        <!-- <v-list-item-content> -->
                           <v-list-item-title >{{ indicator.name }}</v-list-item-title>
-                        <!-- </v-list-item-content> -->
                       </template>
 
                       <v-list-group
@@ -77,18 +73,13 @@
                             </template>
                             <span>{{ item.name }}</span>
                           </v-tooltip>
-                        
-                          <!-- <v-list-item-content> -->
-                            <v-list-item-title class="ml-2">{{ item.name }}</v-list-item-title>
-                            <!-- @click="@click="showItemContent(item)"" -->
-                            <!-- <v-list-item-title >{{ selectedItem.id }}</v-list-item-title> -->
-                          <!-- </v-list-item-content> -->                          
+
+                            <v-list-item-title class="ml-2">{{ item.name }}</v-list-item-title>                        
                         </v-list-item>
                       </v-list-group>
                     </v-list-group>
                   </v-list>
                 </v-card>
-              <!-- </v-col> -->
             </v-col>
           <!-- </div> -->
 
@@ -315,7 +306,6 @@
         <!-- </v-card>         -->
       <!-- </v-col> -->
     </v-row>
-  <!-- </v-container> -->
   </v-app>
 </template>
 
@@ -338,9 +328,7 @@ export default {
   methods: {
 
     async previewItem(item) {
-
       this.selectedItem = item;
-
       var content = await this.$store.dispatch(`fetchQuotation_Items`, {
         selectedQuotation: this.$route.params.selectedQuotation, 
         //itemId: item.id,
@@ -351,15 +339,15 @@ export default {
 
     },
 
-    // async myCurrentMachine() {
+    async myCurrentMachine() {
 
-    //   var contentMachine = await this.$store.dispatch(`fetchQuotations`, {
-    //     selectedQuotation: this.$route.params.selectedQuotation, 
-    //   });
-    //   console.log(contentMachine);
+      var contentMachine = await this.$store.dispatch(`fetchCurrentMachine`, {
+        id: this.selectedMachine, 
+      });
+      console.log(contentMachine);
 
-    //   return contentMachine;
-    // },
+      return contentMachine;
+    },
 
     closePreviewItem() {
       this.selectedItem = null;
@@ -406,25 +394,20 @@ export default {
 
     itemContent() {
       var myContent = this.$store.state.quotation_items;
-      //var myContent = _.concat([], this.$store.state.quotation_items);
       return myContent;
     },
 
-    currentQuotation() {
+    currentQuotations() {
       var myCurrentQuotation = Object.assign({}, this.$store.state.quotations);
-      //console.log(myCurrentQuotation);
+      console.log(myCurrentQuotation);
       localStorage.setItem('myCurrentQuotation', JSON.stringify(myCurrentQuotation));
       return myCurrentQuotation;
     },
 
-    // currentMachine (selectedQuotation) {
-    //   var myCurrentMachine = this.$store.state.quotations, {
-    //     selectedQuotation = this.selectedQuotation,
-    //   };
-    //   console.log(myCurrentMachine);
-    //   //var myContent = _.concat([], this.$store.state.quotation_items);
-    //   return myCurrentMachine;
-    // },
+    currentMachines() {
+      var myContent = this.$store.state.machines;
+      return myContent;
+    },
   },
 
   data: () => ({
