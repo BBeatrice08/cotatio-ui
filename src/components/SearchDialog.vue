@@ -264,6 +264,7 @@
           </v-card-actions>
         </v-toolbar>
       </v-card-title>
+      <p>{{ selectedMachine }}</p>
 
       <v-card-text class="pa-0" cols="12" sm="12">
         <!-- filters to find my quotation -->
@@ -653,7 +654,11 @@ export default {
 
     async fetchData () {
       this.selectedQuotation = null;
-      api.post(this.$route.params.id, (err, post) => {
+      this.selectedMachine = null;
+      api.post(
+        this.$route.params.id,
+        this.$route.params.selectedMachine,
+         (err, post) => {
         if (post) {
           this.post = post;
         }

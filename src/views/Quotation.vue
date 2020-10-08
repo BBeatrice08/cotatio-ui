@@ -10,13 +10,15 @@
               <v-card-title>Entreprise / Site / Secteur / Ligne / selectedMachine </v-card-title>
             </v-toolbar>
             <v-spacer></v-spacer>
-            <v-toolbar>
-              <v-card-title>Synthèse du</v-card-title>
+            <v-toolbar v-for="currentQuotation in currentQuotation" :key="currentQuotation.id">
+              <v-card-title>Synthèse du : {{ currentQuotation.date }}</v-card-title>
             </v-toolbar>
           </v-card-title>
         </v-col>
       </v-row>
     </div>
+    <p>ici :{{ currentQuotation }}</p>
+    <p>ma machine : {{  }}</p>
 
     <!----------------------- END of HEADER -------------------->
 
@@ -349,6 +351,16 @@ export default {
 
     },
 
+    // async myCurrentMachine() {
+
+    //   var contentMachine = await this.$store.dispatch(`fetchQuotations`, {
+    //     selectedQuotation: this.$route.params.selectedQuotation, 
+    //   });
+    //   console.log(contentMachine);
+
+    //   return contentMachine;
+    // },
+
     closePreviewItem() {
       this.selectedItem = null;
     },
@@ -396,7 +408,23 @@ export default {
       var myContent = this.$store.state.quotation_items;
       //var myContent = _.concat([], this.$store.state.quotation_items);
       return myContent;
-    }
+    },
+
+    currentQuotation() {
+      var myCurrentQuotation = Object.assign({}, this.$store.state.quotations);
+      //console.log(myCurrentQuotation);
+      localStorage.setItem('myCurrentQuotation', JSON.stringify(myCurrentQuotation));
+      return myCurrentQuotation;
+    },
+
+    // currentMachine (selectedQuotation) {
+    //   var myCurrentMachine = this.$store.state.quotations, {
+    //     selectedQuotation = this.selectedQuotation,
+    //   };
+    //   console.log(myCurrentMachine);
+    //   //var myContent = _.concat([], this.$store.state.quotation_items);
+    //   return myCurrentMachine;
+    // },
   },
 
   data: () => ({
