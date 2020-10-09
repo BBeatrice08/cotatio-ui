@@ -10,15 +10,15 @@
               <v-card-title>{{ currentMachine.production_line.area.site.company.name }} / {{ currentMachine.production_line.area.site.name }} / {{ currentMachine.production_line.area.name }} / {{ currentMachine.production_line.name }} / {{ currentMachine.name }} </v-card-title>
             </v-toolbar>
             <v-spacer></v-spacer>
-            <v-toolbar v-for="currentQuotation in currentQuotations" :key="currentQuotation.id">
-              <v-card-title>Synthèse du : {{ currentQuotation.date }}</v-card-title>
+            <v-toolbar>
+              <v-card-title>Synthèse du : {{ currentQuotations.date }}</v-card-title>
             </v-toolbar>
           </v-card-title>
         </v-col>
       </v-row>
     </div>
-    <p>quotation : {{currentQuotations}}</p>
-    <p>quotation : {{}}</p>
+
+    <p>currentMachine: {{currentMachines }}</p>
 
     <!----------------------- END of HEADER -------------------->
 
@@ -136,9 +136,6 @@
 
             <template v-else-if="selectedItem && selectedItem.name!='Synthèse' && itemContent == 0">
               <v-col class="column_2">
-              <!-- <template v-for="quotation_item in itemsForForm"
-              :items="itemsForForm" item-value="item_id"
-              > :key="quotation_item"-->
               <v-form @submit.prevent="addQuotation_Item()" >
 
                 <div class="item_title d-flex flex-row">
@@ -164,9 +161,6 @@
                   ></v-checkbox>
                   <span>{{ concerned }}</span>
                 </div>
-                <!-- <p>{{items}}</p> -->
-                <!-- <p>list to show : {{quotation_item}}</p> -->
-                <!-- <p>to display the score : {{quotation_item.score}}</p> -->
 
                 <form>
                   <div class="global_rating d-flex flex-row justify-center" style="padding: 100px 0;">
@@ -317,12 +311,13 @@ export default {
   name: 'Quotation',
 
   components: {
-
+    
   },
 
   props: 
   {
     value: Boolean,
+    
   },
 
   methods: {
@@ -339,12 +334,47 @@ export default {
 
     },
 
-    async myCurrentMachine() {
-
-      var contentMachine = await this.$store.dispatch(`fetchCurrentMachine`, {
-        id: this.selectedMachine, 
+    async dispatchQuotation() {
+      //var getMyCurrentQuotation = JSON.parse(localStorage.getItem('selectedQuotation'));
+      
+      var thisQuotation = await this.$store.dispatch(`fetchQuotations`, {
+        selectedQuotation: this.$route.params.selectedQuotation, 
       });
-      console.log(contentMachine);
+      //console.log(thisQuotation);
+      return thisQuotation;
+
+    },
+
+    // async dispatchQuotation() {
+    //   //var getselQuot = JSON.parseInt(localStorage.getItem('selectedQuotation'));
+    //   //var getselQuot = localStorage.getItem('selectedQuotation');
+    //   var getselQuot = JSON.parse(window.localStorage.selectedQuotation);
+    //   console.log(typeof(getselQuot));
+      
+    //   var selectedQuotation = parseInt(getselQuot);
+    //     console.log(selectedQuotation);
+      
+    //   var thisQuotation = await this.$store.dispatch(`fetchQuotations`, {
+    //     selectedQuotation: this.$route.params.selectedQuotation, 
+    //   });
+    //   return thisQuotation;
+
+    // },
+
+    async myCurrentMachine() {
+      //let selectedMachine = JSON.parse(window.localStorage.selectedMachine);
+      //let selectedMachine = JSON.parse(localStorage.getItem('selectedMachine'));
+      // var machineJSON = localStorage.getItem('selectedMachine');
+      // var selectedMachine = machineJSON && JSON.parse(machineJSON);
+     //console.log(typeof(selectedMachine));
+
+      //let selectedMachine = localStorage.getItem('selectedMachine');
+      //var selectedMachine = JSON.parse(localStorage.getItem('selectedMachine'));
+      //console.log(typeof(selectedMachine));
+      var contentMachine = await this.$store.dispatch(`fetchCurrentMachine`, {
+        id: this.selectedMachine.id, 
+      });
+      
 
       return contentMachine;
     },
@@ -397,16 +427,37 @@ export default {
       return myContent;
     },
 
+    // storeSelectedQuotation() {
+    //   var selectedQuotation = this.$route.params.selectedQuotation;
+    //   console.log(selectedQuotation);
+    //   localStorage.setItem('selectedQuotation', this.selectedQuotation);
+    //   return selectedQuotation;
+    // },
+
     currentQuotations() {
-      var myCurrentQuotation = Object.assign({}, this.$store.state.quotations);
-      console.log(myCurrentQuotation);
-      localStorage.setItem('myCurrentQuotation', JSON.stringify(myCurrentQuotation));
-      return myCurrentQuotation;
+      var myCurrentQuotation = this.$store.state.quotations;
+      //var myCurrentQuotation = Object.assign({}, this.$store.state.quotations);
+      var myCurrentQuotation2 = myCurrentQuotation[0];
+      //console.log(myCurrentQuotation2);
+      //localStorage.setItem('myCurrentQuotation2', myCurrentQuotation2);
+      //localStorage.setItem('myCurrentQuotation2', JSON.stringify(myCurrentQuotation2));
+      //console.log(typeof(localStorage.setItem('myCurrentQuotation2', JSON.stringify(myCurrentQuotation2))));
+      return myCurrentQuotation2;
     },
 
+    // currentMachines() {
+    //   var myMachineContent = this.$store.state.machines;
+    //   return myMachineContent;
+    // },
+
     currentMachines() {
-      var myContent = this.$store.state.machines;
-      return myContent;
+      var myMachineContent = this.$store.state.machines;
+
+      // var myMachineInformation = myMachineContent[myMachineContent.length - 1];
+      // console.log(myMachineInformation)
+
+      //return myMachineInformation;
+      return myMachineContent;
     },
   },
 
@@ -418,6 +469,10 @@ export default {
     getValue: null,
     scored: null,
     content: {},
+    myCurrentQuotation2: {},
+    selectedMachine: {},
+    getMyCurrentQuotation: {},
+    currentMachine: [],
 
     //selectedQuotation: null,
 
@@ -447,7 +502,10 @@ export default {
     beforeMount() {
       this.$store.dispatch(`fetchIndicators`);
       //this.$store.dispatch(`fetchQuotation_Items`, this.$route.params.selectedQuotation);
-    
+
+      //localStorage.setItem('selectedQuotation', this.$route.params.selectedQuotation);
+      window.localStorage.selectedQuotation = JSON.stringify(this.$route.params.selectedQuotation);
+      //console.log(typeof(window.localStorage.selectedQuotation))
     },
 
 };

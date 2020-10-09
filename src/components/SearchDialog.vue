@@ -234,7 +234,7 @@
             color="green"
             outlined
             text
-            to="/quotation"
+            to="/quotation/:selectedQuotation"
           >
             OUI
           </v-btn>
@@ -427,7 +427,6 @@
                       </v-card-actions>
                     </v-form>
                   </v-col>
-                  <p>{{ selectedQuotation }}</p>
                   
                   <div class="global_score">
                     <p><strong>Score pondéré Machine : </strong></p>
@@ -449,7 +448,6 @@
               <!-- Button to display details of user quotation -->
               <div class="quotation_details my-2">
                 <v-col md="4" class="">
-                  <!-- to="/quotation-item/:quotation-itemId" -->
                 <v-btn small >Voir la cotation en détails<v-icon>more_horiz</v-icon></v-btn>
                 </v-col>
               </div>
@@ -546,7 +544,13 @@ export default {
      */
     previewMachine(machine) {
       this.selectedMachine = machine;
+      //localStorage.setItem('selectedMachine', this.selectedMachine.id);
+      //window.localStorage.selectedMachine = JSON.stringify(this.selectedMachine);
+      localStorage.setItem('selectedMachine', JSON.stringify(this.selectedMachine));
+      //console.log(typeof(localStorage.setItem('this.selectedMachine', JSON.stringify(this.selectedMachine))))
     },
+
+    
     /**
      * close quotation overview box
      */
@@ -654,11 +658,9 @@ export default {
 
     async fetchData () {
       this.selectedQuotation = null;
-      this.selectedMachine = null;
-      api.post(
-        this.$route.params.id,
-        this.$route.params.selectedMachine,
-         (err, post) => {
+      //this.selectedMachine = null;
+        //this.$route.params.selectedMachine.id,
+      api.post(this.$route.params.id, (err, post) => {
         if (post) {
           this.post = post;
         }
