@@ -2,8 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import About from '../views/About.vue';
-import Accueil from '../components/Accueil';
-import Relative from '../components/Relative';
+//import Relative from '../components/Relative';
 import Quotation from '../views/Quotation.vue';
 import AdminUserList from '../views/AdminUserList.vue';
 import User from '../components/User.vue';
@@ -69,16 +68,6 @@ const routes = [
     path: '/users',
     name: 'user-registration',
     component: UserRegistration,
-  },
-  {
-    path: '/accueil',
-    name: 'Accueil',
-    component: Accueil,
-  },
-  {
-    path: '/relative',
-    name: 'RelativeAccueil',
-    component: Relative,
   },
   {
     path: '/about',
