@@ -79,6 +79,9 @@ export default new Vuex.Store({
     SET_QUOTATION_ITEMS(state, quotation_items) {
       state.quotation_items = quotation_items;
     },
+    SHOW_QUOTATION_ITEMS(state, quotation_items) {
+      state.quotation_items = quotation_items;
+    },
     ADD_QUOTATION_ITEM(state, quotation_item) {
       state.quotation_items.push(quotation_item);
     },
@@ -162,6 +165,10 @@ export default new Vuex.Store({
     async fetchQuotations({ commit }, selectedQuotation) {
       const { data: quotations } = await api.get(`/quotation/${selectedQuotation}`);
       commit(`SET_QUOTATIONS`, quotations);
+    },
+    async fetchAllQuotation_ItemsByAQuotation({ commit }, selectedQuotation) {
+      const { data: quotations_items } = await api.get(`/quotation-items/quotation/${selectedQuotation}`);
+      commit(`SET_QUOTATION_ITEMS`, quotations_items);
     },
 
     // receive all my users registered and in particular current_user
@@ -280,15 +287,16 @@ export default new Vuex.Store({
       }
     },
 
-    fetchQuotation_Items({ commit }, {selectedQuotation, itemId}) {
-      api.get(`/quotation-items/quotation/${selectedQuotation}/${itemId}`, selectedQuotation, itemId).then(content => {
+    async fetchQuotation_Items({ commit }, {selectedQuotation, itemId}) {
+      await api.get(`/quotation-items/quotation/${selectedQuotation}/item/${itemId}`, selectedQuotation, itemId).then(content => {
         commit(`SET_QUOTATION_ITEMS`, content.data);
       }).catch(error => {
         throw(error);
 
       });
-
     },
+
+
   },
   getters: {
 

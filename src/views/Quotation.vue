@@ -17,6 +17,12 @@
         </v-col>
       </v-row>
     </div>
+    <p>showQuotation_ItemContent{{ showQuotation_ItemContent }}</p>
+    <p>synthesisQuotation_Item{{ synthesisQuotation_Item }}</p>
+    <!-- <p>synthesisQuotation_Item2{{ synthesisQuotation_Item2 }}</p> -->
+    <p>itemContent{{ itemContent }}</p>
+    <p>currentQuotations{{ currentQuotations }}</p>
+    <p>{{ this.$route.params.selectedQuotation }}</p>
 
     <!----------------------- END of HEADER -------------------->
 
@@ -85,7 +91,7 @@
                 <v-icon>cancel</v-icon>
             </v-btn>
 
-            <p>Synthèse</p>
+            <v-btn @click="showQuotation_ItemContent()">Synthèse</v-btn>
             
             <p>Score pondéré machine</p>
             <p>Score pondéré Efforts</p>
@@ -302,14 +308,14 @@ export default {
       return content;
     },
 
-    async dispatchQuotation() {
+    // async dispatchQuotation() {
       
-      var thisQuotation = await this.$store.dispatch(`fetchQuotations`, {
-        selectedQuotation: this.$route.params.selectedQuotation, 
-      });
+    //   var thisQuotation = await this.$store.dispatch(`fetchQuotations`, {
+    //     selectedQuotation: this.$route.params.selectedQuotation, 
+    //   });
 
-      return thisQuotation;
-    },
+    //   return thisQuotation;
+    // },
 
     async myCurrentMachine() {
       var contentMachine = await this.$store.dispatch(`fetchCurrentMachine`, {
@@ -342,6 +348,13 @@ export default {
 
     },
 
+    async showQuotation_ItemContent() {
+      var synthesisQuotation_Item = await this.$store.dispatch(`fetchAllQuotation_ItemsByAQuotation`, {
+        selectedQuotation: this.$route.params.selectedQuotation,
+      });
+      return synthesisQuotation_Item;
+    }
+
   },
 
   computed: {
@@ -365,6 +378,11 @@ export default {
       return myContent;
     },
 
+    // showQuotation_ItemContent2() {
+    //   var synthesisQuotation_Item2 = this.$store.state.quotation_items;
+    //   return synthesisQuotation_Item2;
+    // },
+
     currentQuotations() {
       var myCurrentQuotation = this.$store.state.quotations;
       var myCurrentQuotation2 = myCurrentQuotation[0];
@@ -378,12 +396,12 @@ export default {
       return myMachineContent;
     },
 
-    showQuotationItemContent(myContent) {
-      console.log(myContent)
+    // showQuotationItemContent(myContent) {
+    //   console.log(myContent)
 
-      //return quotationItemContent;
-      return myContent;
-    },
+    //   //return quotationItemContent;
+    //   return myContent;
+    // },
   },
 
   data: () => ({
@@ -398,6 +416,8 @@ export default {
     selectedMachine: {},
     getMyCurrentQuotation: {},
     currentMachine: [],
+    synthesisQuotation_Item: [],
+    //synthesisQuotation_Item2: [],
 
     concerned: false,
 
