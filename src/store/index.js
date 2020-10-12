@@ -5,7 +5,6 @@ import api from '@/lib/api';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import router from '../router';
-//import secret from './config.js';
 
 Vue.use(Vuex);
 
@@ -19,14 +18,13 @@ export default new Vuex.Store({
     indicators: [],
     quotations: [],
     quotation_items: [],
-    //items: [],
     users: [],
     currentUser: {},
     sessions: [],
-    //token: {},
+    token: {},
     status: '',
-      token: localStorage.getItem('token') || '',
-      user: {}
+    //token: JSON.parse(localStorage.getItem('token')) || '',
+    user: {}
   },
   mutations: {
     SET_COMPANIES(state, companies) {
@@ -81,7 +79,6 @@ export default new Vuex.Store({
     SET_QUOTATION_ITEMS(state, quotation_items) {
       state.quotation_items = quotation_items;
     },
-
     ADD_QUOTATION_ITEM(state, quotation_item) {
       state.quotation_items.push(quotation_item);
     },
@@ -97,26 +94,14 @@ export default new Vuex.Store({
     LOGOUT_USER(state) {
       state.currentUser = {};
       window.localStorage.currentUser = JSON.stringify({});
-      //window.localStorage.token = JSON.stringify({});
       state.status = '';
       state.token = '';
-      //alert("thank you for visiting");
     },
     // garde les infos dans le localStorage de l'utilisateur connecté
-    SET_CURRENT_USER(state, user, token) {
-      state.token = token;
+    SET_CURRENT_USER(state, user) {
       state.currentUser = user;
       window.localStorage.currentUser = JSON.stringify(user);
-      //window.localStorage.token = JSON.stringify(token);
-      localStorage.getItem('token', token);
-      //localStorage.setItem('token', token);
     },
-
-    // AUTH_SUCCESS(state, token, user){
-    //   state.status = 'success'
-    //   state.token = token
-    //   state.user = user
-    // },
 
     ADD_SESSION(state, session) {
       state.sessions.push(session);
@@ -127,24 +112,27 @@ export default new Vuex.Store({
   actions: {
 
     // GET
+    //méthode OK à décommenter tel quel
+    // async fetchCompanies({ commit }) {
+    //   try {
+    //     //var user = localStorage.getItem('currentUser');
+    //     var token = localStorage.getItem('token');
+    //     //if (localStorage.getItem('currentUser')) {
+    //       if (token) {
+    //       //console.log(user);
+    //       const { data: companies } = await api.get(`/companies`);
+    //       commit(`SET_COMPANIES`, companies);
+    //     } else {
+    //       alert("access denied");
+    //     }
+    //   } catch {
+    //     alert("you don't have authorization");
 
+    //   }
     async fetchCompanies({ commit }) {
-      try {
-        //var user = localStorage.getItem('currentUser');
-        var token = localStorage.getItem('token');
-        //if (localStorage.getItem('currentUser')) {
-          if (token) {
-          //console.log(user);
+      
           const { data: companies } = await api.get(`/companies`);
           commit(`SET_COMPANIES`, companies);
-        } else {
-          alert("access denied");
-        }
-      } catch {
-        alert("you don't have authorization");
-
-      }
-
     },
     async fetchSites({ commit }, companyId) {
       const { data: sites } = await api.get(`/sites/company/${companyId}`);
@@ -179,13 +167,10 @@ export default new Vuex.Store({
     async loadUsers({ commit }) {
       const { data: users } = await api.get(`/users`);
       commit(`SET_USERS`, users);
-      //commit(`SET_USERS`, users.map());
     },
 
     async loadCurrentUser({ commit }) {
       let user = JSON.parse(window.localStorage.currentUser);
-      //let token = JSON.parse(window.localStorage.token);
-      //console.log(user);
       commit(`SET_CURRENT_USER`, user);
     },
 
@@ -270,12 +255,14 @@ export default new Vuex.Store({
           
           //si combinaison OK => login !
         } else {
-          var token = jwt.sign({ id: user.id}, 'secret', { expiresIn: '1h' });
-          localStorage.setItem('token', token);
+          // token : 4 lignes à commenter + jwt import
+          var token = jwt.sign({ id: user.id}, 'secret', { expiresIn: '30' });
+          
+          //localStorage.setItem('token', JSON.stringify(token));
 
           commit('SET_CURRENT_USER', user, token);
 
-          return token;
+          return token /*user*/;
         }
     },
 
@@ -284,7 +271,6 @@ export default new Vuex.Store({
       try {
         let response = await api.post('/users', registrationInfo);
         let user = response.data;
-        //console.log(user);
 
         commit('SET_CURRENT_USER', user);
         return user;
@@ -293,8 +279,8 @@ export default new Vuex.Store({
       }
     },
 
-    /*async*/ fetchQuotation_Items({ commit }, {selectedQuotation, itemId}) {
-      /*await*/ api.get(`/quotation-items/quotation/${selectedQuotation}/${itemId}`, selectedQuotation, itemId).then(content => {
+    fetchQuotation_Items({ commit }, {selectedQuotation, itemId}) {
+      api.get(`/quotation-items/quotation/${selectedQuotation}/${itemId}`, selectedQuotation, itemId).then(content => {
         commit(`SET_QUOTATION_ITEMS`, content.data);
       }).catch(error => {
         throw(error);

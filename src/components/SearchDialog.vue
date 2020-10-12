@@ -544,10 +544,7 @@ export default {
      */
     previewMachine(machine) {
       this.selectedMachine = machine;
-      //localStorage.setItem('selectedMachine', this.selectedMachine.id);
-      //window.localStorage.selectedMachine = JSON.stringify(this.selectedMachine);
       localStorage.setItem('selectedMachine', JSON.stringify(this.selectedMachine));
-      //console.log(typeof(localStorage.setItem('this.selectedMachine', JSON.stringify(this.selectedMachine))))
     },
 
     
@@ -579,7 +576,6 @@ export default {
     },
 
     async addSite() {
-      //this.isCreatingSite = true;
       const site = await this.$store.dispatch(`addSite`, {
         name: this.newSiteName,
         address: this.newSiteAddress,
@@ -651,15 +647,13 @@ export default {
       });
 
       this.selectedQuotation = quotation.id;
-      this.$router.push({ path:`/user/quotation/${this.selectedQuotation}`});
+      this.$router.push({ path:`/user/quotation/${this.selectedQuotation}`}); // enable to send quotation.id to new path: `/user/quotation/:quotationId`
     },
 
 
 
     async fetchData () {
       this.selectedQuotation = null;
-      //this.selectedMachine = null;
-        //this.$route.params.selectedMachine.id,
       api.post(this.$route.params.id, (err, post) => {
         if (post) {
           this.post = post;
@@ -730,7 +724,7 @@ export default {
       }
       return _.concat([], machines);
     },
-    /*
+    /* need to be mix with method same name filteredMachines() below
     filteredMachines() {
       if (!this.searchMachine) {
         return this.$store.state.machines;
@@ -759,7 +753,6 @@ export default {
   },
 
   data: () => ({
-    //message: 'This is a great message!',
     resQuotation: null,
 
     show: false,
@@ -776,7 +769,6 @@ export default {
     newSitePostalCode: 0,
     newSiteCity: ``,
     selectedSite: null,
-    //newSiteCompanyId: null,
 
     createAreaDialog: false,
     isCreatingArea: false,
@@ -794,7 +786,6 @@ export default {
 
     selectedMachine: null,
     selectedQuotation: null,
-    //dateToday: ``,
 
     ifQuotationOnMachineDialog: false,
 
@@ -825,7 +816,7 @@ export default {
  * Si l'id=-1 alors je peux créer une nouvelle entreprise et me génère une boîte de dialogue
  */
   watch: {
-    selectedCompany (companyId/*, oldVal*/) {
+    selectedCompany (companyId) {
       if (companyId === -1) {
         this.createCompanyDialog = true;
       } else if (companyId) {
@@ -834,10 +825,7 @@ export default {
         this.$store.dispatch(`fetchProduction_lines`, companyId);
         this.$store.dispatch(`fetchMachines`, companyId);
 
-        //console.log(`old value ${oldVal}, new value ${companyId}`);
-        //const companyName = _.filter(companyId, {companies : company.name});
       }
-      //return companyName;
     },
     selectedSite (siteId) {
       if (siteId === -1) {
@@ -856,7 +844,6 @@ export default {
     },
     selectedMachine () {
       this.currentQuotation = this.quotations[2];
-      //return id;
     },
 
     '$route': 'fetchData'
@@ -866,7 +853,6 @@ export default {
     this.$store.dispatch(`fetchCompanies`);
   },
 };
-//module.exports = SearchDialog;
 
 
 </script>
@@ -892,10 +878,6 @@ export default {
 }
 
 @media screen and (max-width: 648px) {
-  /* .cards {
-    display: flex;
-    flex-direction: column;
-  } */
     .filters {
       max-width: 100%;
   }

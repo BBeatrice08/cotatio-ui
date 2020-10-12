@@ -19,7 +19,10 @@ const routes = [
     name: 'user',
     component: User,
     beforeEnter(to, from, next) {
-      let token = localStorage.getItem('token', token)
+      console.log("ici");
+      //let token = JSON.parse(localStorage.getItem('token'));
+      let token = JSON.parse(window.localStorage.token);
+      console.log(typeof(token));
       //let token = JSON.parse(window.localStorage.token);
       if(token) {
         //let currentUser = JSON.parse(window.localStorage.currentUser);
@@ -28,15 +31,14 @@ const routes = [
           next();
         
 
-        } else {
-          next("/"); 
-          location.reload();
-          localStorage.reload().removeItem('currentUser');
-          localStorage.removeAll();
-          localStorage.removeItem('token');
-          localStorage.clear();
+      } else {
+        next("/"); 
+        //location.reload();
+        localStorage.removeItem('token');
+        //localStorage.removeItem('currentUser');
+        //localStorage.clear();
 
-        }
+      }
       //}
     },
     children: [
@@ -44,9 +46,6 @@ const routes = [
         path: 'home',
         name: 'Home',
         component: Home,
-        // meta: {
-        //   requiresAuth: true,
-        // }
       },  
       {
         path:'admin/users',

@@ -6,306 +6,276 @@
       <v-row no-gutters >
         <v-col>
           <v-card-title >
-            <v-toolbar v-for="currentMachine in currentMachines" :key="currentMachine.id">
+            <!-- <v-toolbar v-for="currentMachine in currentMachines" :key="currentMachine.id">
               <v-card-title>{{ currentMachine.production_line.area.site.company.name }} / {{ currentMachine.production_line.area.site.name }} / {{ currentMachine.production_line.area.name }} / {{ currentMachine.production_line.name }} / {{ currentMachine.name }} </v-card-title>
-            </v-toolbar>
+            </v-toolbar> -->
             <v-spacer></v-spacer>
             <v-toolbar>
-              <v-card-title>Synthèse du : {{ currentQuotations.date }}</v-card-title>
+              <!-- <v-card-title>Synthèse du : {{ currentQuotations.date }}</v-card-title> -->
             </v-toolbar>
           </v-card-title>
         </v-col>
       </v-row>
     </div>
 
-    <p>currentMachine: {{currentMachines }}</p>
-
     <!----------------------- END of HEADER -------------------->
 
     <!--------------------------- BODY ---------------------------->
     <v-row no-gutters>
-      <!-- <v-col cols="12" sm="12" class="page_center d-flex flex-row"> -->
-        <!-- <v-card class="page_center d-flex flex-row"> -->
 
-          <!-- On side, menu to navigation between the differents indicators/items -->
-          <!-- <div class="indicators_menu"> -->
+      <!-- On side, menu to navigation between the differents indicators/items -->
+      <v-col class="menu" no-gutters  sm="4">
+        <v-card class="menu_card" max-width= "300px">
+          <v-toolbar
+            color="teal"
+            dark
+          >
+            <v-toolbar-title>Indicateurs / Items</v-toolbar-title>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+          <v-list >
+            <v-list-group
+              v-for="indicator in indicatorsMenu"
+              :key="indicator.id"
+              :name="indicator.name"
+            >
+              <template v-slot:activator >
+                  <v-list-item-title >{{ indicator.name }}</v-list-item-title>
+              </template>
 
-            <v-col class="menu" no-gutters  sm="4">
-                <v-card class="menu_card" max-width= "300px">
-                  <v-toolbar
-                    color="teal"
-                    dark
-                  >
-                    <v-toolbar-title>Indicateurs / Items</v-toolbar-title>
-                    <v-spacer></v-spacer>
-                  </v-toolbar>
-                  <v-list >
-                    <v-list-group
-                      v-for="indicator in indicatorsMenu"
-                      :key="indicator.id"
-                      :name="indicator.name"
-                    >
-                      <template v-slot:activator >
-                          <v-list-item-title >{{ indicator.name }}</v-list-item-title>
-                      </template>
-
-                      <v-list-group
-                        v-for="group in indicator.groups"
-                        :key="group.id"
-                        :name="group.name"
-                        no-action
-                        sub-group
-                      >
-                        <template v-slot:activator >
-                          <v-list-item-content>
-                            <v-list-item-title>{{ group.name }}</v-list-item-title>
-                          </v-list-item-content>
-                        </template>
-
-                        <v-list-item
-                          v-for="item in group.items"
-                          :key="item.id"
-                          :class="{ active: selectedItem && selectedItem.id === item.id }" @click="previewItem(item);"                          
-                        >
-                          <v-tooltip right>
-                            <template v-slot:activator="{ on }">
-                              <v-icon v-on="on">help</v-icon>
-                            </template>
-                            <span>{{ item.name }}</span>
-                          </v-tooltip>
-
-                            <v-list-item-title class="ml-2">{{ item.name }}</v-list-item-title>                        
-                        </v-list-item>
-                      </v-list-group>
-                    </v-list-group>
-                  </v-list>
-                </v-card>
-            </v-col>
-          <!-- </div> -->
-
-          <!-- All the informations to complete the quotation -->
-          <v-col class="quotation_form" sm="">
-
-            <template v-if="selectedItem && selectedItem.name=='Synthèse'">
-              <v-col class="column_1">
-              <v-btn icon @click="closePreviewItem()">
-                  <v-icon>cancel</v-icon>
-              </v-btn>
-              <p>Synthèse</p>
-              
-              <p>Score pondéré machine</p>
-              <p>Score pondéré Efforts</p>
-              <p>Score pondéré Dimensionnement</p>
-              <p>Score pondéré Temporel</p>
-              <p>Score pondéré Environnement</p>
-              <p>Score pondéré Organisation</p>
-
-              <div class="scoring_table d-flex flex-row justify-end" v-if="true">
-                <!-- To display the table of score scale -->
-                <template>
-                  <div class="text-center">
-                    <v-menu offset-y>
-                      <template v-slot:activator="{ on }">
-                        <v-btn
-                          color="blue-grey darken-3"
-                          dark
-                          v-on="on"
-                          class="pr-0 mr-2"
-                        >
-                          Echelle des scores
-                          <v-icon>arrow_drop_down</v-icon>
-                        </v-btn>
-                      </template>
-                      <v-list>
-                        <v-col pl-4>Score minimal = 100</v-col>
-                        <v-list-item
-                          v-for="(scores, index) in scores"
-                          :key="index"
-                        >
-                          <v-list-item-title>{{ scores.title }} : <v-icon :color= scores.color >label</v-icon> {{ scores.valeur }}</v-list-item-title>
-
-                        </v-list-item>
-                        <v-col pl-4>Score maximal = 1000</v-col>
-                      </v-list>
-                    </v-menu>
-                  </div>
+              <v-list-group
+                v-for="group in indicator.groups"
+                :key="group.id"
+                :name="group.name"
+                no-action
+                sub-group
+              >
+                <template v-slot:activator >
+                  <v-list-item-content>
+                    <v-list-item-title>{{ group.name }}</v-list-item-title>
+                  </v-list-item-content>
                 </template>
-              </div>
-              </v-col>
-            </template>
 
-            <template v-else-if="selectedItem && selectedItem.name!='Synthèse' && itemContent == 0">
-              <v-col class="column_2">
-              <v-form @submit.prevent="addQuotation_Item()" >
-
-                <div class="item_title d-flex flex-row">
-                  <v-list-item>{{ selectedItem.name }}</v-list-item>
-                  <v-list-item>{{ selectedItem.id }}</v-list-item>
-                  <v-tooltip bottom max-width="800px">
+                <v-list-item
+                  v-for="item in group.items"
+                  :key="item.id"
+                  :class="{ active: selectedItem && selectedItem.id === item.id }" @click="previewItem(item);"                          
+                >
+                  <v-tooltip right>
                     <template v-slot:activator="{ on }">
                       <v-icon v-on="on">help</v-icon>
                     </template>
-                    <span>{{ selectedItem.description }}</span>
+                    <span>{{ item.name }}</span>
                   </v-tooltip>
-                  <v-spacer></v-spacer>
-                  <v-btn icon @click="closePreviewItem()">
-                    <v-icon>cancel</v-icon>
-                  </v-btn>
-                </div>
 
-                <div class="is_concerned">
-                  <v-checkbox
-                    v-model="concerned"
-                    :label="`Non concerné`"
-                    false
-                  ></v-checkbox>
-                  <span>{{ concerned }}</span>
-                </div>
+                    <v-list-item-title class="ml-2">{{ item.name }}</v-list-item-title>                        
+                </v-list-item>
+              </v-list-group>
+            </v-list-group>
+          </v-list>
+        </v-card>
+      </v-col>
 
-                <form>
-                  <div class="global_rating d-flex flex-row justify-center" style="padding: 100px 0;">
+      <!-- All the informations to complete the quotation -->
+      <v-col class="quotation_form" sm="">
 
-                    <div class="rating" >
+        <template v-if="selectedItem && selectedItem.name=='Synthèse'">
+          <v-col class="column_1">
+            <v-btn icon @click="closePreviewItem()">
+                <v-icon>cancel</v-icon>
+            </v-btn>
 
-                      <v-btn :disabled="concerned" id="btn_1" fab small>
-                        <h2>0</h2>
-                      </v-btn>
-                      <input type="radio" :disabled="concerned" name="rank" id="one" value="0" v-model="scored" />
-                      <label for="one" class="mt-3">{{selectedItem.score_label_1}}</label>
-                    </div>
-
-                    <div class="rating">
-                      <v-btn :disabled="concerned" id="btn_2" fab small>
-                        <h2>+</h2>
-                      </v-btn>
-                      <input type="radio" :disabled="concerned" name="rank" id="two" value="1" v-model="scored" />
-                      <label for="two" class="mt-3">{{selectedItem.score_label_2}}</label>
-                    </div>
-
-                    <div class="rating">
-                      <v-btn :disabled="concerned" id="btn_3" fab small>
-                        <h2>++</h2>
-                      </v-btn>
-                      <input type="radio" :disabled="concerned" name="rank" value="2" v-model="scored" />
-                      <p class="mt-3">{{selectedItem.score_label_3}}</p>
-                    </div>
-
-                    <div class="rating">
-                      <v-btn :disabled="concerned" id="btn_4" fab small>
-                        <h2>+++</h2>
-                      </v-btn>
-                      <input type="radio" :disabled="concerned" name="rank" value="3" v-model="scored" />
-                      <p class="mt-3">{{selectedItem.score_label_4}}</p>
-                    </div>
-
-                    <!-- <div>
-                    <input type="radio" :disabled="concerned" name="rank" value=" " v-model="scored" />
-                      <p class="mt-3">none</p>
-                    </div> -->
-                  </div>
-                </form>
-
-                <v-card-actions>
-                  <v-btn rounded small type="submit" ><v-icon>done</v-icon>Valider</v-btn>
-                </v-card-actions>
-
-                <div class="add_comment">
-                  <v-expansion-panels>
-                    <v-expansion-panel style="height:200px; width:350px;">
-                      <v-expansion-panel-header>
-                        <template v-slot:default="{ open }">
-                          <v-row class="d-flex align-center" >
-                            <v-col
-                              cols="12"
-                              class="text--secondary"
-
-                            >
-                              <v-toolbar flat>
-                                <v-icon>add_comment</v-icon><h4>Ajouter un commentaire</h4>
-                                <v-spacer></v-spacer>
-                              </v-toolbar>
-                              <v-fade-transition leave-absolute>
-                                <span
-                                  v-if="open"
-                                  key="1"
-                                >
-                                </span>
-                              </v-fade-transition>
-                            </v-col>
-                          </v-row>
-                        </template>
-                      </v-expansion-panel-header>
-                      <v-expansion-panel-content ma-5>
-                        <div class="d-flex flex-row ma-5">
-                          <v-text-field
-                            v-model="newQuotationItemComment"
-                            placeholder="Nouveau commentaire"
-                          ></v-text-field>
-                          <!-- <v-card-actions class="pa-0 ml-5">
-                            <v-btn
-                            text
-                            color="primary"
-                            >
-                            Valider
-                            </v-btn>
-                          </v-card-actions> -->
-                        </div>
-                      </v-expansion-panel-content>
-                    </v-expansion-panel>
-                  </v-expansion-panels>
-                </div>                
-
-              </v-form>
-              <!-- </template> -->
-              </v-col>
-            </template>
-
-            <template v-else-if="selectedItem && selectedItem.name!='Synthèse' && itemContent !== 0">
-
-              <p>Sur cet item, les éléments déjà renseignés sont :</p>
-              <v-list-item
-                v-for="content in itemContent"
-                :key="content.id"
-                >
-              
-              <v-card
-                class="mx-auto"
-              >
-                <v-card-text>
-                  <!-- <div>Word of the Day</div> -->
-                  <p class="display-1 text--primary">
-                    {{selectedItem.name}} {{selectedItem.id}}
-                  </p>
-                  <p>Est-il concerné: {{content.isConcerned}}</p>
-                  <h4>Score enregistré :{{content.score}}</h4>
-                  <p>Commentaire: {{content.comment}}</p>
-                  <!-- <div class="text--primary">
-                    well meaning and kindly.<br>
-                    "a benevolent smile"
-                  </div> -->
-                </v-card-text>
-                <v-card-actions>
-                  <v-btn
-                    text
-                    color="deep-purple accent-4"
-                  >
-                    Learn More
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-list-item>
-            </template>
+            <p>Synthèse</p>
             
+            <p>Score pondéré machine</p>
+            <p>Score pondéré Efforts</p>
+            <p>Score pondéré Dimensionnement</p>
+            <p>Score pondéré Temporel</p>
+            <p>Score pondéré Environnement</p>
+            <p>Score pondéré Organisation</p>
+
+            <div class="scoring_table d-flex flex-row justify-end" v-if="true">
+              <!-- To display the table of score scale -->
+              <template>
+                <div class="text-center">
+                  <v-menu offset-y>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        color="blue-grey darken-3"
+                        dark
+                        v-on="on"
+                        class="pr-0 mr-2"
+                      >
+                        Echelle des scores
+                        <v-icon>arrow_drop_down</v-icon>
+                      </v-btn>
+                    </template>
+                    <v-list>
+                      <v-col pl-4>Score minimal = 100</v-col>
+                      <v-list-item
+                        v-for="(scores, index) in scores"
+                        :key="index"
+                      >
+                        <v-list-item-title>{{ scores.title }} : <v-icon :color= scores.color >label</v-icon> {{ scores.valeur }}</v-list-item-title>
+
+                      </v-list-item>
+                      <v-col pl-4>Score maximal = 1000</v-col>
+                    </v-list>
+                  </v-menu>
+                </div>
+              </template>
+            </div>
           </v-col>
-        <!-- </v-card>         -->
-      <!-- </v-col> -->
+        </template>
+
+        <template v-else-if="selectedItem && selectedItem.name!='Synthèse' && itemContent == 0">
+          <v-col class="column_2">
+            <v-form @submit.prevent="addQuotation_Item()" >
+
+              <div class="item_title d-flex flex-row">
+                <v-list-item>{{ selectedItem.name }}</v-list-item>
+                <v-list-item>{{ selectedItem.id }}</v-list-item>
+                <v-tooltip bottom max-width="800px">
+                  <template v-slot:activator="{ on }">
+                    <v-icon v-on="on">help</v-icon>
+                  </template>
+                  <span>{{ selectedItem.description }}</span>
+                </v-tooltip>
+
+                <v-spacer></v-spacer>
+
+                <v-btn icon @click="closePreviewItem()">
+                  <v-icon>cancel</v-icon>
+                </v-btn>
+              </div>
+
+              <div class="is_concerned">
+                <v-checkbox
+                  v-model="concerned"
+                  :label="`Non concerné`"
+                  false
+                ></v-checkbox>
+                <span>{{ concerned }}</span>
+              </div>
+
+              <form>
+                <div class="global_rating d-flex flex-row justify-center" style="padding: 100px 0;">
+
+                  <div class="rating">
+                    <v-btn :disabled="concerned" id="btn_1" fab small>
+                      <h2>0</h2>
+                    </v-btn>
+                    <input type="radio" :disabled="concerned" name="rank" id="one" value="0" v-model="scored" />
+                    <label for="one" class="mt-3">{{selectedItem.score_label_1}}</label>
+                  </div>
+
+                  <div class="rating">
+                    <v-btn :disabled="concerned" id="btn_2" fab small>
+                      <h2>+</h2>
+                    </v-btn>
+                    <input type="radio" :disabled="concerned" name="rank" id="two" value="1" v-model="scored" />
+                    <label for="two" class="mt-3">{{selectedItem.score_label_2}}</label>
+                  </div>
+
+                  <div class="rating">
+                    <v-btn :disabled="concerned" id="btn_3" fab small>
+                      <h2>++</h2>
+                    </v-btn>
+                    <input type="radio" :disabled="concerned" name="rank" value="2" v-model="scored" />
+                    <label class="mt-3">{{selectedItem.score_label_3}}</label>
+                  </div>
+
+                  <div class="rating">
+                    <v-btn :disabled="concerned" id="btn_4" fab small>
+                      <h2>+++</h2>
+                    </v-btn>
+                    <input type="radio" :disabled="concerned" name="rank" value="3" v-model="scored" />
+                    <label class="mt-3">{{selectedItem.score_label_4}}</label>
+                  </div>
+
+                </div>
+              </form>
+
+              <v-card-actions>
+                <v-btn rounded small type="submit" ><v-icon>done</v-icon>Valider</v-btn>
+              </v-card-actions>
+
+              <div class="add_comment">
+                <v-expansion-panels>
+                  <v-expansion-panel style="height:200px; width:350px;">
+                    <v-expansion-panel-header>
+                      <template v-slot:default="{ open }">
+                        <v-row class="d-flex align-center" >
+                          <v-col
+                            cols="12"
+                            class="text--secondary"
+
+                          >
+                            <v-toolbar flat>
+                              <v-icon>add_comment</v-icon><h4>Ajouter un commentaire</h4>
+                              <v-spacer></v-spacer>
+                            </v-toolbar>
+                            <v-fade-transition leave-absolute>
+                              <span
+                                v-if="open"
+                                key="1"
+                              >
+                              </span>
+                            </v-fade-transition>
+                          </v-col>
+                        </v-row>
+                      </template>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content ma-5>
+                      <div class="d-flex flex-row ma-5">
+                        <v-text-field
+                          v-model="newQuotationItemComment"
+                          placeholder="Nouveau commentaire"
+                        ></v-text-field>
+                      </div>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </div>                
+
+            </v-form>
+          </v-col>
+        </template>
+
+        <template v-else-if="selectedItem && selectedItem.name!='Synthèse' && itemContent !== 0">
+
+          <p>Sur cet item, les éléments déjà renseignés sont :</p>
+          <v-list-item
+            v-for="content in itemContent"
+            :key="content.id"
+            >          
+            <v-card class="mx-auto">
+              <v-card-text>
+                <p class="display-1 text--primary">
+                  {{selectedItem.name}} {{selectedItem.id}}
+                </p>
+                <p>Est-il concerné: {{content.isConcerned}}</p>
+                <h4>Score enregistré :{{content.score}}</h4>
+                <p>Commentaire: {{content.comment}}</p>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn
+                  text
+                  color="deep-purple accent-4"
+                >
+                  Learn More
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-list-item>
+        </template>        
+      </v-col>
     </v-row>
   </v-app>
 </template>
 
 <script>
 import _ from "lodash";
-//import api from '@/lib/api';
 
 export default {
   name: 'Quotation',
@@ -326,55 +296,25 @@ export default {
       this.selectedItem = item;
       var content = await this.$store.dispatch(`fetchQuotation_Items`, {
         selectedQuotation: this.$route.params.selectedQuotation, 
-        //itemId: item.id,
         itemId: this.selectedItem.id,
       });
 
       return content;
-
     },
 
     async dispatchQuotation() {
-      //var getMyCurrentQuotation = JSON.parse(localStorage.getItem('selectedQuotation'));
       
       var thisQuotation = await this.$store.dispatch(`fetchQuotations`, {
         selectedQuotation: this.$route.params.selectedQuotation, 
       });
-      //console.log(thisQuotation);
-      return thisQuotation;
 
+      return thisQuotation;
     },
 
-    // async dispatchQuotation() {
-    //   //var getselQuot = JSON.parseInt(localStorage.getItem('selectedQuotation'));
-    //   //var getselQuot = localStorage.getItem('selectedQuotation');
-    //   var getselQuot = JSON.parse(window.localStorage.selectedQuotation);
-    //   console.log(typeof(getselQuot));
-      
-    //   var selectedQuotation = parseInt(getselQuot);
-    //     console.log(selectedQuotation);
-      
-    //   var thisQuotation = await this.$store.dispatch(`fetchQuotations`, {
-    //     selectedQuotation: this.$route.params.selectedQuotation, 
-    //   });
-    //   return thisQuotation;
-
-    // },
-
     async myCurrentMachine() {
-      //let selectedMachine = JSON.parse(window.localStorage.selectedMachine);
-      //let selectedMachine = JSON.parse(localStorage.getItem('selectedMachine'));
-      // var machineJSON = localStorage.getItem('selectedMachine');
-      // var selectedMachine = machineJSON && JSON.parse(machineJSON);
-     //console.log(typeof(selectedMachine));
-
-      //let selectedMachine = localStorage.getItem('selectedMachine');
-      //var selectedMachine = JSON.parse(localStorage.getItem('selectedMachine'));
-      //console.log(typeof(selectedMachine));
       var contentMachine = await this.$store.dispatch(`fetchCurrentMachine`, {
         id: this.selectedMachine.id, 
-      });
-      
+      });      
 
       return contentMachine;
     },
@@ -383,9 +323,8 @@ export default {
       this.selectedItem = null;
     },
 
-    async addQuotation_Item() {      
-
-      /*const quotation_item =*/ await this.$store.dispatch(`addQuotation_Item`, {
+    async addQuotation_Item() {
+      await this.$store.dispatch(`addQuotation_Item`, {
         if (isConcerned = true) {
           this.concerned = isConcerned;
           this.score = this.scored;
@@ -400,7 +339,6 @@ export default {
         
       });
       this.newQuotationItemComment = ``;
-      //this.selectedQuotationItem = 1;
 
     },
 
@@ -427,37 +365,24 @@ export default {
       return myContent;
     },
 
-    // storeSelectedQuotation() {
-    //   var selectedQuotation = this.$route.params.selectedQuotation;
-    //   console.log(selectedQuotation);
-    //   localStorage.setItem('selectedQuotation', this.selectedQuotation);
-    //   return selectedQuotation;
-    // },
-
     currentQuotations() {
       var myCurrentQuotation = this.$store.state.quotations;
-      //var myCurrentQuotation = Object.assign({}, this.$store.state.quotations);
       var myCurrentQuotation2 = myCurrentQuotation[0];
-      //console.log(myCurrentQuotation2);
-      //localStorage.setItem('myCurrentQuotation2', myCurrentQuotation2);
-      //localStorage.setItem('myCurrentQuotation2', JSON.stringify(myCurrentQuotation2));
-      //console.log(typeof(localStorage.setItem('myCurrentQuotation2', JSON.stringify(myCurrentQuotation2))));
+
       return myCurrentQuotation2;
     },
-
-    // currentMachines() {
-    //   var myMachineContent = this.$store.state.machines;
-    //   return myMachineContent;
-    // },
 
     currentMachines() {
       var myMachineContent = this.$store.state.machines;
 
-      // var myMachineInformation = myMachineContent[myMachineContent.length - 1];
-      // console.log(myMachineInformation)
-
-      //return myMachineInformation;
       return myMachineContent;
+    },
+
+    showQuotationItemContent(myContent) {
+      console.log(myContent)
+
+      //return quotationItemContent;
+      return myContent;
     },
   },
 
@@ -473,8 +398,6 @@ export default {
     selectedMachine: {},
     getMyCurrentQuotation: {},
     currentMachine: [],
-
-    //selectedQuotation: null,
 
     concerned: false,
 
@@ -501,11 +424,8 @@ export default {
 
     beforeMount() {
       this.$store.dispatch(`fetchIndicators`);
-      //this.$store.dispatch(`fetchQuotation_Items`, this.$route.params.selectedQuotation);
 
-      //localStorage.setItem('selectedQuotation', this.$route.params.selectedQuotation);
       window.localStorage.selectedQuotation = JSON.stringify(this.$route.params.selectedQuotation);
-      //console.log(typeof(window.localStorage.selectedQuotation))
     },
 
 };
@@ -565,8 +485,6 @@ export default {
 }
 
 .menu_card {
-  /* min-width: 300px;
-  max-width: 300px; */
   width: 300px;
 }
 
