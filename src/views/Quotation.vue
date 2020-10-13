@@ -17,12 +17,7 @@
         </v-col>
       </v-row>
     </div>
-    <p>showQuotation_ItemContent{{ showQuotation_ItemContent }}</p>
-    <p>synthesisQuotation_Item{{ synthesisQuotation_Item }}</p>
-    <!-- <p>synthesisQuotation_Item2{{ synthesisQuotation_Item2 }}</p> -->
-    <p>itemContent{{ itemContent }}</p>
-    <p>currentQuotations{{ currentQuotations }}</p>
-    <p>{{ this.$route.params.selectedQuotation }}</p>
+    <p>{{ itemContent }}</p>
 
     <!----------------------- END of HEADER -------------------->
 
@@ -91,7 +86,9 @@
                 <v-icon>cancel</v-icon>
             </v-btn>
 
-            <v-btn @click="showQuotation_ItemContent()">Synthèse</v-btn>
+            <v-btn @click="showQuotation_ItemContent()" :value="machineScore">Générer la synthèse</v-btn>
+            <p>totalItem : {{ totalItem }}</p>
+            <p>machineScore : {{ machineScore }}</p>
             
             <p>Score pondéré machine</p>
             <p>Score pondéré Efforts</p>
@@ -349,13 +346,28 @@ export default {
     },
 
     async showQuotation_ItemContent() {
-      var synthesisQuotation_Item = await this.$store.dispatch(`fetchAllQuotation_ItemsByAQuotation`, {
-        selectedQuotation: this.$route.params.selectedQuotation,
-      });
-      return synthesisQuotation_Item;
-    }
+      var thisQuotation = JSON.parse(window.localStorage.selectedQuotation);
+      var myQuotation = parseInt(thisQuotation, 10);
+      var synthesisQuotation_Item = await this.$store.dispatch(`fetchAllQuotation_ItemsByAQuotation`, 
+        myQuotation,
+      );
+      // console.log(synthesisQuotation_Item);
+      // let scoreTotal = 0;
+      // for(let i=0; i < synthesisQuotation_Item.length; i++){
+      //   //for(let k=0; k < myContent.score; k++){
 
+      //     if (synthesisQuotation_Item[i]){
+      //       scoreTotal ++
+      //       console.log(typeof(scoreTotal));
+      //     }
+      //   }
+      //   return scoreTotal;
+      // }
+      return synthesisQuotation_Item;
+    },
   },
+
+  
 
   computed: {
 
@@ -376,6 +388,30 @@ export default {
     itemContent() {
       var myContent = this.$store.state.quotation_items;
       return myContent;
+    },
+
+    machineScore() {
+
+      var forArray = this.$store.state.quotation_items;
+      //var a = [];
+
+      var totalItem = Object.keys(forArray).map((key) => [Number(key), forArray[key]]);
+      //var totalItem = a.push(forArray);
+      
+      console.log(totalItem);
+
+      let scoreTotal = 0;
+      for(let i=0; i < totalItem.length; i++){
+        for(let k=0; k < totalItem.score; k++){
+
+          if (totalItem.score[k]){
+            scoreTotal = totalItem.score + scoreTotal;
+            console.log(typeof(scoreTotal));
+            console.log(scoreTotal);
+          }
+        }
+      }
+      return scoreTotal;
     },
 
     // showQuotation_ItemContent2() {
@@ -418,6 +454,7 @@ export default {
     currentMachine: [],
     synthesisQuotation_Item: [],
     //synthesisQuotation_Item2: [],
+    totalItem: {},
 
     concerned: false,
 
