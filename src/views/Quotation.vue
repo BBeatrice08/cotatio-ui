@@ -5,19 +5,20 @@
     <div class="header d-flex flex-row justify-space-around my-3">
       <v-row no-gutters >
         <v-col>
-          <v-card-title >
-            <!-- <v-toolbar v-for="currentMachine in currentMachines" :key="currentMachine.id">
-              <v-card-title>{{ currentMachine.production_line.area.site.company.name }} / {{ currentMachine.production_line.area.site.name }} / {{ currentMachine.production_line.area.name }} / {{ currentMachine.production_line.name }} / {{ currentMachine.name }} </v-card-title>
-            </v-toolbar> -->
-            <v-spacer></v-spacer>
-            <v-toolbar>
-              <!-- <v-card-title>Synthèse du : {{ currentQuotations.date }}</v-card-title> -->
+          <!-- <v-card-title >
+            <v-toolbar v-for="currentMachine in currentMachines" :key="currentMachine.id">
+              <v-card-title>Entreprise : / Site : / Secteur : / Ligne de production : / Machine : </v-card-title>
+              <v-btn @click="myCurrentMachine()">myCurrentMachine :</v-btn>
+              <v-card-title>Entreprise : {{ currentMachine.production_line.area.site.company.name }} / Site : {{ currentMachine.production_line.area.site.name }} / Secteur : {{ currentMachine.production_line.area.name }} / Ligne de production : {{ currentMachine.production_line.name }} / Machine : {{ currentMachine.name }} </v-card-title>
             </v-toolbar>
-          </v-card-title>
+            <v-spacer></v-spacer>
+            <v-toolbar v-for="currentQuotation in currentQuotations" :key="currentQuotation.id">
+              <v-card-title>Synthèse du : {{ currentQuotation.date }}</v-card-title>
+            </v-toolbar>
+          </v-card-title> -->
         </v-col>
       </v-row>
-    </div>
-    <p>{{ itemContent }}</p>
+    </div>    
 
     <!----------------------- END of HEADER -------------------->
 
@@ -297,8 +298,10 @@ export default {
 
     async previewItem(item) {
       this.selectedItem = item;
-      var content = await this.$store.dispatch(`fetchQuotation_Items`, {
-        selectedQuotation: this.$route.params.selectedQuotation, 
+      var getQuotationId = JSON.parse(window.localStorage.selectedQuotation);
+      var selectedQuotation = parseInt(getQuotationId, 10);
+      var content = await this.$store.dispatch(`fetchQuotation_Items`, { 
+        selectedQuotation,
         itemId: this.selectedItem.id,
       });
 
@@ -315,11 +318,21 @@ export default {
     // },
 
     async myCurrentMachine() {
-      var contentMachine = await this.$store.dispatch(`fetchCurrentMachine`, {
-        id: this.selectedMachine.id, 
-      });      
+      //var getMachineId = JSON.parse(window.localStorage.selectedMachine);
+      var getMachineId = JSON.parse(localStorage.getItem('selectedMachine'));
+      var selectedMachineId = parseInt(getMachineId.id, 10)
+      var contentMachine = await this.$store.dispatch(`fetchCurrentMachine`, selectedMachineId);      
 
       return contentMachine;
+    },
+
+    async myCurrentQuotation() {
+      var getQuotationId = JSON.parse(window.localStorage.selectedQuotation);
+      var selectedQuotationId = parseInt(getQuotationId, 10);
+
+      var contentQuotation = await this.$store.dispatch(`fetchQuotations`, selectedQuotationId);
+
+      return contentQuotation;
     },
 
     closePreviewItem() {
@@ -421,13 +434,17 @@ export default {
 
     currentQuotations() {
       var myCurrentQuotation = this.$store.state.quotations;
-      var myCurrentQuotation2 = myCurrentQuotation[0];
+      //var myCurrentQuotation2 = myCurrentQuotation[0];
 
-      return myCurrentQuotation2;
+      return myCurrentQuotation;
     },
 
     currentMachines() {
       var myMachineContent = this.$store.state.machines;
+      //var getMachineId = JSON.parse(localStorage.getItem('selectedMachine'));
+      //var selectedMachineId = parseInt(getMachineId.id, 10)
+      //const showMyMachine = myMachineContent.indexOf(selectedMachineId);
+      console.log(myMachineContent);
 
       return myMachineContent;
     },
