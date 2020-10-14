@@ -230,14 +230,16 @@
       <v-card>
         <v-card-title style="border-bottom: 1px solid aliceblue; margin-bottom: 20px;">Saisir une nouvelle cotation maintenant ?</v-card-title>
         <v-card-actions class="d-flex justify-center">
+          <v-form @submit.prevent="addQuotation()">
           <v-btn
             color="green"
             outlined
             text
-            to="/quotation/:selectedQuotation"
+            type="submit"
           >
             OUI
           </v-btn>
+          </v-form>
           <v-btn
             color="red"
             outlined
