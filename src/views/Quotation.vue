@@ -88,8 +88,7 @@
             </v-btn>
 
             <v-btn @click="showQuotation_ItemContent()" :value="machineScore">Générer la synthèse</v-btn>
-            <p>totalItem : {{ totalItem }}</p>
-            <p>machineScore : {{ machineScore }}</p>
+            <p>Score totale de la machine : {{ machineScore }}</p>
             
             <p>Score pondéré machine</p>
             <p>Score pondéré Efforts</p>
@@ -406,25 +405,17 @@ export default {
     machineScore() {
 
       var forArray = this.$store.state.quotation_items;
-      //var a = [];
-
-      var totalItem = Object.keys(forArray).map((key) => [Number(key), forArray[key]]);
-      //var totalItem = a.push(forArray);
-      
-      console.log(totalItem);
+      var totalItem = Array.from(forArray);
 
       let scoreTotal = 0;
-      for(let i=0; i < totalItem.length; i++){
-        for(let k=0; k < totalItem.score; k++){
+      for(let i=0; i < totalItem.length; i++){          
 
-          if (totalItem.score[k]){
-            scoreTotal = totalItem.score + scoreTotal;
-            console.log(typeof(scoreTotal));
-            console.log(scoreTotal);
+          if (totalItem[i].score){
+            scoreTotal = totalItem[i].score + scoreTotal;
           }
         }
-      }
       return scoreTotal;
+      
     },
 
     // showQuotation_ItemContent2() {
@@ -472,6 +463,7 @@ export default {
     synthesisQuotation_Item: [],
     //synthesisQuotation_Item2: [],
     totalItem: {},
+    scoreTotal: null,
 
     concerned: false,
 
