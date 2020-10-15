@@ -160,7 +160,7 @@
 
               <div class="item_title d-flex flex-row">
                 <v-list-item>{{ selectedItem.name }}</v-list-item>
-                <v-list-item>{{ selectedItem.id }}</v-list-item>
+                <v-list-item v-if="false">{{ selectedItem.id }}</v-list-item>
                 <v-tooltip bottom max-width="800px">
                   <template v-slot:activator="{ on }">
                     <v-icon v-on="on">help</v-icon>
@@ -322,17 +322,7 @@ export default {
       return content;
     },
 
-    // async dispatchQuotation() {
-      
-    //   var thisQuotation = await this.$store.dispatch(`fetchQuotations`, {
-    //     selectedQuotation: this.$route.params.selectedQuotation, 
-    //   });
-
-    //   return thisQuotation;
-    // },
-
     async myCurrentMachine() {
-      //var getMachineId = JSON.parse(window.localStorage.selectedMachine);
       var getMachineId = JSON.parse(localStorage.getItem('selectedMachine'));
       var selectedMachineId = parseInt(getMachineId.id, 10)
       var contentMachine = await this.$store.dispatch(`fetchCurrentMachine`, selectedMachineId);      
@@ -355,19 +345,36 @@ export default {
 
     async addQuotation_Item() {
       await this.$store.dispatch(`addQuotation_Item`, {
-        if (isConcerned = true) {
-          this.concerned = isConcerned;
-          this.score = this.scored;
-          this.quotation_id = parseInt(this.$route.params.selectedQuotation);
-          this.item_id = this.selectedItem.id;
-        },
+        // if (isConcerned = true) {
+        //   this.concerned = isConcerned;
+        //   this.score = this.scored;
+        //   this.quotation_id = parseInt(this.$route.params.selectedQuotation);
+        //   this.item_id = this.selectedItem.id;
+        // },
         isConcerned : this.concerned,
-        score : parseInt(this.scored),
+        //score : parseInt(this.scored),
+        score : 0,
         comment: this.newQuotationItemComment,
         quotation_id: parseInt(this.$route.params.selectedQuotation), /*received a string to convert in int to add in database*/
         item_id: this.selectedItem.id,
         
       });
+      // try {
+      //   if(this.concerned == true) {
+      //     console.log('salut');
+      //     this.isConcerned = this.concerned;
+      //     this.score = 0;
+      //     this.quotation_id = parseInt(this.$route.params.selectedQuotation);
+      //     this.item_id = this.selectedItem.id;
+      //   }
+      // } catch {
+      //   this.isConcerned = this.concerned;
+      //   this.score = parseInt(this.scored);
+      //   this.quotation_id = parseInt(this.$route.params.selectedQuotation);
+      //   this.item_id = this.selectedItem.id;
+
+      // }
+      
       this.newQuotationItemComment = ``;
 
     },
@@ -569,9 +576,9 @@ export default {
   width: 300px;
 }
 
-.headline {
+/* .headline {
   color: #009688;
-}
+} */
 
 .body-1 {
   color: #424242;

@@ -266,7 +266,6 @@
           </v-card-actions>
         </v-toolbar>
       </v-card-title>
-      <p>{{ selectedMachine }}</p>
 
       <v-card-text class="pa-0" cols="12" sm="12">
         <!-- filters to find my quotation -->
@@ -418,19 +417,20 @@
               <div class="overview d-flex flex-column">
 
                 <!-- Filters to search user quotation by date or show comment-->
-                <!-- to="/quotation" -->
                 <div class="quotation_by_date">
                   <v-col class="filter_add d-flex flex-row">
                     <v-form @submit.prevent="addQuotation()">
                       <v-card-actions style="">
-                        <!-- <router-link to="/quotation/:quotationId"> -->
                         <v-btn rounded small type="submit" ><v-icon>add_circle</v-icon>Nouvelle cotation</v-btn>
-                        <!-- </router-link> -->
                       </v-card-actions>
                     </v-form>
                   </v-col>
                   
                   <div class="global_score">
+                    <p>getAllQuotations : {{ getAllQuotations }}</p>
+                    <v-btn @click="getAllQuotations()" :value="showAllQuotations">showAllQuotations : {{ showAllQuotations }}</v-btn>
+                    <v-btn >filtrer par machine : {{ showAllQuotations }}</v-btn>
+
                     <p><strong>Score pondéré Machine : </strong></p>
                   </div>
                 </div>
@@ -636,23 +636,25 @@ export default {
 
       this.newMachineName = ``;
       this.selectedMachine = machine.id;
-
       this.createMachineDialog = false;
     },
 
     async addQuotation() {
-
-        const quotation = await this.$store.dispatch(`addQuotation`, {
-        date: moment().format(),
-        machine_id: this.selectedMachine.id,
-        user_id: null,
+      const quotation = await this.$store.dispatch(`addQuotation`, {
+      date: moment().format(),
+      machine_id: this.selectedMachine.id,
+      user_id: null,
       });
 
       this.selectedQuotation = quotation.id;
       this.$router.push({ path:`/user/quotation/${this.selectedQuotation}`}); // enable to send quotation.id to new path: `/user/quotation/:quotationId`
     },
 
-
+    async getAllQuotations() {
+      var getQuotations = await this.$store.dispatch(`fetchAllQuotationsByMachine`, this.selectedMachine.id
+      );
+      return getQuotations;
+    },
 
     async fetchData () {
       this.selectedQuotation = null;
@@ -740,6 +742,12 @@ export default {
       });
     },
     */
+    
+    showAllQuotations() {
+      var showQuotations = this.$store.state.quotations;
+      return showQuotations;
+    },
+    
     quotations() {
       return this.rawQuotations.map(quotation => {
         return {
