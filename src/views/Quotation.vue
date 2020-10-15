@@ -83,19 +83,42 @@
 
         <template v-if="selectedItem && selectedItem.name=='Synthèse'">
           <v-col class="column_1">
-            <v-btn icon @click="closePreviewItem()">
-                <v-icon>cancel</v-icon>
-            </v-btn>
-
-            <v-btn @click="showQuotation_ItemContent()" :value="machineScore">Générer la synthèse</v-btn>
-            <p>Score totale de la machine : {{ machineScore }}</p>
+            <v-toolbar flat class="d-flex justify-end">
+              <v-btn icon @click="closePreviewItem()">
+                  <v-icon>cancel</v-icon>
+              </v-btn>
+            </v-toolbar>
             
-            <p>Score pondéré machine</p>
-            <p>Score pondéré Efforts</p>
-            <p>Score pondéré Dimensionnement</p>
-            <p>Score pondéré Temporel</p>
-            <p>Score pondéré Environnement</p>
-            <p>Score pondéré Organisation</p>
+            <template>
+              <v-card
+                class="mx-auto mb-4"
+                outlined
+              >
+                <v-list-item three-line>
+                  <v-list-item-content class="py-4">
+                    <div class="overline text-decoration-underline mb-4">
+                      Synthèse de la machine
+                    </div>
+                    <v-list-item-title class="headline mb-1">
+                      Score global de la machine :
+                    </v-list-item-title>
+                    <v-list-item-subtitle class="text-h2 d-flex justify-center">{{ machineScore }}</v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-card-actions>
+                  <v-btn
+                    outlined
+                    rounded
+                    text
+                    @click="showQuotation_ItemContent()" 
+                    :value="machineScore"
+                  >
+                    Générer le score
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </template>
 
             <div class="scoring_table d-flex flex-row justify-end" v-if="true">
               <!-- To display the table of score scale -->
@@ -254,21 +277,13 @@
             >          
             <v-card class="mx-auto">
               <v-card-text>
-                <p class="display-1 text--primary">
-                  {{selectedItem.name}} {{selectedItem.id}}
+                <p class="display-1 text--primary pb-4">
+                  {{selectedItem.name}}
                 </p>
-                <p>Est-il concerné: {{content.isConcerned}}</p>
-                <h4>Score enregistré :{{content.score}}</h4>
-                <p>Commentaire: {{content.comment}}</p>
+                <p class="body-1">Est-il concerné : {{content.isConcerned}}</p>
+                <p class="headline">Score enregistré : {{content.score}}</p>
+                <p class="body-2">Commentaire : {{content.comment}}</p>
               </v-card-text>
-              <v-card-actions>
-                <v-btn
-                  text
-                  color="deep-purple accent-4"
-                >
-                  Learn More
-                </v-btn>
-              </v-card-actions>
             </v-card>
           </v-list-item>
         </template>        
@@ -552,6 +567,14 @@ export default {
 
 .menu_card {
   width: 300px;
+}
+
+.headline {
+  color: #009688;
+}
+
+.body-1 {
+  color: #424242;
 }
 
 @media screen and (max-width: 599px) {
