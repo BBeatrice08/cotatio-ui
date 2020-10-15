@@ -429,7 +429,7 @@
                   <div class="global_score">
                     <p>getAllQuotations : {{ getAllQuotations }}</p>
                     <v-btn @click="getAllQuotations()" :value="showAllQuotations">showAllQuotations : {{ showAllQuotations }}</v-btn>
-                    <v-btn >filtrer par machine : {{ showAllQuotations }}</v-btn>
+                    <v-btn @click="getAllQuotationItems()">filtrer par machine : {{ showAllQuotations }}</v-btn>
 
                     <p><strong>Score pondéré Machine : </strong></p>
                   </div>
@@ -651,9 +651,16 @@ export default {
     },
 
     async getAllQuotations() {
-      var getQuotations = await this.$store.dispatch(`fetchAllQuotationsByMachine`, this.selectedMachine.id
-      );
+      var getQuotations = await this.$store.dispatch(`fetchAllQuotationsByMachine`, this.selectedMachine.id);
+      //var lastQuotationId = getQuotations.length;
+      //console.log(getQuotations.length);
+      //var getQuotationItem = await this.$store.dispatch(`fetchAllQuotation_ItemsByAQuotation`);
       return getQuotations;
+    },
+
+    async getAllQuotationItems() {
+      var getQuotationItems = await this.$store.dispatch(`fetchAllQuotation_ItemsByAQuotation`, 72);
+      return getQuotationItems;
     },
 
     async fetchData () {
@@ -745,7 +752,26 @@ export default {
     
     showAllQuotations() {
       var showQuotations = this.$store.state.quotations;
+      //console.log(showQuotations.length);
+
+      let lastQuotationId = 0;
+      for(let i = 0; i < showQuotations.length; i++) {
+        if(showQuotations[i]){
+          lastQuotationId = showQuotations.length;
+        }
+        console.log(lastQuotationId);
+        return lastQuotationId;
+      }
+      // if (this.selectedMachine !== null) {
+      //   showQuotations = _.filter(showQuotations, { id: 72 });
+      // }
+
       return showQuotations;
+    },
+
+    showAllQuotationItems() {
+      var showQuotationItems = this.$store.state.quotation_items;
+      return showQuotationItems;
     },
     
     quotations() {
