@@ -427,9 +427,11 @@
                   </v-col>
                   
                   <div class="global_score">
-                    <p>getAllQuotations : {{ getAllQuotations }}</p>
-                    <v-btn @click="getAllQuotations()" :value="showAllQuotations">showAllQuotations : {{ showAllQuotations }}</v-btn>
-                    <v-btn @click="getAllQuotationItems()">filtrer par machine : {{ showAllQuotations }}</v-btn>
+                    <v-btn @click="getAllQuotations()" :value="showAllQuotations">show All Quotations :</v-btn>
+                      <p>showAllQuotations : {{ showAllQuotations }}</p>
+                    <v-btn @click="getAllQuotationItems()" :value="showAllQuotationItems">filtrer par machine : </v-btn>
+                    <p>filtrer par machine : {{ showAllQuotationItems }}</p>
+                    <p>getQuotationId : {{ showAllQuotations }}</p>
 
                     <p><strong>Score pondéré Machine : </strong></p>
                   </div>
@@ -652,14 +654,11 @@ export default {
 
     async getAllQuotations() {
       var getQuotations = await this.$store.dispatch(`fetchAllQuotationsByMachine`, this.selectedMachine.id);
-      //var lastQuotationId = getQuotations.length;
-      //console.log(getQuotations.length);
-      //var getQuotationItem = await this.$store.dispatch(`fetchAllQuotation_ItemsByAQuotation`);
       return getQuotations;
     },
 
     async getAllQuotationItems() {
-      var getQuotationItems = await this.$store.dispatch(`fetchAllQuotation_ItemsByAQuotation`, 72);
+      var getQuotationItems = await this.$store.dispatch(`fetchAllQuotation_ItemsByAQuotation`, this.showAllQuotations.id);
       return getQuotationItems;
     },
 
@@ -752,22 +751,8 @@ export default {
     
     showAllQuotations() {
       var showQuotations = this.$store.state.quotations;
-
-      // ci-dessous équivalent à showQuotations.length ....
-      // let lastQuotationId = 0;
-      // for(let i = 0; i < showQuotations.length; i++) {
-      //   if(showQuotations[i]){
-      //     lastQuotationId = showQuotations.length;
-      //   }
-
-      // TESTS :
-        var getQuotationId = showQuotations[showQuotations.length -1]
-
-        return getQuotationId;
-      //}
-      // if (this.selectedMachine !== null) {
-      //   showQuotations = _.filter(showQuotations, { id: 72 });
-      // }
+      var getQuotationId = showQuotations[showQuotations.length -1];        
+      return getQuotationId;
     },
 
     showAllQuotationItems() {
@@ -823,6 +808,7 @@ export default {
 
     selectedMachine: null,
     selectedQuotation: null,
+    getQuotationId: null,
 
     ifQuotationOnMachineDialog: false,
 
