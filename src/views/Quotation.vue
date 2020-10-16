@@ -352,8 +352,8 @@ export default {
         //   this.item_id = this.selectedItem.id;
         // },
         isConcerned : this.concerned,
-        //score : parseInt(this.scored),
-        score : 0,
+        score : parseInt(this.scored),
+        //score : 0,
         comment: this.newQuotationItemComment,
         quotation_id: parseInt(this.$route.params.selectedQuotation), /*received a string to convert in int to add in database*/
         item_id: this.selectedItem.id,
