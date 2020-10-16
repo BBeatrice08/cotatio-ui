@@ -752,21 +752,22 @@ export default {
     
     showAllQuotations() {
       var showQuotations = this.$store.state.quotations;
-      //console.log(showQuotations.length);
 
-      let lastQuotationId = 0;
-      for(let i = 0; i < showQuotations.length; i++) {
-        if(showQuotations[i]){
-          lastQuotationId = showQuotations.length;
-        }
-        console.log(lastQuotationId);
-        return lastQuotationId;
-      }
+      // ci-dessous équivalent à showQuotations.length ....
+      // let lastQuotationId = 0;
+      // for(let i = 0; i < showQuotations.length; i++) {
+      //   if(showQuotations[i]){
+      //     lastQuotationId = showQuotations.length;
+      //   }
+
+      // TESTS :
+        var getQuotationId = showQuotations[showQuotations.length -1]
+
+        return getQuotationId;
+      //}
       // if (this.selectedMachine !== null) {
       //   showQuotations = _.filter(showQuotations, { id: 72 });
       // }
-
-      return showQuotations;
     },
 
     showAllQuotationItems() {
