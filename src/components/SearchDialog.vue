@@ -429,22 +429,39 @@
                   <div class="global_score">
                     <v-btn @click="getAllQuotations()" :value="showAllQuotations">show All Quotations :</v-btn>
                       <p>showAllQuotations : {{ showAllQuotations }}</p>
-                    <v-btn @click="getAllQuotationItems()" :value="showAllQuotationItems">filtrer par machine : </v-btn>
-                    <p>filtrer par machine : {{ showAllQuotationItems }}</p>
                     <p>getQuotationId : {{ showAllQuotations }}</p>
 
-                    <p><strong>Score pondéré Machine : </strong></p>
-                  </div>
-                </div>
+                    <template>
+                      <v-card
+                        class="mx-auto"
+                        max-width="344"
+                        outlined
+                      >
+                        <v-list-item three-line>
+                          <v-list-item-content>
+                            <div class="overline mb-4">
+                              Synthèse de la machine :
+                            </div>
+                            <v-list-item-title class="headline mb-1">
+                              Score global :
+                            </v-list-item-title>
+                            <v-list-item-subtitle>{{ showAllQuotationItems }}</v-list-item-subtitle>
+                          </v-list-item-content>
+                        </v-list-item>
 
-                <div class="scoring-details d-flex flex-row">
-
-                  <div class="scoring mt-5">
-                    <p>Score pondéré Efforts : </p>
-                    <p>Score pondéré Dimmensionnement : </p>
-                    <p>Score pondéré Temporel : </p>
-                    <p>Score pondéré Environnement : </p>
-                    <p>Score pondéré Organisation : </p>
+                        <v-card-actions>
+                          <v-btn
+                            outlined
+                            rounded
+                            text
+                            @click="getAllQuotationItems()"
+                            :value="showAllQuotationItems"
+                          >
+                            Générer le score total de la machine
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </template>
                   </div>
                 </div>
               </div>
@@ -757,7 +774,17 @@ export default {
 
     showAllQuotationItems() {
       var showQuotationItems = this.$store.state.quotation_items;
-      return showQuotationItems;
+      var totalItem = Array.from(showQuotationItems);
+
+      let scoreTotal = 0;
+      for(let i=0; i < totalItem.length; i++){          
+
+          if (totalItem[i].score){
+            scoreTotal = totalItem[i].score + scoreTotal;
+          }
+        }
+      return scoreTotal;
+      //return showQuotationItems;
     },
     
     quotations() {
