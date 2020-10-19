@@ -678,30 +678,22 @@ export default {
     },
 
     async addQuotation() {
+      var user = JSON.parse(window.localStorage.currentUser);
       const quotation = await this.$store.dispatch(`addQuotation`, {
       date: moment().format(),
       machine_id: this.selectedMachine.id,
-      user_id: null,
+      user_id: user.id,
       });
 
       this.selectedQuotation = quotation.id;
       this.$router.push({ path:`/user/quotation/${this.selectedQuotation}`}); // enable to send quotation.id to new path: `/user/quotation/:quotationId`
     },
 
-    // async getAllQuotations() {
-    //   var getQuotations = await this.$store.dispatch(`fetchAllQuotationsByMachine`, this.selectedMachine.id);
-    //   return getQuotations;
-    // },
     async getAllQuotations() {
       await this.$store.dispatch(`fetchAllQuotationsByMachine`, this.selectedMachine.id);
       var getQuotationItems = await this.$store.dispatch(`fetchAllQuotation_ItemsByAQuotation`, this.showAllQuotations.id);
       return getQuotationItems;
     },
-
-    // async getAllQuotationItems() {
-    //   var getQuotationItems = await this.$store.dispatch(`fetchAllQuotation_ItemsByAQuotation`, this.showAllQuotations.id);
-    //   return getQuotationItems;
-    // },
 
     async fetchData () {
       this.selectedQuotation = null;
