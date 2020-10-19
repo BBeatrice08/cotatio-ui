@@ -392,7 +392,7 @@
                   <i>{{ selectedMachine.production_line.area.site.company.name }} / {{ selectedMachine.production_line.area.site.name }} / {{ selectedMachine.production_line.area.name }} / {{ selectedMachine.production_line.name }} / {{ selectedMachine.name }}</i>
                 </div>
                 <v-row no-gutters class="mt-3">
-                  <v-menu>
+                  <!-- <v-menu>
                     <template v-slot:activator="{ on }">
                       <v-btn outlined color="primary" v-on="on">
                         Synthèse du {{ currentQuotation ? currentQuotation.$date : `` }}
@@ -408,10 +408,19 @@
                         <v-list-item-title>Synthèse du {{ quotation.$date }}</v-list-item-title>
                       </v-list-item>
                     </v-list>
-                  </v-menu>
-                  <div>
-                    currentQuotation.$score/1000
-                  </div>
+                  </v-menu> -->
+
+                  <!-- <v-menu>
+                    <template v-slot:activator="{ on }">
+                      <v-btn outlined color="primary" v-on="on" :value="showAllQuotations">
+                        Synthèse du {{ showAllQuotations.date }}
+                        <v-icon>arrow_drop_down</v-icon>
+                      </v-btn>
+                    </template>
+                    <v-list>
+                      <v-list-item-title :value="showAllQuotations">Synthèse du {{ showAllQuotations.date }}</v-list-item-title>
+                    </v-list>
+                  </v-menu> -->
                 </v-row>
               </div>
               <div class="overview d-flex flex-column">
@@ -427,14 +436,14 @@
                   </v-col>
                   
                   <div class="global_score">
-                    <v-btn @click="getAllQuotations()" :value="showAllQuotations">show All Quotations :</v-btn>
+                    <!-- <v-btn @click="getAllQuotations()" :value="showAllQuotations">show All Quotations :</v-btn>
                       <p>showAllQuotations : {{ showAllQuotations }}</p>
-                    <p>getQuotationId : {{ showAllQuotations }}</p>
+                    <p>getQuotationId : {{ showAllQuotations }}</p> -->
 
                     <template>
                       <v-card
                         class="mx-auto"
-                        max-width="344"
+                        max-width="500"
                         outlined
                       >
                         <v-list-item three-line>
@@ -445,7 +454,7 @@
                             <v-list-item-title class="headline mb-1">
                               Score global :
                             </v-list-item-title>
-                            <v-list-item-subtitle>{{ showAllQuotationItems }}</v-list-item-subtitle>
+                            <v-list-item-subtitle class="d-flex justify-center display-2">{{ showAllQuotationItems }}</v-list-item-subtitle>
                           </v-list-item-content>
                         </v-list-item>
 
@@ -455,6 +464,16 @@
                             rounded
                             text
                             @click="getAllQuotationItems()"
+                            :value="showAllQuotations"
+                            v-if="false"
+                          >
+                            Générer le score total de la machine
+                          </v-btn>
+                           <v-btn
+                            outlined
+                            rounded
+                            text
+                            @click="getAllQuotations()"
                             :value="showAllQuotationItems"
                           >
                             Générer le score total de la machine
@@ -669,15 +688,20 @@ export default {
       this.$router.push({ path:`/user/quotation/${this.selectedQuotation}`}); // enable to send quotation.id to new path: `/user/quotation/:quotationId`
     },
 
+    // async getAllQuotations() {
+    //   var getQuotations = await this.$store.dispatch(`fetchAllQuotationsByMachine`, this.selectedMachine.id);
+    //   return getQuotations;
+    // },
     async getAllQuotations() {
-      var getQuotations = await this.$store.dispatch(`fetchAllQuotationsByMachine`, this.selectedMachine.id);
-      return getQuotations;
-    },
-
-    async getAllQuotationItems() {
+      await this.$store.dispatch(`fetchAllQuotationsByMachine`, this.selectedMachine.id);
       var getQuotationItems = await this.$store.dispatch(`fetchAllQuotation_ItemsByAQuotation`, this.showAllQuotations.id);
       return getQuotationItems;
     },
+
+    // async getAllQuotationItems() {
+    //   var getQuotationItems = await this.$store.dispatch(`fetchAllQuotation_ItemsByAQuotation`, this.showAllQuotations.id);
+    //   return getQuotationItems;
+    // },
 
     async fetchData () {
       this.selectedQuotation = null;
@@ -768,7 +792,7 @@ export default {
     
     showAllQuotations() {
       var showQuotations = this.$store.state.quotations;
-      var getQuotationId = showQuotations[showQuotations.length -1];        
+      var getQuotationId = showQuotations[showQuotations.length -1];  
       return getQuotationId;
     },
 
@@ -838,6 +862,7 @@ export default {
     getQuotationId: null,
 
     ifQuotationOnMachineDialog: false,
+    quotation: null,
 
     comment: {
       name: '',
