@@ -344,39 +344,31 @@ export default {
     },
 
     async addQuotation_Item() {
-      await this.$store.dispatch(`addQuotation_Item`, {
-        // if (isConcerned = true) {
-        //   this.concerned = isConcerned;
-        //   this.score = this.scored;
-        //   this.quotation_id = parseInt(this.$route.params.selectedQuotation);
-        //   this.item_id = this.selectedItem.id;
-        // },
-        isConcerned : this.concerned,
-        score : parseInt(this.scored),
-        //score : 0,
-        comment: this.newQuotationItemComment,
-        quotation_id: parseInt(this.$route.params.selectedQuotation), /*received a string to convert in int to add in database*/
-        item_id: this.selectedItem.id,
-        
-      });
-      // try {
-      //   if(this.concerned == true) {
-      //     console.log('salut');
-      //     this.isConcerned = this.concerned;
-      //     this.score = 0;
-      //     this.quotation_id = parseInt(this.$route.params.selectedQuotation);
-      //     this.item_id = this.selectedItem.id;
-      //   }
-      // } catch {
-      //   this.isConcerned = this.concerned;
-      //   this.score = parseInt(this.scored);
-      //   this.quotation_id = parseInt(this.$route.params.selectedQuotation);
-      //   this.item_id = this.selectedItem.id;
 
-      // }
+      try {
+        if(this.concerned == true) {
+          await this.$store.dispatch(`addQuotation_Item`, {
+          isConcerned : this.concerned,
+          score : 0,
+          comment: this.newQuotationItemComment,
+          quotation_id: parseInt(this.$route.params.selectedQuotation), /*received a string to convert in int to add in database*/
+          item_id: this.selectedItem.id,
+          });
+          this.newQuotationItemComment = ``;
+        } else {
+            await this.$store.dispatch(`addQuotation_Item`, {
+            isConcerned : this.concerned,
+            score : parseInt(this.scored),
+            comment: this.newQuotationItemComment,
+            quotation_id: parseInt(this.$route.params.selectedQuotation), /*received a string to convert in int to add in database*/
+            item_id: this.selectedItem.id,      
+            });
+            this.newQuotationItemComment = ``;
+        }
+      } catch {
+        console.log("error sending infos");
+      }  
       
-      this.newQuotationItemComment = ``;
-
     },
 
     async showQuotation_ItemContent() {
@@ -385,18 +377,6 @@ export default {
       var synthesisQuotation_Item = await this.$store.dispatch(`fetchAllQuotation_ItemsByAQuotation`, 
         myQuotation,
       );
-      // console.log(synthesisQuotation_Item);
-      // let scoreTotal = 0;
-      // for(let i=0; i < synthesisQuotation_Item.length; i++){
-      //   //for(let k=0; k < myContent.score; k++){
-
-      //     if (synthesisQuotation_Item[i]){
-      //       scoreTotal ++
-      //       console.log(typeof(scoreTotal));
-      //     }
-      //   }
-      //   return scoreTotal;
-      // }
       return synthesisQuotation_Item;
     },
   },
@@ -440,34 +420,15 @@ export default {
       
     },
 
-    // showQuotation_ItemContent2() {
-    //   var synthesisQuotation_Item2 = this.$store.state.quotation_items;
-    //   return synthesisQuotation_Item2;
-    // },
-
     currentQuotations() {
       var myCurrentQuotation = this.$store.state.quotations;
-      //var myCurrentQuotation2 = myCurrentQuotation[0];
-
       return myCurrentQuotation;
     },
 
     currentMachines() {
       var myMachineContent = this.$store.state.machines;
-      //var getMachineId = JSON.parse(localStorage.getItem('selectedMachine'));
-      //var selectedMachineId = parseInt(getMachineId.id, 10)
-      //const showMyMachine = myMachineContent.indexOf(selectedMachineId);
-      console.log(myMachineContent);
-
       return myMachineContent;
     },
-
-    // showQuotationItemContent(myContent) {
-    //   console.log(myContent)
-
-    //   //return quotationItemContent;
-    //   return myContent;
-    // },
   },
 
   data: () => ({
@@ -483,7 +444,6 @@ export default {
     getMyCurrentQuotation: {},
     currentMachine: [],
     synthesisQuotation_Item: [],
-    //synthesisQuotation_Item2: [],
     totalItem: {},
     scoreTotal: null,
 
