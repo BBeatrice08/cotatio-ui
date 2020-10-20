@@ -30,7 +30,7 @@
           <v-card-actions>
             <v-col />
             <v-btn color="secondary" text @click="cancelAddCompany()" v-if="!isCreatingCompany">Annuler</v-btn>
-            <v-btn color="blue lighten-1" type="submit" :loading="isCreatingCompany" dark>Créer</v-btn>
+            <v-btn color="blue lighten-1" type="submit" :loading="isCreatingCompany" :value="alert" dark>Créer</v-btn>
           </v-card-actions>
         </v-card>
       </v-form>
@@ -268,6 +268,7 @@
       </v-card-title>
 
       <v-card-text class="pa-0" cols="12" sm="12">
+        <!-- <v-alert dense type="success" v-if="isCreatingCompany" :value="alert" >I'm a dense alert with a <strong>type</strong> of info</v-alert> -->
         <!-- filters to find my quotation -->
         <v-row class="cards" no-gutters style="height: 100%;">
 
@@ -697,7 +698,7 @@ export default {
         }
         return this.selectedQuotation;
       })
-    }
+    },
   },
 
 
@@ -850,6 +851,8 @@ export default {
     ifQuotationOnMachineDialog: false,
     quotation: null,
 
+    alert: true,
+
     comment: {
       name: '',
     },
@@ -870,7 +873,11 @@ export default {
   }),
 
   created() {
-    this.fetchData()
+    this.fetchData();
+    
+    setInterval(() => {
+      this.alert = false ;
+      }, 5000);
   },
 
 /**
