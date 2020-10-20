@@ -392,6 +392,13 @@
                   <i>{{ selectedMachine.production_line.area.site.company.name }} / {{ selectedMachine.production_line.area.site.name }} / {{ selectedMachine.production_line.area.name }} / {{ selectedMachine.production_line.name }} / {{ selectedMachine.name }}</i>
                 </div>
                 <v-row no-gutters class="mt-3">
+                  <v-col class="filter_add d-flex flex-row">
+                    <v-form @submit.prevent="addQuotation()">
+                      <v-card-actions style="">
+                        <v-btn rounded small type="submit" ><v-icon>add_circle</v-icon>Nouvelle cotation</v-btn>
+                      </v-card-actions>
+                    </v-form>
+                  </v-col>
                   <!-- <v-menu>
                     <template v-slot:activator="{ on }">
                       <v-btn outlined color="primary" v-on="on">
@@ -410,35 +417,23 @@
                     </v-list>
                   </v-menu> -->
 
-                  <!-- <v-menu>
+                  <v-menu>
                     <template v-slot:activator="{ on }">
-                      <v-btn outlined color="primary" v-on="on" :value="showAllQuotations">
+                      <v-btn outlined color="primary" v-on="on" :value="showAllQuotationItems">
                         Synthèse du {{ showAllQuotations.date }}
                         <v-icon>arrow_drop_down</v-icon>
                       </v-btn>
                     </template>
                     <v-list>
-                      <v-list-item-title :value="showAllQuotations">Synthèse du {{ showAllQuotations.date }}</v-list-item-title>
+                      <v-list-item-title :value="showAllQuotationItems">Synthèse du {{ showAllQuotations.date }}</v-list-item-title>
                     </v-list>
-                  </v-menu> -->
+                  </v-menu>
                 </v-row>
               </div>
               <div class="overview d-flex flex-column">
 
                 <!-- Filters to search user quotation by date or show comment-->
-                <div class="quotation_by_date">
-                  <v-col class="filter_add d-flex flex-row">
-                    <v-form @submit.prevent="addQuotation()">
-                      <v-card-actions style="">
-                        <v-btn rounded small type="submit" ><v-icon>add_circle</v-icon>Nouvelle cotation</v-btn>
-                      </v-card-actions>
-                    </v-form>
-                  </v-col>
-                  
-                  <div class="global_score">
-                    <!-- <v-btn @click="getAllQuotations()" :value="showAllQuotations">show All Quotations :</v-btn>
-                      <p>showAllQuotations : {{ showAllQuotations }}</p>
-                    <p>getQuotationId : {{ showAllQuotations }}</p> -->
+                <div class="global_score">
 
                     <template>
                       <v-card
@@ -482,7 +477,6 @@
                       </v-card>
                     </template>
                   </div>
-                </div>
               </div>
 
               <!-- Button to display details of user quotation -->
