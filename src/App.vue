@@ -20,6 +20,7 @@
         <div v-if="currentUser.firstName">
           {{ currentUser.firstName }}
           <v-btn text class="mr-2" @click="logoutUser">Logout</v-btn>
+          <v-btn text class="mr-2" to="/users">Register</v-btn>
           <!-- <v-btn text class="mr-2" to="/user/admin/users">Admin</v-btn> -->
         </div>
         <div v-else>
