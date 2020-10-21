@@ -20,7 +20,7 @@
         <div v-if="currentUser.firstName">
           {{ currentUser.firstName }}
           <v-btn text class="mr-2" @click="logoutUser">Logout</v-btn>
-          <v-btn text class="mr-2" to="/user/admin/users">Admin</v-btn>
+          <!-- <v-btn text class="mr-2" to="/user/admin/users">Admin</v-btn> -->
         </div>
         <div v-else>
           <v-btn text class="mr-2" to="/">Login</v-btn>
@@ -28,7 +28,7 @@
           <!-- <v-btn text class="mr-2" to="/registration">Register</v-btn> -->
         </div>
 
-        <v-menu v-if="false" offset-y>
+        <!-- <v-menu v-if="false" offset-y>
           <template v-slot:activator="{ on }">
             <v-btn
               color="white"
@@ -53,7 +53,7 @@
               </v-list-item-title>
             </v-list-item>
           </v-list>
-        </v-menu>
+        </v-menu> -->
       </v-app-bar>
 
       <v-main>

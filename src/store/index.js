@@ -115,14 +115,11 @@ export default new Vuex.Store({
   actions: {
 
     // GET
-    //méthode OK à décommenter tel quel
+
     async fetchCompanies({ commit }) {
       try {
-        //var user = localStorage.getItem('currentUser');
         var token = JSON.parse(localStorage.getItem('token'));
-        //if (localStorage.getItem('currentUser')) {
           if (token) {
-          //console.log(user);
           const { data: companies } = await api.get(`/companies`);
           commit(`SET_COMPANIES`, companies);
         } else {
@@ -133,11 +130,6 @@ export default new Vuex.Store({
 
       }
     },
-    // async fetchCompanies({ commit }) {
-      
-    //       const { data: companies } = await api.get(`/companies`);
-    //       commit(`SET_COMPANIES`, companies);
-    // },
     async fetchSites({ commit }, companyId) {
       const { data: sites } = await api.get(`/sites/company/${companyId}`);
       commit(`SET_SITES`, sites);
@@ -267,7 +259,6 @@ export default new Vuex.Store({
           
           //si combinaison OK => login !
         } else {
-          // token : 4 lignes à commenter + jwt import
           var token = jwt.sign({ id: user.id}, 'secret', { expiresIn: '30' });
           
           localStorage.setItem('token', JSON.stringify(token));

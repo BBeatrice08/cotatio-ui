@@ -4,7 +4,7 @@ import Home from '../views/Home.vue';
 import About from '../views/About.vue';
 //import Relative from '../components/Relative';
 import Quotation from '../views/Quotation.vue';
-import AdminUserList from '../views/AdminUserList.vue';
+//import AdminUserList from '../views/AdminUserList.vue';
 import User from '../components/User.vue';
 import UserLogin from '../views/UserLogin.vue';
 import UserRegistration from '../views/UserRegistration.vue';
@@ -18,10 +18,10 @@ const routes = [
     name: 'user',
     component: User,
     beforeEnter(to, from, next) {
-      console.log("ici");
+      //console.log("ici");
       //let token = JSON.parse(localStorage.getItem('token'));
       let token = JSON.parse(window.localStorage.token);
-      console.log(typeof(token));
+      //console.log(typeof(token));
       //let token = JSON.parse(window.localStorage.token);
       if(token) {
         //let currentUser = JSON.parse(window.localStorage.currentUser);
@@ -32,8 +32,8 @@ const routes = [
 
       } else {
         next("/"); 
-        //location.reload();
-        localStorage.removeItem('token');
+        location.reload();
+        //localStorage.removeItem('token');
         //localStorage.removeItem('currentUser');
         //localStorage.clear();
 
@@ -46,15 +46,20 @@ const routes = [
         name: 'Home',
         component: Home,
       },  
-      {
-        path:'admin/users',
-        name: 'admin-user-list',
-        component: AdminUserList,    
-      },
+      // {
+      //   path:'admin/users',
+      //   name: 'admin-user-list',
+      //   component: AdminUserList,    
+      // },
       {
         path: 'quotation/:selectedQuotation',
         name: 'Quotation',
         component: Quotation,
+      },
+      {
+        path: '/users',
+        name: 'user-registration',
+        component: UserRegistration,
       },
 
     ]
@@ -63,11 +68,6 @@ const routes = [
     path: '/',
     name: 'user-login',
     component: UserLogin,
-  },
-  {
-    path: '/users',
-    name: 'user-registration',
-    component: UserRegistration,
   },
   {
     path: '/about',

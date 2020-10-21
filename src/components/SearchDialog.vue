@@ -30,7 +30,7 @@
           <v-card-actions>
             <v-col />
             <v-btn color="secondary" text @click="cancelAddCompany()" v-if="!isCreatingCompany">Annuler</v-btn>
-            <v-btn color="blue lighten-1" type="submit" :loading="isCreatingCompany" :value="alert" dark>Créer</v-btn>
+            <v-btn color="blue lighten-1" type="submit" :loading="isCreatingCompany" dark>Créer</v-btn>
           </v-card-actions>
         </v-card>
       </v-form>
@@ -268,7 +268,6 @@
       </v-card-title>
 
       <v-card-text class="pa-0" cols="12" sm="12">
-        <!-- <v-alert dense type="success" v-if="isCreatingCompany" :value="alert" >I'm a dense alert with a <strong>type</strong> of info</v-alert> -->
         <!-- filters to find my quotation -->
         <v-row class="cards" no-gutters style="height: 100%;">
 
@@ -417,7 +416,7 @@
                       </v-list-item>
                     </v-list>
                   </v-menu> -->
-
+<!-- 
                   <v-menu>
                     <template v-slot:activator="{ on }">
                       <v-btn outlined color="primary" v-on="on" :value="showAllQuotationItems">
@@ -428,7 +427,7 @@
                     <v-list>
                       <v-list-item-title :value="showAllQuotationItems">Synthèse du {{ showAllQuotations.date }}</v-list-item-title>
                     </v-list>
-                  </v-menu>
+                  </v-menu> -->
                 </v-row>
               </div>
               <div class="overview d-flex flex-column">
@@ -455,7 +454,7 @@
                         </v-list-item>
 
                         <v-card-actions>
-                          <v-btn
+                          <!-- <v-btn
                             outlined
                             rounded
                             text
@@ -464,7 +463,7 @@
                             v-if="false"
                           >
                             Générer le score total de la machine
-                          </v-btn>
+                          </v-btn> -->
                            <v-btn
                             outlined
                             rounded
@@ -527,7 +526,6 @@ import _ from "lodash";
 import moment from 'moment';
 import { mapState } from 'vuex';
 import api from '@/lib/api';
-//import Quotation from '@/views/Quotation';
 
 export default {
   name: 'SearchDialog',
@@ -795,7 +793,6 @@ export default {
           }
         }
       return scoreTotal;
-      //return showQuotationItems;
     },
     
     quotations() {
@@ -813,7 +810,7 @@ export default {
   },
 
   data: () => ({
-    resQuotation: null,
+    //resQuotation: null,
 
     show: false,
     absolute: true,
@@ -851,33 +848,33 @@ export default {
     ifQuotationOnMachineDialog: false,
     quotation: null,
 
-    alert: true,
+    //alert: true,
 
     comment: {
       name: '',
     },
   
-    rawQuotations: [{
-      id: 1,
-      date: `20180715`,
-    },{
-      id: 2,
-      date: `20190316`,
-    },{
-      id: 3,
-      date: `20200403`,
-    }],
+    // rawQuotations: [{
+    //   id: 1,
+    //   date: `20180715`,
+    // },{
+    //   id: 2,
+    //   date: `20190316`,
+    // },{
+    //   id: 3,
+    //   date: `20200403`,
+    // }],
 
-    currentQuotation: null,
+    // currentQuotation: null,
 
   }),
 
   created() {
     this.fetchData();
     
-    setInterval(() => {
-      this.alert = false ;
-      }, 5000);
+    // setInterval(() => {
+    //   this.alert = false ;
+    //   }, 5000);
   },
 
 /**

@@ -20,7 +20,6 @@
                         counter=true
                         :rules="[required('password'), minLength('password', 4)]">
         </v-text-field>
-<!-- Need a post method for register !!!!! -->
 
         <v-btn @click="submitForm(userInfo)" :disabled="!valid">{{ buttonText }}</v-btn>
     </v-form>

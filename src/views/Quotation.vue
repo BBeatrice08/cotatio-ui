@@ -2,10 +2,10 @@
   <v-app>
 
     <!----------------------- HEADER --------------------------->
-    <div class="header d-flex flex-row justify-space-around my-3">
+    <!-- <div class="header d-flex flex-row justify-space-around my-3">
       <v-row no-gutters >
         <v-col>
-          <!-- <v-card-title >
+          <v-card-title >
             <v-toolbar v-for="currentMachine in currentMachines" :key="currentMachine.id">
               <v-card-title>Entreprise : / Site : / Secteur : / Ligne de production : / Machine : </v-card-title>
               <v-btn @click="myCurrentMachine()">myCurrentMachine :</v-btn>
@@ -15,15 +15,15 @@
             <v-toolbar v-for="currentQuotation in currentQuotations" :key="currentQuotation.id">
               <v-card-title>Synthèse du : {{ currentQuotation.date }}</v-card-title>
             </v-toolbar>
-          </v-card-title> -->
+          </v-card-title>
         </v-col>
       </v-row>
-    </div>    
+    </div>     -->
 
     <!----------------------- END of HEADER -------------------->
 
     <!--------------------------- BODY ---------------------------->
-    <v-row no-gutters>
+    <v-row no-gutters class="mt-10">
 
       <!-- On side, menu to navigation between the differents indicators/items -->
       <v-col class="menu" no-gutters  sm="4">
@@ -160,7 +160,7 @@
 
               <div class="item_title d-flex flex-row">
                 <v-list-item>{{ selectedItem.name }}</v-list-item>
-                <v-list-item v-if="false">{{ selectedItem.id }}</v-list-item>
+                <!-- <v-list-item v-if="false">{{ selectedItem.id }}</v-list-item> -->
                 <v-tooltip bottom max-width="800px">
                   <template v-slot:activator="{ on }">
                     <v-icon v-on="on">help</v-icon>
@@ -181,7 +181,7 @@
                   :label="`Non concerné`"
                   false
                 ></v-checkbox>
-                <span>{{ concerned }}</span>
+                <!-- <span>{{ concerned }}</span> -->
               </div>
 
               <form>
@@ -191,7 +191,7 @@
                     <v-btn :disabled="concerned" id="btn_1" fab small>
                       <h2>0</h2>
                     </v-btn>
-                    <input type="radio" :disabled="concerned" name="rank" id="one" value="0" v-model="scored" />
+                    <input type="radio" :disabled="concerned" name="rank" id="one" value="5" v-model="scored" />
                     <label for="one" class="mt-3">{{selectedItem.score_label_1}}</label>
                   </div>
 
@@ -199,7 +199,7 @@
                     <v-btn :disabled="concerned" id="btn_2" fab small>
                       <h2>+</h2>
                     </v-btn>
-                    <input type="radio" :disabled="concerned" name="rank" id="two" value="1" v-model="scored" />
+                    <input type="radio" :disabled="concerned" name="rank" id="two" value="10" v-model="scored" />
                     <label for="two" class="mt-3">{{selectedItem.score_label_2}}</label>
                   </div>
 
@@ -207,7 +207,7 @@
                     <v-btn :disabled="concerned" id="btn_3" fab small>
                       <h2>++</h2>
                     </v-btn>
-                    <input type="radio" :disabled="concerned" name="rank" value="2" v-model="scored" />
+                    <input type="radio" :disabled="concerned" name="rank" value="20" v-model="scored" />
                     <label class="mt-3">{{selectedItem.score_label_3}}</label>
                   </div>
 
@@ -215,7 +215,7 @@
                     <v-btn :disabled="concerned" id="btn_4" fab small>
                       <h2>+++</h2>
                     </v-btn>
-                    <input type="radio" :disabled="concerned" name="rank" value="3" v-model="scored" />
+                    <input type="radio" :disabled="concerned" name="rank" value="25" v-model="scored" />
                     <label class="mt-3">{{selectedItem.score_label_4}}</label>
                   </div>
 
@@ -322,22 +322,22 @@ export default {
       return content;
     },
 
-    async myCurrentMachine() {
-      var getMachineId = JSON.parse(localStorage.getItem('selectedMachine'));
-      var selectedMachineId = parseInt(getMachineId.id, 10)
-      var contentMachine = await this.$store.dispatch(`fetchCurrentMachine`, selectedMachineId);      
+    // async myCurrentMachine() {
+    //   var getMachineId = JSON.parse(localStorage.getItem('selectedMachine'));
+    //   var selectedMachineId = parseInt(getMachineId.id, 10)
+    //   var contentMachine = await this.$store.dispatch(`fetchCurrentMachine`, selectedMachineId);      
 
-      return contentMachine;
-    },
+    //   return contentMachine;
+    // },
 
-    async myCurrentQuotation() {
-      var getQuotationId = JSON.parse(window.localStorage.selectedQuotation);
-      var selectedQuotationId = parseInt(getQuotationId, 10);
+    // async myCurrentQuotation() {
+    //   var getQuotationId = JSON.parse(window.localStorage.selectedQuotation);
+    //   var selectedQuotationId = parseInt(getQuotationId, 10);
 
-      var contentQuotation = await this.$store.dispatch(`fetchQuotations`, selectedQuotationId);
+    //   var contentQuotation = await this.$store.dispatch(`fetchQuotations`, selectedQuotationId);
 
-      return contentQuotation;
-    },
+    //   return contentQuotation;
+    // },
 
     closePreviewItem() {
       this.selectedItem = null;
@@ -366,7 +366,7 @@ export default {
             this.newQuotationItemComment = ``;
         }
       } catch {
-        console.log("error sending infos");
+        console.log("error sending infos to database");
       }  
       
     },
@@ -420,29 +420,29 @@ export default {
       
     },
 
-    currentQuotations() {
-      var myCurrentQuotation = this.$store.state.quotations;
-      return myCurrentQuotation;
-    },
+    // currentQuotations() {
+    //   var myCurrentQuotation = this.$store.state.quotations;
+    //   return myCurrentQuotation;
+    // },
 
-    currentMachines() {
-      var myMachineContent = this.$store.state.machines;
-      return myMachineContent;
-    },
+    // currentMachines() {
+    //   var myMachineContent = this.$store.state.machines;
+    //   return myMachineContent;
+    // },
   },
 
   data: () => ({
     selectedItem: null,
-    selectedIndicator: null,
-    selectedQuotationItem: null,
+    //selectedIndicator: null,
+    //selectedQuotationItem: null,
     newQuotationItemComment: ``,
-    getValue: null,
+    //getValue: null,
     scored: null,
     content: {},
-    myCurrentQuotation2: {},
-    selectedMachine: {},
-    getMyCurrentQuotation: {},
-    currentMachine: [],
+    //myCurrentQuotation2: {},
+    //selectedMachine: {},
+    //getMyCurrentQuotation: {},
+    //currentMachine: [],
     synthesisQuotation_Item: [],
     totalItem: {},
     scoreTotal: null,
