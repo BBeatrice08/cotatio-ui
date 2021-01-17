@@ -257,7 +257,6 @@
     <!------------------------------------- Begining of the content of the modal -->
     <v-card>
       <v-card-title class="pa-0">
-        <!--topbar-->
         <v-toolbar color="primary" dark flat class="flex-row-reverse justify-space-around">
           <v-card-title class="headline">Rechercher une synthèse</v-card-title>
           <v-spacer />
@@ -280,7 +279,6 @@
             <v-divider></v-divider>
             <v-list dense class="pa-4">
 
-              <!-- <div class="filters_global_company"> -->
               <div class="all_companies">
                 <v-autocomplete
                   :items="companiesForFilter"
@@ -388,9 +386,6 @@
               </v-toolbar>
               <v-divider></v-divider>
               <div class="pa-3">
-                <div>
-                  <i>{{ selectedMachine.production_line.area.site.company.name }} / {{ selectedMachine.production_line.area.site.name }} / {{ selectedMachine.production_line.area.name }} / {{ selectedMachine.production_line.name }} / {{ selectedMachine.name }}</i>
-                </div>
                 <v-row no-gutters class="mt-3">
                   <v-col class="filter_add d-flex flex-row">
                     <v-form @submit.prevent="addQuotation()">
@@ -399,35 +394,6 @@
                       </v-card-actions>
                     </v-form>
                   </v-col>
-                  <!-- <v-menu>
-                    <template v-slot:activator="{ on }">
-                      <v-btn outlined color="primary" v-on="on">
-                        Synthèse du {{ currentQuotation ? currentQuotation.$date : `` }}
-                        <v-icon>arrow_drop_down</v-icon>
-                      </v-btn>
-                    </template>
-                    <v-list>
-                      <v-list-item
-                        v-for="(quotation, index) in quotations"
-                        :key="index"
-                        @click="currentQuotation = quotation"
-                      >
-                        <v-list-item-title>Synthèse du {{ quotation.$date }}</v-list-item-title>
-                      </v-list-item>
-                    </v-list>
-                  </v-menu> -->
-<!-- 
-                  <v-menu>
-                    <template v-slot:activator="{ on }">
-                      <v-btn outlined color="primary" v-on="on" :value="showAllQuotationItems">
-                        Synthèse du {{ showAllQuotations.date }}
-                        <v-icon>arrow_drop_down</v-icon>
-                      </v-btn>
-                    </template>
-                    <v-list>
-                      <v-list-item-title :value="showAllQuotationItems">Synthèse du {{ showAllQuotations.date }}</v-list-item-title>
-                    </v-list>
-                  </v-menu> -->
                 </v-row>
               </div>
               <div class="overview d-flex flex-column">
@@ -454,16 +420,6 @@
                         </v-list-item>
 
                         <v-card-actions>
-                          <!-- <v-btn
-                            outlined
-                            rounded
-                            text
-                            @click="getAllQuotationItems()"
-                            :value="showAllQuotations"
-                            v-if="false"
-                          >
-                            Générer le score total de la machine
-                          </v-btn> -->
                            <v-btn
                             outlined
                             rounded
@@ -579,7 +535,6 @@ export default {
       this.selectedMachine = machine;
       localStorage.setItem('selectedMachine', JSON.stringify(this.selectedMachine));
     },
-
     
     /**
      * close quotation overview box
@@ -794,15 +749,6 @@ export default {
         }
       return scoreTotal;
     },
-    
-    quotations() {
-      return this.rawQuotations.map(quotation => {
-        return {
-          ...quotation,
-          $date: moment(quotation.date, `YYYYMMDD`).format(`D MMMM YYYY`),
-        };
-      });
-    },
     ...mapState({
       storeCompanies: `companies`,
     }),
@@ -810,7 +756,6 @@ export default {
   },
 
   data: () => ({
-    //resQuotation: null,
 
     show: false,
     absolute: true,
@@ -848,33 +793,14 @@ export default {
     ifQuotationOnMachineDialog: false,
     quotation: null,
 
-    //alert: true,
-
     comment: {
       name: '',
     },
-  
-    // rawQuotations: [{
-    //   id: 1,
-    //   date: `20180715`,
-    // },{
-    //   id: 2,
-    //   date: `20190316`,
-    // },{
-    //   id: 3,
-    //   date: `20200403`,
-    // }],
-
-    // currentQuotation: null,
 
   }),
 
   created() {
     this.fetchData();
-    
-    // setInterval(() => {
-    //   this.alert = false ;
-    //   }, 5000);
   },
 
 /**
@@ -906,9 +832,6 @@ export default {
       if (productionLineId === -1) {
         this.createProductionLineDialog = true;
       }
-    },
-    selectedMachine () {
-      this.currentQuotation = this.quotations[2];
     },
 
     '$route': 'fetchData'

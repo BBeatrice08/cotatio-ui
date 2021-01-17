@@ -23,7 +23,6 @@ export default new Vuex.Store({
     sessions: [],
     token: {},
     status: '',
-    //token: JSON.parse(localStorage.getItem('token')) || '',
     user: {}
   },
   mutations: {

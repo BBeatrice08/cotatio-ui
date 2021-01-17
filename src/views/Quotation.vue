@@ -1,27 +1,6 @@
 <template>
   <v-app>
 
-    <!----------------------- HEADER --------------------------->
-    <!-- <div class="header d-flex flex-row justify-space-around my-3">
-      <v-row no-gutters >
-        <v-col>
-          <v-card-title >
-            <v-toolbar v-for="currentMachine in currentMachines" :key="currentMachine.id">
-              <v-card-title>Entreprise : / Site : / Secteur : / Ligne de production : / Machine : </v-card-title>
-              <v-btn @click="myCurrentMachine()">myCurrentMachine :</v-btn>
-              <v-card-title>Entreprise : {{ currentMachine.production_line.area.site.company.name }} / Site : {{ currentMachine.production_line.area.site.name }} / Secteur : {{ currentMachine.production_line.area.name }} / Ligne de production : {{ currentMachine.production_line.name }} / Machine : {{ currentMachine.name }} </v-card-title>
-            </v-toolbar>
-            <v-spacer></v-spacer>
-            <v-toolbar v-for="currentQuotation in currentQuotations" :key="currentQuotation.id">
-              <v-card-title>Synthèse du : {{ currentQuotation.date }}</v-card-title>
-            </v-toolbar>
-          </v-card-title>
-        </v-col>
-      </v-row>
-    </div>     -->
-
-    <!----------------------- END of HEADER -------------------->
-
     <!--------------------------- BODY ---------------------------->
     <v-row no-gutters class="mt-10">
 
@@ -160,7 +139,6 @@
 
               <div class="item_title d-flex flex-row">
                 <v-list-item>{{ selectedItem.name }}</v-list-item>
-                <!-- <v-list-item v-if="false">{{ selectedItem.id }}</v-list-item> -->
                 <v-tooltip bottom max-width="800px">
                   <template v-slot:activator="{ on }">
                     <v-icon v-on="on">help</v-icon>
@@ -181,7 +159,6 @@
                   :label="`Non concerné`"
                   false
                 ></v-checkbox>
-                <!-- <span>{{ concerned }}</span> -->
               </div>
 
               <form>
@@ -322,23 +299,6 @@ export default {
       return content;
     },
 
-    // async myCurrentMachine() {
-    //   var getMachineId = JSON.parse(localStorage.getItem('selectedMachine'));
-    //   var selectedMachineId = parseInt(getMachineId.id, 10)
-    //   var contentMachine = await this.$store.dispatch(`fetchCurrentMachine`, selectedMachineId);      
-
-    //   return contentMachine;
-    // },
-
-    // async myCurrentQuotation() {
-    //   var getQuotationId = JSON.parse(window.localStorage.selectedQuotation);
-    //   var selectedQuotationId = parseInt(getQuotationId, 10);
-
-    //   var contentQuotation = await this.$store.dispatch(`fetchQuotations`, selectedQuotationId);
-
-    //   return contentQuotation;
-    // },
-
     closePreviewItem() {
       this.selectedItem = null;
     },
@@ -420,35 +380,17 @@ export default {
       
     },
 
-    // currentQuotations() {
-    //   var myCurrentQuotation = this.$store.state.quotations;
-    //   return myCurrentQuotation;
-    // },
-
-    // currentMachines() {
-    //   var myMachineContent = this.$store.state.machines;
-    //   return myMachineContent;
-    // },
   },
 
   data: () => ({
     selectedItem: null,
-    //selectedIndicator: null,
-    //selectedQuotationItem: null,
     newQuotationItemComment: ``,
-    //getValue: null,
     scored: null,
     content: {},
-    //myCurrentQuotation2: {},
-    //selectedMachine: {},
-    //getMyCurrentQuotation: {},
-    //currentMachine: [],
     synthesisQuotation_Item: [],
     totalItem: {},
     scoreTotal: null,
-
     concerned: false,
-
     comment:false,
 
     scores: [
@@ -535,10 +477,6 @@ export default {
 .menu_card {
   width: 300px;
 }
-
-/* .headline {
-  color: #009688;
-} */
 
 .body-1 {
   color: #424242;
